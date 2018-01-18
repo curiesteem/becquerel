@@ -1,6 +1,9 @@
 .navpanel{
     padding: 50px;
+    height: 100%;
+    position:relative;
 }
+
 .activecurie {
-    background-color: #b9b9b9 !important;
+    background-color: #439aff !important;
 }

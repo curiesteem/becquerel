@@ -1,0 +1,14 @@
+.approvepane
+{
+    text-align: left;
+    padding: 20px;
+    position: relative;
+    /* position: absolute; */
+    width: calc(100vw - 100px);  
+    height:calc(100vh - 400px); 
+    overflow-y: auto;
+    overflow-x: none;
+    border-bottom-color: lightgrey;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}

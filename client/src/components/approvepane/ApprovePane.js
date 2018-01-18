@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import './ApprovePane.css';
+import BlogPost from './blogpost/Blogpost'
+import { PanelGroup, Panel } from 'react-bootstrap'
 
 class ApprovePane extends Component {
 
@@ -19,13 +21,29 @@ class ApprovePane extends Component {
 
   render() {
 
-   
+    var rowslist = null;
+    if (this.props && this.props.approvalQueue){
+      rowslist = this.props.approvalQueue.map(function(row) 
+      {
+        if (!row.approved){
+          return (
+            
+            <BlogPost key={row._id} detail={row} />
+            
 
+                   
+              )  
+            }else return null;                
+
+      });
+
+    }
+    
       return (
       <div className="approvepane">
-          
-          <h3> Approve </h3>
-
+          <PanelGroup accordion id="accordion">
+          {rowslist}
+        </PanelGroup>
         </div>
         
      

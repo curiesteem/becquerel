@@ -14,6 +14,7 @@ text
 
 label{
     text-align: left;
+    font-style: normal
 }
 
 button {
@@ -33,4 +34,12 @@ textarea {
   display :flex;
   flex-direction: column;
   padding-bottom: 10px;
+}
+
+.response 
+{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #439aff;
+  color: white;
 }

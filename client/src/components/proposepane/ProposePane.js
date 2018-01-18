@@ -15,6 +15,28 @@ class ProposePane extends Component {
       }
       
     }
+
+    
+  submitValues = (submittedValues) =>
+  {
+    submittedValues.submittedValues.curator = "markangeltrueman";
+    console.log("submitted values = " + JSON.stringify(submittedValues));
+    fetch('/posts', {
+
+      method: 'post',
+
+      headers: {'Content-Type':'application/json'},
+       body: JSON.stringify(submittedValues) 
+     })
+      .then(results => {
+          
+          return results.json();
+      })
+      .then(data => {
+        //console.log(data);
+         this.setState({"response": data.response});
+      })
+  }
   
  
 
@@ -24,8 +46,11 @@ class ProposePane extends Component {
 
       return (
       <div className="proposepane">
+        <div className="response">
+          {this.state.response}
+        </div>
           
-          <Form>
+          <Form onSubmit={submittedValues => this.submitValues( { submittedValues } )}>
         { formApi => (
           <form onSubmit={formApi.submitForm} id="form1" >
            <div className="flexDiv">

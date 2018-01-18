@@ -17,15 +17,29 @@ class NavPanel extends Component {
   constructor( props ) {
       super( props );
        this.state = {
-        
+            "approvalQueue" : null,
         
       }
 
       this.handleSelect = this.handleSelect.bind(this);
   }
       
-  handleSelect = () => {
-    console.log("tab selected");
+  handleSelect = (key) => {
+    if (key === 3){
+        // approve tab selected
+        fetch('/posts')
+        .then(results => {
+            return results.json();
+        })
+        .then(posts => {
+            
+            console.log(posts );
+            this.setState({"approvalQueue" : posts});
+
+        })
+           
+        
+    }
 }
   
     
@@ -38,7 +52,7 @@ class NavPanel extends Component {
 
       return (
         
-      <div className="navpanel">
+      <div id="navpanel" className="navpanel">
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" onSelect={this.handleSelect}>
           <Tab eventKey={1} title="Home">
               <HomePane/>
@@ -47,7 +61,7 @@ class NavPanel extends Component {
               <ProposePane/>
           </Tab>
           <Tab eventKey={3} title="Approve" >
-             <ApprovePane/>
+             <ApprovePane approvalQueue={this.state.approvalQueue} />
           </Tab>
           <Tab eventKey={4} title="Accounts" >
              <AccountsPane/>

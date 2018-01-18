@@ -1,0 +1,103 @@
+var Steem =require('steem');
+var express = require('express');
+var router = express.Router();
+var Post = require('../model/posts');
+var businessLogic = require('../api/businessLogic')
+var rp = require('request-promise-native');
+var moment = require('moment');
+
+Steem.api.setOptions({ url: 'https://api.steemit.com' });
+
+
+var err = function(error, resp) {
+    resp.json(JSON.stringify(error));
+}
+
+router.get('/', function(req, res, next) {
+
+    Post.find(function(err, posts) {
+        if (err) {
+            res.send(err);
+        }
+        else  {
+            //responds with a json object of our database comments.
+            console.log(posts);
+            res.json(posts);
+        }
+
+    });
+});
+
+router.post('/', function(req, res, next) {
+
+    var post = new Post();
+    //body parser lets us use the req.body
+    post.url = req.body.submittedValues.url;
+    post.comments = req.body.submittedValues.comments;
+    post.curator = req.body.submittedValues.curator;
+    post.submittedtime = moment().utc();
+    console.log("curator = " + post.curator);
+
+   
+    var url = post.url + ".json";
+    console.log(url);
+    var options = {
+        method: 'GET',
+        uri: url,
+        gzip: true,
+        json: true // Automatically parses the JSON string in the response
+    };
+
+    rp(options)
+    .then(function (data) {
+      // console.log(data);
+
+            var resp = businessLogic.checkSubmission(req.body.submittedValues, data);
+            console.log(resp);
+
+            if (resp.response === "success") 
+            {
+                
+                post.posttitle = data.post.title;
+                post.postuser = data.post.author;
+                post.posttime = data.post.created;
+                post.body = data.post.body;
+                post.save(function(err) {
+                    if (err) {
+                        if (err.code === 11000 ) {
+
+                            console.log(err.message);
+                            res.send({ response: 'Post has already been submitted' });
+                        }
+                    }
+                    else {
+                        res.json({ response: 'Post was succesfully submitted for approval' });
+                    }
+                });
+            }
+            else {
+                console.log("unsuccesful submission " + JSON.stringify(resp));
+                // send error respons
+                res.json(resp);
+            }
+    })
+    .catch(function (err) {
+        console.log("error "+ err);
+    });
+            
+
+
+    
+
+    // do the user sanity checks. we probably need a user token and the username to stop spoofing but for now
+    // just check the username and their permissions
+    
+});
+    
+       
+      
+        
+   
+
+
+module.exports = router;
