@@ -8,6 +8,7 @@ var moment = require('moment');
 // 
 exports.checkSubmission = function(submittedValues, postDetails)
 {
+    console.log("Checking submissoin");
     if (postDetails.post === 'No post found')
     {
         return   {"response" : "This URL does not exist, please double check your post URL and try again."};

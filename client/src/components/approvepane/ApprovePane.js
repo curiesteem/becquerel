@@ -28,14 +28,14 @@ class ApprovePane extends Component {
         if (!row.approved){
           return (
             
-            <BlogPost key={row._id} detail={row} />
+              <BlogPost key={row._id} detail={row} closeHandler={this.props.closeHandler} rejectHandler={this.props.rejectHandler} approveHandler={this.props.approveHandler}/>
             
 
                    
               )  
             }else return null;                
 
-      });
+      }, this);
 
     }
     

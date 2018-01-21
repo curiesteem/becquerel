@@ -28,6 +28,13 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.post('/approve/:id', function(req, res, next) {
+
+    var id = req.params.id;
+    console.log("Router to approve " + id);
+    res.json({ response: 'Post was approved ' + id });
+});
+
 router.post('/', function(req, res, next) {
 
     var post = new Post();
@@ -83,6 +90,12 @@ router.post('/', function(req, res, next) {
     })
     .catch(function (err) {
         console.log("error "+ err);
+        if (err.message.toString().includes("Invalid URI"));
+        {
+        
+            res.json({ "response" : "Invalid URL Submitted" });
+        }
+        
     });
             
 

@@ -2,9 +2,16 @@ import React, { Component } from 'react';
 import './Blogpost.css';
 import { Overlay, OverlayTrigger, Panel, Popover } from 'react-bootstrap';
 import moment from 'moment';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'
+
+
+
 var Markdown = require('react-showdown');
 var Converter = require('react-showdown').Converter;
 const removeMd = require('remove-markdown');
+
+
 
 class BlogPost extends Component {
 
@@ -23,7 +30,37 @@ class BlogPost extends Component {
         
       }
     
+
+      submit = (type,id, e) => {
+         
+        confirmAlert({
+          title: 'Confirm to ' + type + ' this submission',                        // Title dialog
+          message: 'Are you sure you want to ' + type + ' this submission.',               // Message dialog
+          
+          confirmLabel: 'Confirm',                           // Text button confirm
+          cancelLabel: 'Cancel',                             // Text button cancel
+          onConfirm: () => this.doSubmit(type,id,e),    // Action after Confirm
+         // onCancel: () => alert('Action after Cancel'),      // Action after Cancel - nothing
+        })
+      };
    
+
+
+    doSubmit = (type, id, e) => {
+        // callback to the top level to do the DB stuff
+        if (type === "approve")
+        {
+            this.props.approveHandler(id);
+        }
+        if (type === "reject")
+        {
+            this.props.rejectHandler(id);
+        }
+        if (type === "close")
+        {
+            this.props.closeHandler(id);
+        }
+    }
   
     render() {
 
@@ -60,7 +97,7 @@ class BlogPost extends Component {
                 <Panel.Title toggle>
                     <div className="title-wrapper">
                         <div className="title-row">{this.props.detail.posttitle} - <div className="title-author"> by @{this.props.detail.postuser}</div> </div>
-                        <div className="title-row proposed-by">Proposed by  @{this.props.detail.curator} {sinceProposal} minutes ago.</div>
+                        <div className="title-row proposed-by">Proposed by  @{this.props.detail.curator} {propHours > 0 ? propHours + " hours and ": null} {propMins} minutes ago.</div>
                             
                     </div>
                 </Panel.Title>
@@ -85,6 +122,18 @@ class BlogPost extends Component {
                     </div>
                     <div className="body-row postedstats ">
                         Posted on Steemit {postHours > 0 ? postHours + " hours and ": null} {postMins} minutes ago | Submitted for approval {propHours > 0 ? propHours + " hours and ": null} {propMins} minutes ago
+                    </div>
+
+                    <div className="body-row optionbuttons">
+                        <div className="optionbutton">
+                            <a className="btn btn-success" onClick={(e) => this.submit("approve", this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-up"></i> Approve</a>
+                            </div>
+                         <div className="optionbutton">
+                            <a className="btn btn-danger"onClick={(e) => this.submit("reject",this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-down"></i> Reject</a>
+                            </div>
+                        <div className="optionbutton">
+                            <a className="btn btn-info" onClick={(e) => this.submit("close", this.props.detail._id,e)} href="#"><i className="fa fa-thumbs-o-up"></i> Close</a>
+                            </div>
                     </div>
                 </div>
            

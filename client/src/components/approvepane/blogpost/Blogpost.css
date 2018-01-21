@@ -74,6 +74,33 @@
 
 }
 
+.react-confirm-alert {
+    font-family:'Source Sans Pro', sans-serif !important;
+}
+
+.react-confirm-alert > h3 {
+   
+    font-size: 14px !important;
+  }
+
+  .react-confirm-alert > h1 {
+   
+    font-size: 18px !important;
+  }
+
+  
+.optionbuttons
+{
+    display: flex;
+    flex-direction: row;
+    background-color: ghostwhite;
+}
+
+.optionbutton
+{
+    padding-right: 10px;
+}
+
 .comments{
     font-style: italic;
 }

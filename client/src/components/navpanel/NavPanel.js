@@ -24,24 +24,50 @@ class NavPanel extends Component {
       this.handleSelect = this.handleSelect.bind(this);
   }
       
-  handleSelect = (key) => {
-    if (key === 3){
-        // approve tab selected
-        fetch('/posts')
-        .then(results => {
-            return results.json();
-        })
-        .then(posts => {
-            
-            console.log(posts );
-            this.setState({"approvalQueue" : posts});
+    handleSelect = (key) => {
+        if (key === 3){
+            // approve tab selected
+            fetch('/posts')
+            .then(results => {
+                return results.json();
+            })
+            .then(posts => {
+                
+                console.log(posts );
+                this.setState({"approvalQueue" : posts});
 
-        })
-           
-        
+            })
+            
+            
+        }
     }
-}
-  
+
+    handleApprove = (_id) => {
+        fetch('/posts/approve/' + _id, {
+
+            method: 'post',
+      
+            headers: {'Content-Type':'application/json'},
+             //body: JSON.stringify(submittedValues) 
+           })
+            .then(results => {
+                
+                return results.json();
+            })
+            .then(data => {
+              console.log("approve completed " + JSON.stringify(data));
+               //this.setState({"response": data.response});
+
+            })
+    }
+    
+    handleReject = (_id) => {
+        console.log("handling reject for " + _id);
+    }
+
+    handleClose = (_id) => {
+        console.log("handling close for " + _id);
+    }
     
 
  
@@ -61,7 +87,7 @@ class NavPanel extends Component {
               <ProposePane/>
           </Tab>
           <Tab eventKey={3} title="Approve" >
-             <ApprovePane approvalQueue={this.state.approvalQueue} />
+             <ApprovePane approvalQueue={this.state.approvalQueue} closeHandler={this.handleClose} rejectHandler={this.handleReject} approveHandler={this.handleApprove} />
           </Tab>
           <Tab eventKey={4} title="Accounts" >
              <AccountsPane/>
