@@ -32,7 +32,22 @@ router.post('/approve/:id', function(req, res, next) {
 
     var id = req.params.id;
     console.log("Router to approve " + id);
-    res.json({ response: 'Post was approved ' + id });
+    const doc = {
+        approved: true
+    }
+
+    Post.update({_id: id}, doc, function(err, raw) {
+
+        console.log("raw = " + raw);
+        if (err) {
+          res.send(err);
+        }
+        else {
+           
+            res.json({ response: 'Post was approved ' + id });
+        }
+      });
+  
 });
 
 router.post('/', function(req, res, next) {
@@ -71,10 +86,11 @@ router.post('/', function(req, res, next) {
                 post.body = data.post.body;
                 post.save(function(err) {
                     if (err) {
-                        if (err.code === 11000 ) {
+                        console.log("ERROR " + JSON.stringify(err));
+                        if (err.message.includes("Error, expected `url` to be unique") ) {
 
                             console.log(err.message);
-                            res.send({ response: 'Post has already been submitted' });
+                            res.send({ err: 'Post has already been submitted' });
                         }
                     }
                     else {
@@ -93,7 +109,7 @@ router.post('/', function(req, res, next) {
         if (err.message.toString().includes("Invalid URI"));
         {
         
-            res.json({ "response" : "Invalid URL Submitted" });
+            res.json({ err : "Invalid URL Submitted" });
         }
         
     });

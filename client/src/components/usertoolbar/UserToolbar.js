@@ -14,7 +14,26 @@ class UserToolbar extends Component {
         
       }
       
+      this.login = this.login.bind(this);
     }
+
+
+    login =  () => {
+        console.log("authorising");
+        fetch('/auth', { method: 'POST', redirect: 'follow'})
+        .then(response => {
+            // HTTP 301 response
+            console.log(response);
+            
+            window.location.href = response.url;
+        })
+        .catch(function(err) {
+            console.info(err);
+        });
+        
+      };
+
+   
   
  
 
@@ -26,7 +45,7 @@ class UserToolbar extends Component {
       <div className="usertoolbar">
           <ul className="nav justify-content-end">
             <li className="nav-item" >
-            <a className="nav-link" href="#">Login</a>
+            <a className="nav-link" onClick={this.login} href="#">Login</a>
                 </li>
             </ul>
 

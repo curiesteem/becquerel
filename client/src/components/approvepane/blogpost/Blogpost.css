@@ -99,6 +99,7 @@
 .optionbutton
 {
     padding-right: 10px;
+    padding-top:60px;
 }
 
 .comments{
@@ -107,6 +108,35 @@
 
 .commentsWrapper{
     background-color: lemonchiffon
+}
+
+
+
+.submitterComments
+{
+    width: 300px;
+    max-height :100px;
+    padding-right: 20px;
+}
+.submitterComments > textarea {
+    resize: none;
+    max-height: 90px;
+}
+.reviewerComments
+{
+    width: 300px;
+    max-height :100px;
+    margin-right: 40px;
+}
+
+.reviewerComments > textarea {
+    resize: none;
+    max-height: 90px;
+}
+.commentsField
+{
+    width: 300px;
+    max-height: 90px;
 }
 
 .postedstats
@@ -125,6 +155,25 @@
 .popover-content img{
     max-width: 600px;
     align: center;
+}
+
+@-webkit-keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+ 
+ @keyframes fadeOut {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+ }
+ 
+ .fadeOut {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+ }
+.panel{
+ -webkit-animation-duration: 2s;animation-duration: 2s;
+ -webkit-animation-fill-mode: both;animation-fill-mode: both;
 }
 
 .popover {

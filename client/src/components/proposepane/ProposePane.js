@@ -5,20 +5,28 @@ import { Form, Text, TextArea } from 'react-form';
 
 class ProposePane extends Component {
 
-
+ 
     
   constructor( props ) {
       super( props );
        this.state = {
+       
         
         
       }
+
+      this.formapi = null;
+      
       
     }
 
+    setApi = ( param ) => {
+      this.formapi = param;
+    };
     
   submitValues = (submittedValues) =>
   {
+    this.setState({"responseClasses" : ''});
     submittedValues.submittedValues.curator = "markangeltrueman";
     console.log("submitted values = " + JSON.stringify(submittedValues));
     fetch('/posts', {
@@ -33,10 +41,25 @@ class ProposePane extends Component {
           return results.json();
       })
       .then(data => {
-        //console.log(data);
-         this.setState({"response": data.response});
+        console.log("data = " + data);
+        this.setState({"responseClasses" : 'show'});
+        if (data.response)
+        {
+          this.setState({"response": data.response, "err" : null });
+         
+        }
+        else if (data.err)
+        {
+          this.setState({"err": data.err, "response" : null});
+        }
+         setTimeout(() => {
+          this.setState({"responseClasses" : '', "response": null, "err": null});
+          this.formapi.resetAll();
+          
+      }, 4000);
       })
   }
+  
   
  
 
@@ -46,11 +69,12 @@ class ProposePane extends Component {
 
       return (
       <div className="proposepane">
-        <div className="response">
-          {this.state.response}
+        <div className={this.state.response ? ['response', this.state.responseClasses].join(' ') : ['responseErr', this.state.responseClasses].join(' ') }>
+          {this.state.response ? this.state.response : this.state.err}.
         </div>
           
-          <Form onSubmit={submittedValues => this.submitValues( { submittedValues } )}>
+          <Form onSubmit={submittedValues => this.submitValues( { submittedValues } )}
+          getApi={this.setApi}>
         { formApi => (
           <form onSubmit={formApi.submitForm} id="form1" >
            <div className="flexDiv">

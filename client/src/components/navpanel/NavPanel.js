@@ -22,24 +22,29 @@ class NavPanel extends Component {
       }
 
       this.handleSelect = this.handleSelect.bind(this);
+      this.reload - this.reload.bind(this);
   }
       
     handleSelect = (key) => {
         if (key === 3){
             // approve tab selected
-            fetch('/posts')
-            .then(results => {
-                return results.json();
-            })
-            .then(posts => {
-                
-                console.log(posts );
-                this.setState({"approvalQueue" : posts});
-
-            })
             
+            this.loadPostQueue();
             
         }
+    }
+
+    loadPostQueue = () => {
+        fetch('/posts')
+        .then(results => {
+            return results.json();
+        })
+        .then(posts => {
+            
+            console.log(posts );
+            this.setState({"approvalQueue" : posts});
+
+        });
     }
 
     handleApprove = (_id) => {
@@ -57,7 +62,7 @@ class NavPanel extends Component {
             .then(data => {
               console.log("approve completed " + JSON.stringify(data));
                //this.setState({"response": data.response});
-
+               
             })
     }
     
@@ -69,6 +74,11 @@ class NavPanel extends Component {
         console.log("handling close for " + _id);
     }
     
+    reload = () =>
+    {
+        this.loadPostQueue();
+       
+    }
 
  
 
@@ -87,7 +97,7 @@ class NavPanel extends Component {
               <ProposePane/>
           </Tab>
           <Tab eventKey={3} title="Approve" >
-             <ApprovePane approvalQueue={this.state.approvalQueue} closeHandler={this.handleClose} rejectHandler={this.handleReject} approveHandler={this.handleApprove} />
+             <ApprovePane approvalQueue={this.state.approvalQueue} closeHandler={this.handleClose} rejectHandler={this.handleReject} approveHandler={this.handleApprove} reload={this.reload}/>
           </Tab>
           <Tab eventKey={4} title="Accounts" >
              <AccountsPane/>

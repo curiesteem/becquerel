@@ -20,13 +20,25 @@ class BlogPost extends Component {
     constructor( props ) {
         super( props );
          this.state = {
-          
+          panelClass : '',
           
         }
 
         this.handleView = e => {
 			this.setState({ target: e.target, show: !this.state.show });
-		};
+        };
+        
+        this.handleSubCommentChange = e => {
+            this.setState({
+                subcomment: e.target.value
+              });
+        }
+
+        this.handleRevCommentChange = e => {
+            this.setState({
+                revcomment: e.target.value
+              });
+        }
         
       }
     
@@ -46,20 +58,36 @@ class BlogPost extends Component {
    
 
 
-    doSubmit = (type, id, e) => {
+    doSubmit = (type, id, comment, e) => {
         // callback to the top level to do the DB stuff
         if (type === "approve")
         {
+            console.log(this.state.subcomment);
+           
             this.props.approveHandler(id);
         }
         if (type === "reject")
         {
+            console.log(this.state.subcomment);
             this.props.rejectHandler(id);
         }
         if (type === "close")
         {
+            console.log(this.state.subcomment);
             this.props.closeHandler(id);
         }
+        if (type === "review")
+        {
+            console.log(this.state.revcomment);
+            //this.props.closeHandler(id);
+        }
+        this.setState({"panelClass" : 'panel fadeOut'});
+        setTimeout(() => {
+            if (this.props.reload)
+                this.props.reload();
+        }, 2000);
+       
+        
     }
   
     render() {
@@ -92,7 +120,7 @@ class BlogPost extends Component {
 
         return (
 
-            <Panel eventKey={this.props.detail._id}>
+            <Panel className={this.state.panelClass} eventKey={this.props.detail._id}>
             <Panel.Heading>
                 <Panel.Title toggle>
                     <div className="title-wrapper">
@@ -125,6 +153,15 @@ class BlogPost extends Component {
                     </div>
 
                     <div className="body-row optionbuttons">
+                        <div className="submitterComments">
+                            Comments for Submitter
+                          <textarea id="subcomments" rows="2" cols="150" onChange={this.handleSubCommentChange}/>
+                        </div>
+
+                        <div className="reviewerComments">
+                            Comments for Other Reviewers
+                          <textarea id="reviewcomments" rows="2" cols="150"onChange={this.handleRevCommentChange} />
+                        </div>
                         <div className="optionbutton">
                             <a className="btn btn-success" onClick={(e) => this.submit("approve", this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-up"></i> Approve</a>
                             </div>
@@ -132,7 +169,10 @@ class BlogPost extends Component {
                             <a className="btn btn-danger"onClick={(e) => this.submit("reject",this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-down"></i> Reject</a>
                             </div>
                         <div className="optionbutton">
-                            <a className="btn btn-info" onClick={(e) => this.submit("close", this.props.detail._id,e)} href="#"><i className="fa fa-thumbs-o-up"></i> Close</a>
+                            <a className="btn btn-info" onClick={(e) => this.submit("close", this.props.detail._id,e)} href="#"><i className="fa fa-times"></i> Close</a>
+                            </div>
+                            <div className="optionbutton">
+                            <a className="btn btn-warning" onClick={(e) => this.submit("review", this.props.detail._id,e)} href="#"><i className="fa fa-eye"></i> Review</a>
                             </div>
                     </div>
                 </div>

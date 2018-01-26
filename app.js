@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var session = require('express-session');
 
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -7,12 +8,24 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var posts = require('./routes/posts');
+var auth = require('./routes/auth');
 var mongoose = require('mongoose');
+
+
+
+var config = require('./config')
+
 
 
 
 
 var app = express();
+
+app.use(session({
+  secret: config.session.secret,
+  saveUninitialized: true,
+  resave: false
+}));
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +39,7 @@ app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 app.use(logger('dev'));
 
 //db config
+
 mongoose.connect('mongodb://localhost:27017/curie', {
   useMongoClient: true,
   /* other options */
@@ -41,6 +55,7 @@ app.use(express.static(path.join(__dirname, './client/build')));
 
 app.use('/', index);
 app.use('/posts', posts);
+app.use('/auth', auth);
 
 
 // catch 404 and forward to error handler
