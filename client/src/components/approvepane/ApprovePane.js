@@ -7,6 +7,7 @@ import { PanelGroup, Panel } from 'react-bootstrap'
 class ApprovePane extends Component {
 
 
+  
     
   constructor( props ) {
       super( props );
@@ -26,7 +27,7 @@ class ApprovePane extends Component {
     if (this.props && this.props.approvalQueue){
       rowslist = this.props.approvalQueue.map(function(row) 
       {
-        if (!row.approved){
+        
           return (
             
               <BlogPost key={row._id} detail={row} closeHandler={this.props.closeHandler} rejectHandler={this.props.rejectHandler} approveHandler={this.props.approveHandler} reload={this.props.reload}/>
@@ -34,7 +35,7 @@ class ApprovePane extends Component {
 
                    
               )  
-            }else return null;                
+                    
 
       }, this);
 

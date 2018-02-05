@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 
 import './ProposePane.css';
 import { Form, Text, TextArea } from 'react-form';
+import Auth from '../../auth';
 
 class ProposePane extends Component {
 
- 
+   headers = () => ({
+    'Content-Type': 'application/json',
+   // Accept: 'application/json',
+    Authorization: `Bearer ${this.props.auth.getAccessToken()}`
+  });
     
   constructor( props ) {
       super( props );
@@ -15,6 +20,7 @@ class ProposePane extends Component {
         
       }
 
+     
       this.formapi = null;
       
       
@@ -33,11 +39,11 @@ class ProposePane extends Component {
 
       method: 'post',
 
-      headers: {'Content-Type':'application/json'},
+       headers: this.headers(),
        body: JSON.stringify(submittedValues) 
      })
       .then(results => {
-          
+          console.log("results = " + JSON.stringify(results));
           return results.json();
       })
       .then(data => {

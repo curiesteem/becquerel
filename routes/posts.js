@@ -5,6 +5,9 @@ var Post = require('../model/posts');
 var businessLogic = require('../api/businessLogic')
 var rp = require('request-promise-native');
 var moment = require('moment');
+var util = require('../modules/util');
+
+
 
 Steem.api.setOptions({ url: 'https://api.steemit.com' });
 
@@ -13,15 +16,46 @@ var err = function(error, resp) {
     resp.json(JSON.stringify(error));
 }
 
-router.get('/', function(req, res, next) {
+var validateAuth = function(perm)
+{
+    return function(req,res,next)
+    {
+        console.log(JSON.parse(req.token));
 
-    Post.find(function(err, posts) {
+        // return next();
+ 
+         var ret = util.isAuthenticated(req, res, next, perm);
+        
+    }
+}
+
+
+router.get('/toapprove', validateAuth('reviewer'), function(req, res, next) {
+    console.log("getting posts to approve");
+
+    Post.find({'approved' : false}, function(err, posts) {
         if (err) {
             res.send(err);
         }
         else  {
             //responds with a json object of our database comments.
-            console.log(posts);
+           // console.log(posts);
+            res.json(posts);
+        }
+
+    });
+});
+
+router.get('/approved', function(req, res, next) {
+    console.log("getting approved posts");
+
+    Post.find({'approved' : true}, function(err, posts) {
+        if (err) {
+            res.send(err);
+        }
+        else  {
+            //responds with a json object of our database comments.
+          //  console.log(posts);
             res.json(posts);
         }
 
@@ -50,19 +84,20 @@ router.post('/approve/:id', function(req, res, next) {
   
 });
 
-router.post('/', function(req, res, next) {
+router.post('/' , validateAuth('curator'),function(req, res, next) {
 
+    console.log("in post" + JSON.stringify(req.body.submittedValues));
     var post = new Post();
     //body parser lets us use the req.body
     post.url = req.body.submittedValues.url;
     post.comments = req.body.submittedValues.comments;
     post.curator = req.body.submittedValues.curator;
     post.submittedtime = moment().utc();
-    console.log("curator = " + post.curator);
+   // console.log("curator = " + post.curator);
 
    
     var url = post.url + ".json";
-    console.log(url);
+    //console.log(url);
     var options = {
         method: 'GET',
         uri: url,

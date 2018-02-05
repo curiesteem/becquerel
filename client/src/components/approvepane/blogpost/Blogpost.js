@@ -62,23 +62,23 @@ class BlogPost extends Component {
         // callback to the top level to do the DB stuff
         if (type === "approve")
         {
-            console.log(this.state.subcomment);
+           
            
             this.props.approveHandler(id);
         }
         if (type === "reject")
         {
-            console.log(this.state.subcomment);
+          
             this.props.rejectHandler(id);
         }
         if (type === "close")
         {
-            console.log(this.state.subcomment);
+           
             this.props.closeHandler(id);
         }
         if (type === "review")
         {
-            console.log(this.state.revcomment);
+           
             //this.props.closeHandler(id);
         }
         this.setState({"panelClass" : 'panel fadeOut'});

@@ -12,7 +12,12 @@ import './NavPanel.css';
 
 class NavPanel extends Component {
 
-
+    headers = () => ({
+        'Content-Type': 'application/json',
+       // Accept: 'application/json',
+       
+        Authorization: `Bearer ${this.props.auth.getAccessToken()}`
+      });
     
   constructor( props ) {
       super( props );
@@ -22,27 +27,58 @@ class NavPanel extends Component {
       }
 
       this.handleSelect = this.handleSelect.bind(this);
-      this.reload - this.reload.bind(this);
+      this.reload = this.reload.bind(this);
+      this.checkAuthorisation = this.checkAuthorisation.bind(this);
+
+    
+     
+  }
+
+  componentDidMount()
+  {
+    this.loadApprovedQueue();
   }
       
     handleSelect = (key) => {
+        if (key === 1){
+            // approve tab selected
+            
+            this.loadApprovedQueue();
+            
+        }
+
         if (key === 3){
             // approve tab selected
             
-            this.loadPostQueue();
+            this.loadReviewerQueue();
             
         }
     }
 
-    loadPostQueue = () => {
-        fetch('/posts')
+    loadReviewerQueue = () => {
+        fetch('/posts/toapprove', {
+             headers: this.headers()
+        })
         .then(results => {
             return results.json();
         })
         .then(posts => {
             
-            console.log(posts );
             this.setState({"approvalQueue" : posts});
+
+        });
+    }
+
+    loadApprovedQueue = () => {
+        fetch('/posts/approved', {
+            headers: this.headers()
+       })
+        .then(results => {
+            return results.json();
+        })
+        .then(posts => {
+            
+             this.setState({"approvedPosts" : posts});
 
         });
     }
@@ -52,7 +88,7 @@ class NavPanel extends Component {
 
             method: 'post',
       
-            headers: {'Content-Type':'application/json'},
+            headers: this.headers(),
              //body: JSON.stringify(submittedValues) 
            })
             .then(results => {
@@ -60,7 +96,6 @@ class NavPanel extends Component {
                 return results.json();
             })
             .then(data => {
-              console.log("approve completed " + JSON.stringify(data));
                //this.setState({"response": data.response});
                
             })
@@ -76,42 +111,59 @@ class NavPanel extends Component {
     
     reload = () =>
     {
-        this.loadPostQueue();
+        this.loadReviewerQueue();
+        this.loadApprovedQueue();
        
+    }
+
+    checkAuthorisation = (role) => {
+       // console.log("cheking current authorisation for role");
+        return this.props.auth.canView(role);
+        // need to check that the current logged in user has permissions and that they havent tried to change the permission
+        // in a hacky way
+        // you could go to the server every time to see if the user has persmission to see the tab 
+
     }
 
  
 
   render() {
-
-   
-
-      return (
-        
-      <div id="navpanel" className="navpanel">
+    const jsx = (
+        <div id="navpanel" className="navpanel">
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" onSelect={this.handleSelect}>
           <Tab eventKey={1} title="Home">
-              <HomePane/>
+              <HomePane approvedPosts={this.state.approvedPosts}/>
           </Tab>
+          { this.checkAuthorisation('curator') ?
           <Tab eventKey={2} title="Propose">
-              <ProposePane/>
+              <ProposePane {...this.props}/>
           </Tab>
+          : null }
+           { this.checkAuthorisation('reviewer') ?
           <Tab eventKey={3} title="Approve" >
-             <ApprovePane approvalQueue={this.state.approvalQueue} closeHandler={this.handleClose} rejectHandler={this.handleReject} approveHandler={this.handleApprove} reload={this.reload}/>
+             <ApprovePane {...this.props} approvalQueue={this.state.approvalQueue} closeHandler={this.handleClose} rejectHandler={this.handleReject} approveHandler={this.handleApprove} reload={this.reload}/>
           </Tab>
+          : null} 
+           { this.checkAuthorisation('accounter') ?
           <Tab eventKey={4} title="Accounts" >
              <AccountsPane/>
           </Tab>
+          : null }
+           { this.checkAuthorisation('administrator') ?
           <Tab eventKey={5} title="Admin" >
               <AdminPane/>
           </Tab>
+          :null }
         </Tabs>
 
         </div>
       
-        
-     
       );
+   
+    
+   
+
+      return jsx;
     
     
     

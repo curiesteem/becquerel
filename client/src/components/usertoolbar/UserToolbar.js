@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './UserToolbar.css';
 import { Navbar, NavItem } from 'react-bootstrap';
+import Auth from '../../auth'
 
 class UserToolbar extends Component {
 
@@ -13,25 +14,22 @@ class UserToolbar extends Component {
         
         
       }
-      
+      this.auth = new Auth;
       this.login = this.login.bind(this);
+      this.logout = this.logout.bind(this);
     }
 
+    
 
     login =  () => {
-        console.log("authorising");
-        fetch('/auth', { method: 'POST', redirect: 'follow'})
-        .then(response => {
-            // HTTP 301 response
-            console.log(response);
-            
-            window.location.href = response.url;
-        })
-        .catch(function(err) {
-            console.info(err);
-        });
-        
-      };
+        // call the class that calls steemconnect
+        this.auth.login();
+    };
+
+    logout =  () => {
+        // call the class that calls steemconnect
+        this.auth.logout();
+    };
 
    
   
@@ -45,7 +43,11 @@ class UserToolbar extends Component {
       <div className="usertoolbar">
           <ul className="nav justify-content-end">
             <li className="nav-item" >
+            { this.props.auth.isAuthenticated() ?
+            <a className="nav-link" onClick={this.logout} href="#">Logout</a> :
             <a className="nav-link" onClick={this.login} href="#">Login</a>
+            
+            }
                 </li>
             </ul>
 

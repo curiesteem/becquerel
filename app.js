@@ -5,6 +5,7 @@ var session = require('express-session');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var bearerToken = require('express-bearer-token');
 
 var index = require('./routes/index');
 var posts = require('./routes/posts');
@@ -26,6 +27,8 @@ app.use(session({
   saveUninitialized: true,
   resave: false
 }));
+
+app.use(bearerToken());
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
