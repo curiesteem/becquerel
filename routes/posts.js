@@ -67,7 +67,8 @@ router.post('/approve/:id', function(req, res, next) {
     var id = req.params.id;
     console.log("Router to approve " + id);
     const doc = {
-        approved: true
+        approved: true,
+        reviewTime : new Date()
     }
 
     Post.update({_id: id}, doc, function(err, raw) {

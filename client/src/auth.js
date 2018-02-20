@@ -1,4 +1,4 @@
-import history from './history';
+
 import queryString from 'query-string';
 
 export default class Auth {

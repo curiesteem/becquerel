@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './ApprovedPost.css';
-import { Overlay, OverlayTrigger, Panel, Popover } from 'react-bootstrap';
+import { Popover } from 'react-bootstrap';
 import moment from 'moment';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 
 
-var Markdown = require('react-showdown');
+// var Markdown = require('react-showdown');
 var Converter = require('react-showdown').Converter;
 const removeMd = require('remove-markdown');
 
@@ -100,7 +100,7 @@ class ApprovedPost extends Component {
         var propDays = Math.floor(sinceProposal / (60*24));
         var propMins = sinceProposal - (propDays * (60*24))
         var propHours =  Math.floor(propMins / 60);
-        var propMins = propMins - propHours*60;
+        propMins = propMins - propHours*60;
        
        
        
@@ -110,20 +110,20 @@ class ApprovedPost extends Component {
         var postDays = Math.floor(sincePost / (60*24));
         var postMins = sincePost - (postDays * (60*24))
         var postHours =  Math.floor(postMins / 60);
-        var postMins = postMins - postHours*60;
+        postMins = postMins - postHours*60;
        
         var converter = new Converter({ 'parseImgDimensions': true});
         //converter.completeHTMLDocument = true;
        
         var thebody = converter.convert(this.props.detail.body);
       
-        var noMd =  removeMd(this.props.detail.body).substring(0,200)  + "...";
+        //var noMd =  removeMd(this.props.detail.body).substring(0,200)  + "...";
        
-        const popoverHoverFocus = (
-            <Popover id="popover-trigger-click-root-close" viewport="navpanel" title={this.props.detail.posttitle} >
-                {thebody}
-            </Popover>
-        );
+        // const popoverHoverFocus = (
+        //     <Popover id="popover-trigger-click-root-close" viewport="navpanel" title={this.props.detail.posttitle} >
+        //         {thebody}
+        //     </Popover>
+        // );
         
 
         return (

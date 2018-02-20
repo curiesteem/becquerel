@@ -13,7 +13,10 @@ var UserSchema = new Schema({
     reviewer : {type : Boolean, default : false},
     accounter : {type : Boolean, default : false},
     administrator : {type : Boolean, default : false},
-    
+    isTopCurator : {type: Boolean, default: false},
+    enabled : {type: Boolean, default: true},
+    maximumSubmissions : {type: Number},
+     
 
 });
 

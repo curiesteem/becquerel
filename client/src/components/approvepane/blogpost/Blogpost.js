@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './Blogpost.css';
-import { Overlay, OverlayTrigger, Panel, Popover } from 'react-bootstrap';
+import { OverlayTrigger, Panel, Popover } from 'react-bootstrap';
 import moment from 'moment';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 
 
-var Markdown = require('react-showdown');
+//var Markdown = require('react-showdown');
 var Converter = require('react-showdown').Converter;
 const removeMd = require('remove-markdown');
 

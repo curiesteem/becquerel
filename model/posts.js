@@ -14,6 +14,7 @@ var PostSchema = new Schema({
     approved : {type : Boolean, default : false},
     rejected : {type : Boolean, default : false},
     closed : {type : Boolean, default : false},
+    reviewTime: Date,
     posttitle: String,
     postuser : String,
     posttime : Date,

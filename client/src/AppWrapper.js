@@ -38,7 +38,7 @@ class AppWrapper extends Component {
          
             <UserToolBar {...this.props}/>
               
-            <img src="/curieText.png" className="curieText"/>
+            <img src="/other.png" className="curieText"/>
 
               
             <NavPanel {...this.props}/>

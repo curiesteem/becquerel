@@ -9,6 +9,7 @@ var bearerToken = require('express-bearer-token');
 
 var index = require('./routes/index');
 var posts = require('./routes/posts');
+var users = require('./routes/users');
 var auth = require('./routes/auth');
 var mongoose = require('mongoose');
 
@@ -58,6 +59,7 @@ app.use(express.static(path.join(__dirname, './client/build')));
 
 app.use('/', index);
 app.use('/posts', posts);
+app.use('/users', users);
 app.use('/auth', auth);
 
 

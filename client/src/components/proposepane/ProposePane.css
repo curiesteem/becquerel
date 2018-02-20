@@ -47,6 +47,10 @@ textarea {
 
 
 }
+.recaptcha
+{
+  margin-bottom: 15px; 
+}
 
 .responseErr
 {

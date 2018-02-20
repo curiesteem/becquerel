@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Datetime from 'react-datetime';
 
 import './AccountsPane.css';
 
@@ -22,10 +23,24 @@ class AccountsPane extends Component {
    
 
       return (
-      <div className="accountspane">
-          
-          <h3> Accounts </h3>
 
+        <div className="accountsmain">
+        <div className="titletext">
+          Generate curator report :
+          </div>
+      <div className="accountspane">
+     
+          <div className="calwrapper">
+          From:
+            <Datetime/>
+          </div>
+         
+          <div className="calwrapper">
+          To:
+            <Datetime/>
+            </div>
+
+        </div>
         </div>
         
      

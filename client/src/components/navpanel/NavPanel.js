@@ -53,6 +53,13 @@ class NavPanel extends Component {
             this.loadReviewerQueue();
             
         }
+
+        if (key === 5){
+            // admin tab selected
+            
+            this.loadUserDetails();
+            
+        }
     }
 
     loadReviewerQueue = () => {
@@ -79,6 +86,20 @@ class NavPanel extends Component {
         .then(posts => {
             
              this.setState({"approvedPosts" : posts});
+
+        });
+    }
+
+    loadUserDetails = () => {
+        fetch('/users/allusers', {
+            headers: this.headers()
+       })
+        .then(results => {
+            return results.json();
+        })
+        .then(users => {
+            
+             this.setState({"allusers" : users});
 
         });
     }
@@ -150,8 +171,8 @@ class NavPanel extends Component {
           </Tab>
           : null }
            { this.checkAuthorisation('administrator') ?
-          <Tab eventKey={5} title="Admin" >
-              <AdminPane/>
+          <Tab eventKey={5} title="Admin"  >
+              <AdminPane allusers={this.state.allusers} />
           </Tab>
           :null }
         </Tabs>

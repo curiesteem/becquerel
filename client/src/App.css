@@ -3,10 +3,12 @@
   
     height:100vh;
     margin: 0px auto;
-    background-color: #fff;
+    /* background-color: #fff; */
     overflow-y:hidden;
     text-align: center;
     font-family: 'Source Sans Pro', sans-serif;
+   
+       
   
 }
 

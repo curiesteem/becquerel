@@ -24,7 +24,7 @@ class ApprovePane extends Component {
   render() {
 
     var rowslist = null;
-    if (this.props && this.props.approvalQueue){
+    if (this.props && this.props.approvalQueue && this.props.approvalQueue.length > 0){
       rowslist = this.props.approvalQueue.map(function(row) 
       {
         
