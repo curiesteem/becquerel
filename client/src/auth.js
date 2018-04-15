@@ -46,7 +46,7 @@ export default class Auth {
       // save stuff
      
 
-      console.log(JSON.stringify(this.props));
+      console.log(JSON.stringify(props));
 
       
 

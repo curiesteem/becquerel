@@ -2,6 +2,7 @@
     padding: 50px;
     height: 100%;
     position:relative;
+    background-image: "/bg.png";
 }
 
 .activecurie {

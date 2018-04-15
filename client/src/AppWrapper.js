@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserToolBar from './components/usertoolbar/UserToolbar';
 import NavPanel from './components/navpanel/NavPanel';
 import { Route } from 'react-router-dom'
+import './App.css';
 
 
 
@@ -38,7 +39,7 @@ class AppWrapper extends Component {
          
             <UserToolBar {...this.props}/>
               
-            <img src="/other.png" className="curieText"/>
+            {/* <img src="/curietext.png" className="curieText"/> */}
 
               
             <NavPanel {...this.props}/>

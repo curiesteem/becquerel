@@ -24,38 +24,46 @@ router.post('/', (req, res, next) => {
         // this is where we wrap up the steemconnect access token with our own authorization token 
         // which determines what access the user has on the UI
 
-       
-
-       
-
         steemconnect.setAccessToken(req.token);
         steemconnect.me((err, steemResponse) => {
-            // console.log("Steemresponse = " + JSON.stringify(steemResponse));
-
-            var username = steemResponse.user;
-            User.find({'user' : username}, function(err, obj)
+            if (err)
             {
-                
-                var data = JSON.parse(JSON.stringify(obj));
-                var perms = { user: data[0].user, 
-                    curator : data[0].curator, 
-                    reviewer : data[0].reviewer, 
-                    accounter : data[0].accounter, 
-                    administrator : data[0].administrator ,
-                    sctoken : req.token,
-                    expires_in : new Date().getTime() + 604800000}
-                var wrappedToken = jwt.sign(perms, config.jwtsecret, {
-                    expiresIn: 604800 // expires in a week
-                  });
+                console.log(err);
+            }
+            else {
 
-                  req.session.steemconnect = steemResponse.account;
-                  perms.token = wrappedToken;
-                 
-                res.json(perms);
+            
+                console.log("Steemresponse = " + JSON.stringify(steemResponse));
 
-                
-            });
-                
+                var username = steemResponse.user;
+                User.find({'user' : username}, function(err, obj)
+                {
+                    
+                    var data = JSON.parse(JSON.stringify(obj));
+                    if (data) {
+                        var perms = { user: data[0].user, 
+                            curator : data[0].curator, 
+                            reviewer : data[0].reviewer, 
+                            accounter : data[0].accounter, 
+                            administrator : data[0].administrator ,
+                            sctoken : req.token,
+                            expires_in : new Date().getTime() + 604800000}
+                        var wrappedToken = jwt.sign(perms, config.jwtsecret, {
+                            expiresIn: 604800 // expires in a week
+                        });
+
+                        req.session.steemconnect = steemResponse.account;
+                        perms.token = wrappedToken;
+                        
+                        res.json(perms);
+                    }
+                    else {
+                        res.json({"err" : "Problem with login"});
+                    }
+
+                    
+                });
+            }
             
         });
     }

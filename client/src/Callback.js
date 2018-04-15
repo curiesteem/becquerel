@@ -15,17 +15,17 @@ class Callback extends Component {
   });
       
 componentDidMount() {
-  //console.log(JSON.stringify(this.props));
-  // fetch('/auth', {
-  //   headers : this.headers(),
-  //   method: 'post',
-  // })
-  // .then(results => {
-  //     return results.json();
-  // })
-  // .then(data => {
+  console.log(JSON.stringify(this.props));
+  fetch('/auth', {
+    headers : this.headers(),
+    method: 'post',
+  })
+  .then(results => {
+      return results.json();
+  })
+  .then(data => {
      
-  //   })
+    })
 }
      
      

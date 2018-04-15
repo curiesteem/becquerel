@@ -9,7 +9,7 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
    
     user: {type :String, index:true,unique : true },
-    curator : {type : Boolean, default : false},
+    curator : {type : Boolean, default : true},
     reviewer : {type : Boolean, default : false},
     accounter : {type : Boolean, default : false},
     administrator : {type : Boolean, default : false},

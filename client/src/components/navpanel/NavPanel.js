@@ -104,6 +104,9 @@ class NavPanel extends Component {
         });
     }
 
+   
+
+
     handleApprove = (_id) => {
         fetch('/posts/approve/' + _id, {
 
@@ -139,13 +142,14 @@ class NavPanel extends Component {
 
     checkAuthorisation = (role) => {
        // console.log("cheking current authorisation for role");
-        return this.props.auth.canView(role);
+        return this.props.auth.canView(role) && this.props.auth.isAuthenticated();
         // need to check that the current logged in user has permissions and that they havent tried to change the permission
         // in a hacky way
         // you could go to the server every time to see if the user has persmission to see the tab 
 
     }
 
+   
  
 
   render() {
@@ -172,7 +176,7 @@ class NavPanel extends Component {
           : null }
            { this.checkAuthorisation('administrator') ?
           <Tab eventKey={5} title="Admin"  >
-              <AdminPane allusers={this.state.allusers} />
+              <AdminPane allusers={this.state.allusers} saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails} auth={this.props.auth}/>
           </Tab>
           :null }
         </Tabs>

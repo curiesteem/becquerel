@@ -36,6 +36,11 @@ textarea {
   padding-bottom: 10px;
 }
 
+.recaptcha
+{
+  margin-bottom: 15px; 
+}
+
 .response 
 {
   
@@ -47,10 +52,7 @@ textarea {
 
 
 }
-.recaptcha
-{
-  margin-bottom: 15px; 
-}
+
 
 .responseErr
 {
