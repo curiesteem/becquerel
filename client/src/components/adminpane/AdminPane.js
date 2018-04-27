@@ -29,7 +29,7 @@ class AdminPane extends Component {
     }
 
     userClicked= (user) => {
-      
+      console.log("UserClicked" + JSON.stringify(user));
       this.setState({"selecteduser" : user});
     }
 
@@ -96,10 +96,11 @@ class AdminPane extends Component {
           return results.json();
       })
       .then(data => {
-
-        this.setState({"responseClasses" : 'show'});
+         
+          this.setState({"responseClasses" : 'show'});
           if (data.response)
           {
+           
             this.setState({"response": data.response, "err" : null });
           
           }
@@ -119,11 +120,12 @@ class AdminPane extends Component {
      
   }
 
-  deleteUser = (user) => {
+  deleteUser = () => {
+    console.log("delete user " + JSON.stringify(this.state.selecteduser));
       fetch('/users/delete/', {
           method: 'post',
           headers: this.headers(),
-          body: JSON.stringify(user) 
+          body: JSON.stringify(this.state.selecteduser)
      })
       .then(results => {
           return results.json();
@@ -133,7 +135,7 @@ class AdminPane extends Component {
            this.setState({"allusers" : users});
 
       });
-      console.log("delete user " + user);
+     
   }
 
   render() {
@@ -198,10 +200,10 @@ class AdminPane extends Component {
 
       return (
       <div className="adminpaneouter">
-
+       
         
-       <div className={this.state.response ? ['response', this.state.responseClasses].join(' ') : ['responseErr', this.state.responseClasses].join(' ') }>
-            {this.state.response ? this.state.response : this.state.err}.
+        <div className={this.state.response ? ['response', this.state.responseClasses].join(' ') : ['responseErr', this.state.responseClasses].join(' ') }>
+          {this.state.response ? this.state.response : this.state.err}.
         </div>
        <div className="adminpane">
         <div className="leftpane">

@@ -59,7 +59,7 @@ router.post('/update',validateAuth('administrator'),function(req, res, next) {
         id = new mongoose.mongo.ObjectID();
         delete user.newuser;
     }
-    delete user._id;
+    delete user._id; 
 
     User.update({_id: id}, user, {upsert: true,  setDefaultsOnInsert: true}, function (err) {
         if (err)
@@ -79,9 +79,9 @@ router.post('/update',validateAuth('administrator'),function(req, res, next) {
 });
 
 router.post('/delete', function(req, res, next) {
-
+    console.log("in post - " + req.body.user)
     var username = req.body.user;
-    console.log("Router to delete user " + user);
+    console.log("Router to delete user " + username);
     User.remove({user : username}), function(err){
         if (err) {
             console.log("ERROR " + JSON.stringify(err));
@@ -91,6 +91,7 @@ router.post('/delete', function(req, res, next) {
            
         }
         else {
+            console.log("username " + username + " deleted")
             res.json({ response: 'User ' + username  + ' deleted' });
         }
 
