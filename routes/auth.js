@@ -41,21 +41,29 @@ router.post('/', (req, res, next) => {
                     
                     var data = JSON.parse(JSON.stringify(obj));
                     if (data) {
-                        var perms = { user: data[0].user, 
-                            curator : data[0].curator, 
-                            reviewer : data[0].reviewer, 
-                            accounter : data[0].accounter, 
-                            administrator : data[0].administrator ,
-                            sctoken : req.token,
-                            expires_in : new Date().getTime() + 604800000}
-                        var wrappedToken = jwt.sign(perms, config.jwtsecret, {
-                            expiresIn: 604800 // expires in a week
-                        });
+                        if (data[0])
+                        {
+                            var perms = { user: data[0].user, 
+                                curator : data[0].curator, 
+                                reviewer : data[0].reviewer, 
+                                accounter : data[0].accounter, 
+                                administrator : data[0].administrator ,
+                                sctoken : req.token,
+                                expires_in : new Date().getTime() + 604800000}
+                            var wrappedToken = jwt.sign(perms, config.jwtsecret, {
+                                expiresIn: 604800 // expires in a week
+                            });
 
-                        req.session.steemconnect = steemResponse.account;
-                        perms.token = wrappedToken;
-                        
-                        res.json(perms);
+                            req.session.steemconnect = steemResponse.account;
+                            perms.token = wrappedToken;
+                            
+                            res.json(perms);
+                        }
+                        else 
+                        {
+                            // TO-DO return user not created response
+                            res.json({"err" : " User does not exist in database"});
+                        }
                     }
                     else {
                         res.json({"err" : "Problem with login"});

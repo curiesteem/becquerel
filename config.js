@@ -8,6 +8,11 @@ let config = {
         secret: 'lkjasdfkjwnqerakdusfhalsdkjfhafd'
     },
     jwtsecret: 'sdfopuiwepolhadsfkjasdfoiusdferdf',
+    db_url : process.env.DB_URL ? process.env.DB_URL : "localhost",
+    db_name : process.env.DB_NAME,
+    db_user : process.env.DB_USER,
+    db_pwd : process.env.DB_PWD
+  
 };
 
 module.exports = config;

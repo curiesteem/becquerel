@@ -28,20 +28,26 @@ module.exports.isAuthenticated = (req, res, next, permission) => {
             return res.status(401).send({ err: 'Failed to authenticate token.' });
         } else {
             // check curator perms
-            console.log("verified = " + JSON.stringify(token));
             if (permission === "curator") {
                 if (token.curator === true) {
-                    console.log("valid curator");
+                    console.log("valid curator " + token.user);
                     // check the database to ensure that this user has still got permission
                     User.find({ 'user': token.user, 'curator': true }, function(err, obj) {
+                        console.log(obj);
+                        if (err)
+                        {
+                            console.log(err);
+                        }
                         if (obj.length > 0) {
+                            console.log("found the user in the database and has persmission")
                             return next();
                         } else {
+                            console.log("unable to find user in database with curator permission")
                             return res.status(401).send({ err: 'Failed to authenticate token.' });
                         }
                     })
 
-                } else
+                } else 
                     return res.status(401).send({ err: 'Failed to authenticate token.' });
             } else if (permission === "reviewer") {
                 if (token.reviewer === true) {

@@ -50,17 +50,7 @@ class App extends Component {
           this.handleAuthentication(props);
           return <Callback auth={auth} {...props} />
         }}/>
-          
-        {/* <Route exact path="/auth" render={() => (
         
-        <Redirect to={{
-          pathname: '/',
-          state: { accessToken: 'someaccesstoken', username: 'someusername', expiresin : 'someexpiry' }
-        }}/>
-        
-      )}/>
-
-         */}
         </div>
         
      

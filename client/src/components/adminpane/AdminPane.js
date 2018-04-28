@@ -140,12 +140,13 @@ class AdminPane extends Component {
 
   render() {
     var rowslist = null;
+
     if (this.props && this.props.allusers && this.props.allusers.length > 0){
       rowslist = this.props.allusers.map(function(row) 
       {
         
           return (
-            <ListGroupItem key={row._id} onClick={this.userClicked.bind(null, row)}>{row.user}</ListGroupItem>
+            <ListGroupItem key={row.user} onClick={this.userClicked.bind(null, row)}>{row.user}</ListGroupItem>
              
               )  
                     

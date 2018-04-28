@@ -42,9 +42,16 @@ app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 
-//db config
+var dburl = 'mongodb://localhost:27017/curie'
 
-mongoose.connect('mongodb://localhost:27017/curie', {
+if (config.db_user)
+{
+  dburl = 'mongodb://' + config.db_user + ':' + config.db_pwd + '@'  + config.db_url + '/' + config.db_name
+}
+
+console.log("connecting to db " + dburl); 
+mongoose.set('debug', true);
+mongoose.connect(dburl, {
   useMongoClient: true,
   /* other options */
 });
