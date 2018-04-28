@@ -35,6 +35,11 @@ class ProposePane extends Component {
       this.formapi = param;
     };
 
+    onloadCallback = () =>
+    {
+      console.log("onload done");
+    }
+
     verifyCallback =  (response) => {
       console.log("verify callback");
       var resp = ({"captcharesponse" : response});
@@ -153,6 +158,7 @@ class ProposePane extends Component {
                 sitekey="6LddmUUUAAAAAHGqH8NWVzipatirfyENOE1VXBsL"
                 render="explicit"
                 verifyCallback={this.verifyCallback}
+                onloadCallback={this.onLoadCallback}
                
               />
               </div>

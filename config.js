@@ -2,7 +2,7 @@ let config = {
     port: 3000,
     auth: {
         client_id: 'steemboard.app',
-        redirect_uri: 'http://localhost:3001/auth'
+        redirect_uri: process.env.SC_REDIR_URL ? process.env.SC_REDIR_URL : 'http://localhost:3001/auth'
     },
     session: {
         secret: 'lkjasdfkjwnqerakdusfhalsdkjfhafd'

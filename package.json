@@ -1,6 +1,6 @@
 {
-  "name": "steemsearch",
-  "version": "0.0.0",
+  "name": "curiex",
+  "version": "0.1.0",
   "private": true,
   "engines": {
     "node": "6.11.1"
@@ -42,9 +42,6 @@
   "cacheDirectories": [
     "node_modules",
     "client/node_modules"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/markptrueman/steemsearch.git"
-  }
+  ]
+  
 }
