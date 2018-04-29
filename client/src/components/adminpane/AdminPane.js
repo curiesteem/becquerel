@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import  { ListGroup, ListGroupItem, FormGroup , Checkbox, FormControl, Button, ControlLabel, InputGroup} from 'react-bootstrap';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'
+
 
 
 import './AdminPane.css';
@@ -24,7 +27,7 @@ class AdminPane extends Component {
       this.userClicked = this.userClicked.bind(this);
       this.checkChanged = this.checkChanged.bind(this);
       this.newUser = this.newUser.bind(this);
-      this.deleteUser = this.deleteUser.bind(this);
+      this.deleteUser = this.deleteUser.bind(this); 
       
     }
 
@@ -89,6 +92,16 @@ class AdminPane extends Component {
    
 
   deleteUser = () => {
+    confirmAlert({
+      title: 'Confirm to delete this user',                        // Title dialog
+      message: 'Are you sure you want to delete this user?',               // Message dialog
+      
+      confirmLabel: 'Confirm',                           // Text button confirm
+      cancelLabel: 'Cancel',                             // Text button cancel
+      onConfirm: () => this.doSubmit(type,id,e),    // Action after Confirm
+     // onCancel: () => alert('Action after Cancel'),      // Action after Cancel - nothing
+    })
+
     console.log("delete user " + JSON.stringify(this.state.selecteduser));
       fetch('/users/delete/', {
           method: 'post',
@@ -100,11 +113,51 @@ class AdminPane extends Component {
       })
       .then(users => {
           
-           this.setState({"allusers" : users});
+           //this.setState({"allusers" : users});
+           this.props.loadUserDetails();
 
       });
      
   }
+
+  saveUser = () => {
+    fetch('/users/update/', {
+        method: 'post',
+        headers: this.headers(),
+        body: JSON.stringify(this.state.selecteduser)
+   })
+    .then(results => {
+        return results.json();
+    })
+    .then(data => { 
+    
+        // update this.props.allusers with the saved values
+      this.props.loadUserDetails();
+
+       
+        this.setState({"responseClasses" : 'show'});
+
+        if (data.response)
+        {
+         
+          this.setState({"response": data.response, "err" : null });
+        
+        }
+        else if (data.err)
+        {
+          this.setState({"err": data.err, "response" : null});
+        }
+        setTimeout(() => {
+          this.setState({"responseClasses" : '', "response": null, "err": null});
+          
+          
+      }, 4000);
+        
+   
+
+    });
+   
+}
 
   render() {
     var rowslist = null;
@@ -159,7 +212,7 @@ class AdminPane extends Component {
 
             <div className="buttonwrapper">
 
-            <a className="btn btn-success" onClick={() => this.props.saveUserHandler(this.state.selecteduser)} href="#"><i className="fa fa-save"></i> Save User</a>
+            <a className="btn btn-success" onClick={() => this.saveUser()} href="#"><i className="fa fa-save"></i> Save User</a>
             </div>
 
           </FormGroup>

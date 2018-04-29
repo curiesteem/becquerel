@@ -104,39 +104,7 @@ class NavPanel extends Component {
         });
     }
 
-    saveUser = (user) => {
-        fetch('/users/update/', {
-            method: 'post',
-            headers: this.headers(),
-            body: JSON.stringify(user)
-       })
-        .then(results => {
-            return results.json();
-        })
-        .then(data => {
-           
-            this.setState({"responseClasses" : 'show'});
-            if (data.response)
-            {
-             
-              this.setState({"response": data.response, "err" : null });
-            
-            }
-            else if (data.err)
-            {
-              this.setState({"err": data.err, "response" : null});
-            }
-            setTimeout(() => {
-              this.setState({"responseClasses" : '', "response": null, "err": null});
-              
-              
-          }, 4000);
-            
-       
-  
-        });
-       
-    }
+   
 
 
     handleApprove = (_id) => {
