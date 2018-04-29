@@ -8,7 +8,7 @@ var CuratorLevels = require("../model/curatorlevels");
 // - time of creation of post in relation to users time limit and current curie rules
 // - if the user has any posting slots available based on their profile based on current curie rules
 // 
-exports.checkSubmission = function(submittedValues, postDetails)
+exports.checkSubmission = async function(submittedValues, postDetails)
 {
     console.log("Checking submissoin");
     if (postDetails.post === 'No post found')
@@ -18,16 +18,21 @@ exports.checkSubmission = function(submittedValues, postDetails)
     console.log(postDetails.post.created);
     //2018-01-16T18:07:18
     var created = moment.utc(postDetails.post.created);
-    var minsPerUser = getPostMinutesForUser(submittedValues.curatorName);
+    console.log("calling getpostminutesforuser for " + submittedValues.curator);
+
+    var user = await User.findOne({"user" : submittedValues.curator });
+    console.log("getting post minutes for user " + JSON.stringify(user));
+    var limits = await CuratorLevels.findOne({"level" : user.level});
+    var minsPerUser = limits.minutes;
     
     if (moment.utc().diff(created,'minute') < minsPerUser)
     {
-        
-          return {"response" : "Post is less than the required " + minsPerUser + " minutes old."};
+            console.log("post is less that required " + minsPerUser);
+            return {"err" : "Post is less than the required " + minsPerUser + " minutes old."};
     }
-    else if(hasUserReachedLimit())
+    else if(hasUserReachedLimit(user, limits))
     {
-        return {"response" : "You have reached your posting limit, if you feel this is in error, please contact an administrator"};
+        return {"err" : "You have reached your posting limit, if you feel this is in error, please contact an administrator"};
     }
     else {
 
@@ -35,13 +40,9 @@ exports.checkSubmission = function(submittedValues, postDetails)
     }
 }
 
-getPostMinutesForUser = async function(username)
-{
-    var user = await User.findOne({"user" : username });
-    console.log("getting post minutes for user " + JSON.stringify(user));
-}
 
-hasUserReachedLimit = function(user)
+
+hasUserReachedLimit = function(user, limits)
 {
     return false;
 }

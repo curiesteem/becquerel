@@ -131,7 +131,7 @@ router.post('/close/:id', function(req, res, next) {
   
 });
 
-router.post('/' , validateAuth('curator'),function(req, res, next) {
+router.post('/' , validateAuth('curator'), function(req, res, next) {
 
     console.log("in post" + JSON.stringify(req.body.submittedValues));
     var post = new Post();
@@ -140,7 +140,7 @@ router.post('/' , validateAuth('curator'),function(req, res, next) {
     post.comments = req.body.submittedValues.comments;
     post.curator = req.body.submittedValues.curator;
     post.submittedtime = moment().utc();
-   // console.log("curator = " + post.curator);
+    console.log("curator = " + post.curator);
 
    
     var url = post.url + ".json";
@@ -153,11 +153,11 @@ router.post('/' , validateAuth('curator'),function(req, res, next) {
     };
 
     rp(options)
-    .then(function (data) {
+    .then(async function (data) {
       // console.log(data);
 
-            var resp = businessLogic.checkSubmission(req.body.submittedValues, data);
-            console.log(resp);
+            var resp = await businessLogic.checkSubmission(req.body.submittedValues, data);
+            console.log("response from business logic = " + resp);
 
             if (resp.response === "success") 
             {
