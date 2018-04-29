@@ -16,6 +16,7 @@ var UserSchema = new Schema({
     isTopCurator : {type: Boolean, default: false},
     enabled : {type: Boolean, default: true},
     maximumSubmissions : {type: Number},
+    level : {type : Number}
     
      
 

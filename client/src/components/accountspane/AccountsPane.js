@@ -48,12 +48,12 @@ class AccountsPane extends Component {
         
           <div className="calwrapper">
           From:
-            <Datetime utc="true" onChange={this.startChanged}/>
+            <Datetime utc={true} onChange={this.startChanged}/>
           </div>
          
           <div className="calwrapper">
           To:
-            <Datetime utc="true" onChange={this.endChanged}/>
+            <Datetime utc={true} onChange={this.endChanged}/>
             </div>
             
             <a className="btn btn-success" onClick={(e) => this.submit(e)} href="#"><i className="fa fa-thumbs-o-up"></i> Submit</a>

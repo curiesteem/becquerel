@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import  { ListGroup, ListGroupItem, FormGroup , Checkbox, FormControl, Button, ControlLabel, InputGroup} from 'react-bootstrap';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 
 
@@ -31,10 +33,21 @@ class AdminPane extends Component {
       
     }
 
+    handleChangeLevel = (selectedOption) => {
+      console.log(selectedOption)
+      const foo = Object.assign({}, this.state.selecteduser);
+      foo.level = selectedOption.value;
+
+        this.setState({"selecteduser" : foo});
+      
+    }
+
     userClicked= (user) => {
       console.log("UserClicked" + JSON.stringify(user));
       this.setState({"selecteduser" : user});
     }
+
+    
 
     checkChanged = (event) =>
     {
@@ -89,7 +102,39 @@ class AdminPane extends Component {
 
     }
 
-   
+   doDelete = () => {
+    fetch('/users/delete/', {
+      method: 'post',
+      headers: this.headers(),
+      body: JSON.stringify(this.state.selecteduser)
+    })
+      .then(results => {
+          return results.json();
+      })
+      .then(data => {
+        this.userClicked(null)
+          //this.setState({"allusers" : users});
+          this.props.loadUserDetails();
+          this.setState({"responseClasses" : 'show'});
+
+          if (data.response)
+          {
+           
+            this.setState({"response": data.response, "err" : null });
+          
+          }
+          else if (data.err)
+          {
+            this.setState({"err": data.err, "response" : null});
+          }
+          setTimeout(() => {
+            this.setState({"responseClasses" : '', "response": null, "err": null});
+            
+            
+        }, 4000);
+
+      });
+   }
 
   deleteUser = () => {
     confirmAlert({
@@ -98,25 +143,12 @@ class AdminPane extends Component {
       
       confirmLabel: 'Confirm',                           // Text button confirm
       cancelLabel: 'Cancel',                             // Text button cancel
-      onConfirm: () => this.doSubmit(type,id,e),    // Action after Confirm
+      onConfirm: () => this.doDelete(),    // Action after Confirm
      // onCancel: () => alert('Action after Cancel'),      // Action after Cancel - nothing
     })
 
     console.log("delete user " + JSON.stringify(this.state.selecteduser));
-      fetch('/users/delete/', {
-          method: 'post',
-          headers: this.headers(),
-          body: JSON.stringify(this.state.selecteduser)
-     })
-      .then(results => {
-          return results.json();
-      })
-      .then(users => {
-          
-           //this.setState({"allusers" : users});
-           this.props.loadUserDetails();
-
-      });
+      
      
   }
 
@@ -176,6 +208,17 @@ class AdminPane extends Component {
 
     }
 
+    var levellist = []; //  this needs to be a json list - ie  { value: 'one', label: 'One' }, { value: 'one', label: 'One' },
+    if (this.props && this.props.levels && this.props.levels.length > 0){
+      for (var i = 0 ; i < this.props.levels.length; i++)
+      {
+        var level = {};
+        level.value = this.props.levels[i].level;
+        level.label = this.props.levels[i].description + "("+ this.props.levels[i].limit + "/" + this.props.levels[i].minutes + ")";
+        levellist.push(level)
+      }
+    } 
+
     var form = null;
     if (this.state.selecteduser)
     {
@@ -210,6 +253,15 @@ class AdminPane extends Component {
             <Checkbox inline name="accounter" onChange={this.checkChanged} checked={this.state.selecteduser.accounter}>Accounter</Checkbox>{' '}
             <Checkbox inline name="administrator" onChange={this.checkChanged} checked={ this.state.selecteduser.administrator}>Administrator</Checkbox>
 
+             <div className="selectouter">
+            <Select
+              name="curator-level"
+              clearable={false}
+              value={this.state.selecteduser ? this.state.selecteduser.level : null}
+              onChange={this.handleChangeLevel}
+              options={levellist} />
+              </div>
+              <Checkbox inline name="enabled" onChange={this.checkChanged} checked={ this.state.selecteduser.enabled}>Enabled</Checkbox>
             <div className="buttonwrapper">
 
             <a className="btn btn-success" onClick={() => this.saveUser()} href="#"><i className="fa fa-save"></i> Save User</a>
@@ -219,6 +271,8 @@ class AdminPane extends Component {
         </form>
         </div>)
     }
+
+   
 
       return (
       <div className="adminpaneouter">
@@ -254,7 +308,7 @@ class AdminPane extends Component {
           
 
             {form}
-
+           
           </div>
           </div>
         </div>

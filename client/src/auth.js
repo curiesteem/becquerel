@@ -19,8 +19,8 @@ export default class Auth {
     fetch('/auth', { method: 'POST'})
     .then(response => {
         // HTTP 301 response
-        console.log("Response from login is : " + response);
-        console.log("redirecting client to /auth");
+      //  console.log("Response from login is : " + response);
+     //   console.log("redirecting client to /auth");
         window.location.href = response.url; // this will redirect us to the callback url (/auth)
     })
     .catch(function(err) {
@@ -42,11 +42,11 @@ export default class Auth {
 
      
       var parsedQueryString = queryString.parse(props.search);
-      console.log("handleauthentication after redirect" + JSON.stringify(parsedQueryString));
+     // console.log("handleauthentication after redirect" + JSON.stringify(parsedQueryString));
       // save stuff
      
 
-      console.log(JSON.stringify(props));
+    //  console.log(JSON.stringify(props));
 
       
 
@@ -69,7 +69,7 @@ export default class Auth {
           window.location.href = '/';
       })
       .then(data => {
-        console.log("Results = " + JSON.stringify(data));
+      //  console.log("Results = " + JSON.stringify(data));
           this.setSession(data);
           window.location.href = '/';
         })
@@ -93,7 +93,7 @@ export default class Auth {
   // Sets user details in localStorage
   setSession = (parsedQueryString) => {
     // Set the time that the access token will expire at
-    console.log("setting session " + JSON.stringify(parsedQueryString));
+    //console.log("setting session " + JSON.stringify(parsedQueryString));
     let expiresAt = JSON.stringify((parsedQueryString.expires_in * 1000) + new Date().getTime());
     
     localStorage.setItem('authtoken', JSON.stringify(parsedQueryString));
@@ -106,13 +106,13 @@ export default class Auth {
 
   // checks if the user is authenticated
   isAuthenticated = () => {
-      console.log("checking is authenticated");
+    //  console.log("checking is authenticated");
     // Check whether the current time is past the
     // access token's expiry time
     if (localStorage.getItem('authtoken')) {
-      console.log(localStorage.getItem('authtoken'));
+     // console.log(localStorage.getItem('authtoken'));
       var expiresAt = JSON.parse(localStorage.getItem('authtoken')).expires_in;
-      console.log("expires at " + expiresAt);
+     // console.log("expires at " + expiresAt);
       return new Date().getTime() < expiresAt;
 
     }

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../model/user');
+var CuratorLevels = require('../model/curatorlevels');
 var rp = require('request-promise-native');
 var moment = require('moment');
 var util = require('../modules/util');
@@ -14,7 +15,7 @@ var err = function(error, resp) {
 
 var validateAuth = function(perm) {
     return function(req, res, next) {
-        console.log(JSON.parse(req.token));
+        // console.log(JSON.parse(req.token));
 
         // return next();
 
@@ -29,7 +30,7 @@ router.get('/allusers', validateAuth('administrator'), function(req, res, next) 
 
 
     User.find({}, function(err, users) {
-        console.log("found");
+      
 
         if (err) {
             console.log(err);
@@ -38,6 +39,25 @@ router.get('/allusers', validateAuth('administrator'), function(req, res, next) 
             //responds with a json object of our database comments.
             console.log(users);
             res.json(users);
+        }
+
+    });
+});
+
+router.get('/levels', function(req, res, next) {
+   // console.log("getting all user levels");
+
+
+    CuratorLevels.find({}, function(err, levels) {
+      //  console.log("found user levels");
+
+        if (err) {
+            // console.log(err);
+            res.send(err);
+        } else {
+            //responds with a json object of our database comments.
+           // console.log(levels);
+            res.json(levels);
         }
 
     });

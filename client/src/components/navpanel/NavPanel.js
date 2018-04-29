@@ -37,6 +37,21 @@ class NavPanel extends Component {
   componentDidMount()
   {
     this.loadApprovedQueue();
+    this.loadGlobals();
+  }
+
+  loadGlobals = () => {
+    fetch('/users/levels', {
+        headers: this.headers()
+    })
+    .then(results => {
+        return results.json();
+    })
+    .then(levels => {
+        
+        this.setState({"levels" : levels});
+
+    });
   }
       
     handleSelect = (key) => {
@@ -206,7 +221,7 @@ class NavPanel extends Component {
           : null }
            { this.checkAuthorisation('administrator') ?
           <Tab eventKey={5} title="Admin"  >
-              <AdminPane allusers={this.state.allusers} saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails} auth={this.props.auth}/>
+              <AdminPane allusers={this.state.allusers} saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails} auth={this.props.auth} levels={this.state.levels}/>
           </Tab>
           :null }
         </Tabs>

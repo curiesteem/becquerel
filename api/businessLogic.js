@@ -1,4 +1,6 @@
 var moment = require('moment');
+var User = require("../model/user");
+var CuratorLevels = require("../model/curatorlevels");
 
 /******************** */
 // this checks
@@ -33,9 +35,10 @@ exports.checkSubmission = function(submittedValues, postDetails)
     }
 }
 
-getPostMinutesForUser = function(user)
+getPostMinutesForUser = async function(username)
 {
-    return 45;
+    var user = await User.findOne({"user" : username });
+    console.log("getting post minutes for user " + JSON.stringify(user));
 }
 
 hasUserReachedLimit = function(user)
