@@ -86,39 +86,7 @@ class AdminPane extends Component {
 
     }
 
-    saveUser = () => {
-      fetch('/users/update/', {
-          method: 'post',
-          headers: this.headers(),
-          body: JSON.stringify(this.state.selecteduser)
-     })
-      .then(results => {
-          return results.json();
-      })
-      .then(data => {
-         
-          this.setState({"responseClasses" : 'show'});
-          if (data.response)
-          {
-           
-            this.setState({"response": data.response, "err" : null });
-          
-          }
-          else if (data.err)
-          {
-            this.setState({"err": data.err, "response" : null});
-          }
-          setTimeout(() => {
-            this.setState({"responseClasses" : '', "response": null, "err": null});
-            
-            
-        }, 4000);
-          
-     
-
-      });
-     
-  }
+   
 
   deleteUser = () => {
     console.log("delete user " + JSON.stringify(this.state.selecteduser));
@@ -191,7 +159,7 @@ class AdminPane extends Component {
 
             <div className="buttonwrapper">
 
-            <a className="btn btn-success" onClick={() => this.saveUser()} href="#"><i className="fa fa-save"></i> Save User</a>
+            <a className="btn btn-success" onClick={() => this.props.saveUserHandler(this.state.selecteduser)} href="#"><i className="fa fa-save"></i> Save User</a>
             </div>
 
           </FormGroup>

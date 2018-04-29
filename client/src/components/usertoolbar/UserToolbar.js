@@ -17,8 +17,10 @@ class UserToolbar extends Component {
       this.auth = new Auth;
       this.login = this.login.bind(this);
       this.logout = this.logout.bind(this);
+      this.authinfo = JSON.parse(localStorage.getItem('authtoken'));
     }
 
+    
     
 
     login =  () => {
@@ -44,7 +46,7 @@ class UserToolbar extends Component {
           <ul className="nav justify-content-end">
             <li className="nav-item" >
             { this.props.auth.isAuthenticated() ?
-            <a className="nav-link" onClick={this.logout} href="#">Logout</a> :
+            <a className="nav-link" onClick={this.logout} href="#">Logout @{this.authinfo.user}</a> :
             <a className="nav-link" onClick={this.login} href="#">Login</a>
             
             }

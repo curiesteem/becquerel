@@ -33,7 +33,7 @@ var validateAuth = function(perm)
 router.get('/toapprove', validateAuth('reviewer'), function(req, res, next) {
     console.log("getting posts to approve");
 
-    Post.find({'approved' : false}, function(err, posts) {
+    Post.find({ $and : [{'approved' : false}, {'rejected' : false} , {'closed' : false}]}, function(err, posts) {
         if (err) {
             res.send(err);
         }
@@ -80,6 +80,52 @@ router.post('/approve/:id', function(req, res, next) {
         else {
            
             res.json({ response: 'Post was approved ' + id });
+        }
+      });
+  
+});
+
+router.post('/reject/:id', function(req, res, next) {
+
+    var id = req.params.id;
+    console.log("Router to reject " + id);
+    const doc = {
+        rejected: true,
+        reviewTime : new Date()
+    }
+
+    Post.update({_id: id}, doc, function(err, raw) {
+
+        console.log("raw = " + raw);
+        if (err) {
+          res.send(err);
+        }
+        else {
+           
+            res.json({ response: 'Post was rejected ' + id });
+        }
+      });
+  
+});
+
+router.post('/close/:id', function(req, res, next) {
+
+    var id = req.params.id;
+    console.log("Router to close " + id);
+    const doc = {
+        closed: true,
+        reviewTime : new Date()
+    }
+
+    Post.update({_id: id}, doc, function(err, raw) {
+
+        console.log("raw = " + raw);
+        if (err) {
+          res.send(err);
+        }
+        else {
+           
+            res.json({ response: 'Post was closed ' + id });
         }
       });
   

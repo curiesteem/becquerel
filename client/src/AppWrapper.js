@@ -25,9 +25,8 @@ class AppWrapper extends Component {
   render() {
 
     const { auth } = this.props.auth;
-    console.log("render props auth= " + this.props.auth);
-    var location = this.props.location;
-    console.log(location);
+     var location = this.props.location;
+    //console.log(location);
 
       return (
           

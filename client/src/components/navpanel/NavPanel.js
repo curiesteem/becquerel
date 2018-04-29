@@ -104,7 +104,39 @@ class NavPanel extends Component {
         });
     }
 
-   
+    saveUser = (user) => {
+        fetch('/users/update/', {
+            method: 'post',
+            headers: this.headers(),
+            body: JSON.stringify(user)
+       })
+        .then(results => {
+            return results.json();
+        })
+        .then(data => {
+           
+            this.setState({"responseClasses" : 'show'});
+            if (data.response)
+            {
+             
+              this.setState({"response": data.response, "err" : null });
+            
+            }
+            else if (data.err)
+            {
+              this.setState({"err": data.err, "response" : null});
+            }
+            setTimeout(() => {
+              this.setState({"responseClasses" : '', "response": null, "err": null});
+              
+              
+          }, 4000);
+            
+       
+  
+        });
+       
+    }
 
 
     handleApprove = (_id) => {
@@ -127,10 +159,40 @@ class NavPanel extends Component {
     
     handleReject = (_id) => {
         console.log("handling reject for " + _id);
+        fetch('/posts/reject/' + _id, {
+
+            method: 'post',
+      
+            headers: this.headers(),
+             //body: JSON.stringify(submittedValues) 
+           })
+            .then(results => {
+                
+                return results.json();
+            })
+            .then(data => {
+               //this.setState({"response": data.response});
+               
+            })
     }
 
     handleClose = (_id) => {
         console.log("handling close for " + _id);
+        fetch('/posts/close/' + _id, {
+
+            method: 'post',
+      
+            headers: this.headers(),
+             //body: JSON.stringify(submittedValues) 
+           })
+            .then(results => {
+                
+                return results.json();
+            })
+            .then(data => {
+               //this.setState({"response": data.response});
+               
+            })
     }
     
     reload = () =>
@@ -165,7 +227,7 @@ class NavPanel extends Component {
           </Tab>
           : null }
            { this.checkAuthorisation('reviewer') ?
-          <Tab eventKey={3} title="Approve" >
+          <Tab eventKey={3} title="Review" >
              <ApprovePane {...this.props} approvalQueue={this.state.approvalQueue} closeHandler={this.handleClose} rejectHandler={this.handleReject} approveHandler={this.handleApprove} reload={this.reload}/>
           </Tab>
           : null} 

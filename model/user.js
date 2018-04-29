@@ -16,9 +16,10 @@ var UserSchema = new Schema({
     isTopCurator : {type: Boolean, default: false},
     enabled : {type: Boolean, default: true},
     maximumSubmissions : {type: Number},
+    
      
 
-});
+}, {versionKey: false});
 
 UserSchema.plugin(uniqueValidator);
 

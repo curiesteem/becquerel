@@ -27,6 +27,7 @@ class ProposePane extends Component {
      this.recaptchaInstance = null;
       this.formapi = null;
       this.verifyCallback = this.verifyCallback.bind(this);
+      this.authinfo = JSON.parse(localStorage.getItem('authtoken'));
       
       
     }
@@ -80,8 +81,8 @@ class ProposePane extends Component {
   submitValues = (submittedValues) =>
   {
     this.setState({"responseClasses" : ''});
-    submittedValues.submittedValues.curator = "markangeltrueman";
-    console.log("submitted values = " + JSON.stringify(submittedValues));
+    submittedValues.submittedValues.curator = this.authinfo.user;
+    // console.log("submitted values = " + JSON.stringify(submittedValues));
     if (this.state.captchaverified){
       fetch('/posts', {
 
@@ -91,11 +92,11 @@ class ProposePane extends Component {
         body: JSON.stringify(submittedValues) 
       })
         .then(results => {
-            console.log("results = " + JSON.stringify(results));
+           // console.log("results = " + JSON.stringify(results));
             return results.json();
         })
         .then(data => {
-          console.log("data = " + data);
+          //console.log("data = " + data);
           this.setState({"responseClasses" : 'show'});
           if (data.response)
           {
@@ -115,7 +116,7 @@ class ProposePane extends Component {
       }
       else {
         this.setState({"responseClasses" : 'show'});
-        console.log("captcha not completed");
+        //console.log("captcha not completed");
         this.setState({"err" : "Captcha Not Completed", "response": null});
         setTimeout(() => {
           this.setState({"responseClasses" : '', "response": null, "err": null});

@@ -171,9 +171,9 @@ class BlogPost extends Component {
                         <div className="optionbutton">
                             <a className="btn btn-info" onClick={(e) => this.submit("close", this.props.detail._id,e)} href="#"><i className="fa fa-times"></i> Close</a>
                             </div>
-                            <div className="optionbutton">
+                            {/* <div className="optionbutton">
                             <a className="btn btn-warning" onClick={(e) => this.submit("review", this.props.detail._id,e)} href="#"><i className="fa fa-eye"></i> Review</a>
-                            </div>
+                            </div> */}
                     </div>
                 </div>
            
