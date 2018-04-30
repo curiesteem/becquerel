@@ -1,6 +1,7 @@
 var moment = require('moment');
 var User = require("../model/user");
 var CuratorLevels = require("../model/curatorlevels");
+var Posts = require("../model/posts")
 
 /******************** */
 // this checks
@@ -17,13 +18,13 @@ exports.checkSubmission = async function(submittedValues, postDetails)
     }
     console.log(postDetails.post.created);
     //2018-01-16T18:07:18
-    var created = moment.utc(postDetails.post.created);
+    let created = moment.utc(postDetails.post.created);
     console.log("calling getpostminutesforuser for " + submittedValues.curator);
 
-    var user = await User.findOne({"user" : submittedValues.curator });
+    let user = await User.findOne({"user" : submittedValues.curator });
     console.log("getting post minutes for user " + JSON.stringify(user));
-    var limits = await CuratorLevels.findOne({"level" : user.level});
-    var minsPerUser = limits.minutes;
+    let limits = await CuratorLevels.findOne({"level" : user.level});
+    let minsPerUser = limits.minutes;
     
     if (moment.utc().diff(created,'minute') < minsPerUser)
     {
@@ -32,7 +33,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
     }
     else if(hasUserReachedLimit(user, limits))
     {
-        return {"err" : "You have reached your posting limit, if you feel this is in error, please contact an administrator"};
+        return {"err" : "You have reached your posting limit of " + limits.limit + " in the last 7 days."};
     }
     else {
 
@@ -42,7 +43,17 @@ exports.checkSubmission = async function(submittedValues, postDetails)
 
 
 
-hasUserReachedLimit = function(user, limits)
+hasUserReachedLimit = async (user, limits) =>
 {
+    // get posts for the user in the last 7 days
+    let oneWeekAgo = moment().utc().subtract(7, "days");
+    let posts = await Posts.find( { $and: [ {"curator" : user.user}, {"submittedtime" : {$gt: oneWeekAgo.toDate()}} ]})
+   // console.log(JSON.stringify(posts))
+    if (posts.length >= limits.limit)
+    {
+        // trying to submit more than they should in the last 7 days
+        return true;
+    }
+
     return false;
 }
