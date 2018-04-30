@@ -125,6 +125,7 @@ class ProposePane extends Component {
       }, 4000);
       }
       this.recaptchaInstance.reset();
+      this.setState({"captchaverified" : false});
   }
   
   

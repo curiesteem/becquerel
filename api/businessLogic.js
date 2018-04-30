@@ -14,11 +14,19 @@ exports.checkSubmission = async function(submittedValues, postDetails)
     console.log("Checking submissoin");
     if (postDetails.post === 'No post found')
     {
-        return   {"response" : "This URL does not exist, please double check your post URL and try again."};
+        return   {"err" : "This URL does not exist, please double check your post URL and try again."};
     }
     console.log(postDetails.post.created);
     //2018-01-16T18:07:18
     let created = moment.utc(postDetails.post.created);
+    // check to see if post is created in the last 24 hours
+    let yesterday  = moment().utc().subtract(24, "hours");
+
+    if (created.isBefore(yesterday))
+    {
+        return   {"err" : "Post is more than 24 hours old."};
+    }
+
     console.log("calling getpostminutesforuser for " + submittedValues.curator);
 
     let user = await User.findOne({"user" : submittedValues.curator });
@@ -47,7 +55,7 @@ hasUserReachedLimit = async (user, limits) =>
 {
     // get posts for the user in the last 7 days
     let oneWeekAgo = moment().utc().subtract(7, "days");
-    let posts = await Posts.find( { $and: [ {"curator" : user.user}, {"submittedtime" : {$gt: oneWeekAgo.toDate()}} ]})
+    let posts = await Posts.find( { $and: [ {"curator" : user.user}, {"submittedtime" : {$gt: oneWeekAgo.utc().toDate()}} ]})
    // console.log(JSON.stringify(posts))
     if (posts.length >= limits.limit)
     {
