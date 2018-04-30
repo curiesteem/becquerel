@@ -31,7 +31,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
             console.log("post is less that required " + minsPerUser);
             return {"err" : "Post is less than the required " + minsPerUser + " minutes old."};
     }
-    else if(hasUserReachedLimit(user, limits))
+    else if(await hasUserReachedLimit(user, limits))
     {
         return {"err" : "You have reached your posting limit of " + limits.limit + " in the last 7 days."};
     }
