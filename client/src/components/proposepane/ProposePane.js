@@ -42,40 +42,40 @@ class ProposePane extends Component {
     }
 
     verifyCallback =  (response) => {
-      console.log("verify callback");
-      var resp = ({"captcharesponse" : response});
-      console.log("response = " + JSON.stringify(resp));
-      fetch('/auth/captcha', {
-        method: 'post',
-        headers: this.headers(),
-        body: JSON.stringify(resp),
+      // console.log("verify callback");
+      // var resp = ({"captcharesponse" : response});
+      // console.log("response = " + JSON.stringify(resp));
+      // fetch('/auth/captcha', {
+      //   method: 'post',
+      //   headers: this.headers(),
+      //   body: JSON.stringify(resp),
        
 
-      })
-      .then(results => {
-        console.log("results = " + JSON.stringify(results));
-        return results.json();
-      })
-      .then(data => {
-       console.log(data);
+      // })
+      // .then(results => {
+      //   console.log("results = " + JSON.stringify(results));
+      //   return results.json();
+      // })
+      // .then(data => {
+      //  console.log(data);
        
-       if (data.success === true)
-       {
-         this.setState({"captchaverified" : true});
-       }
-       else {
-        this.setState({"responseClasses" : 'show'});
+      //  if (data.success === true)
+      //  {
+      //    this.setState({"captchaverified" : true});
+      //  }
+      //  else {
+      //   this.setState({"responseClasses" : 'show'});
           
-        this.setState({"captchaverified" : false});
-        this.setState({"err": "Captcha Not Completed", "response" : null});
-        setTimeout(() => {
-          this.setState({"responseClasses" : '', "response": null, "err": null});
+      //   this.setState({"captchaverified" : false});
+      //   this.setState({"err": "Captcha Not Completed", "response" : null});
+      //   setTimeout(() => {
+      //     this.setState({"responseClasses" : '', "response": null, "err": null});
           
           
-      }, 4000);
-       }
+      // }, 4000);
+      //  }
 
-      })
+      // })
     };
     
   submitValues = (submittedValues) =>
@@ -83,7 +83,7 @@ class ProposePane extends Component {
     this.setState({"responseClasses" : ''});
     submittedValues.submittedValues.curator = this.authinfo.user;
     // console.log("submitted values = " + JSON.stringify(submittedValues));
-    if (this.state.captchaverified){
+    //if (this.state.captchaverified){
       fetch('/posts', {
 
         method: 'post',
@@ -113,19 +113,19 @@ class ProposePane extends Component {
             
         }, 4000);
         })
-      }
-      else {
-        this.setState({"responseClasses" : 'show'});
-        //console.log("captcha not completed");
-        this.setState({"err" : "Captcha Not Completed", "response": null});
-        setTimeout(() => {
-          this.setState({"responseClasses" : '', "response": null, "err": null});
+      // }
+      // else {
+      //   this.setState({"responseClasses" : 'show'});
+      //   //console.log("captcha not completed");
+      //   this.setState({"err" : "Captcha Not Completed", "response": null});
+      //   setTimeout(() => {
+      //     this.setState({"responseClasses" : '', "response": null, "err": null});
         
           
-      }, 4000);
-      }
-      this.recaptchaInstance.reset();
-      this.setState({"captchaverified" : false});
+      // }, 4000);
+      //}
+     // this.recaptchaInstance.reset();
+     // this.setState({"captchaverified" : false});
   }
   
   
@@ -154,7 +154,7 @@ class ProposePane extends Component {
               <TextArea field="comments" id="comments" />
               </div>
               <div className="flexDiv">
-              <div className="recaptcha">
+              {/* <div className="recaptcha">
               <Recaptcha 
                 ref={e => this.recaptchaInstance = e}
                 sitekey="6LddmUUUAAAAAHGqH8NWVzipatirfyENOE1VXBsL"
@@ -163,7 +163,7 @@ class ProposePane extends Component {
                 onloadCallback={this.onLoadCallback}
                
               />
-              </div>
+              </div> */}
               <button type="submit">Submit</button>
             </div>
             
