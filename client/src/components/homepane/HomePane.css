@@ -1,19 +1,22 @@
 .homepane{
     text-align: left;
     margin-top: 30px;
-   
     padding-right: 10px;
     position: relative;
     width: 100%;
-    height: 100%;
+    height: -moz-calc(100vh - 300px);
+    height: -webkit-calc(100vh - 300px);
+    height: calc(100vh - 300px);
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .rowlist {
     position: relative;
     overflow-y: auto;
-    height: -moz-calc(100vh - 350px);
-    height: -webkit-calc(100vh - 350px);
-    height: calc(100vh - 350px);
+   
+    display: block;
 }
 
 .buttonWrapper
@@ -22,6 +25,7 @@
     flex-direction: row;
     margin-top: 10px;
     padding-left: 20px;
+    min-height: 30px !important;
 }
 
 .navbutton 

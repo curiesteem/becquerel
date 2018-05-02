@@ -76,11 +76,11 @@ class HomePane extends Component {
     
       return (
         <div className="homepane">
-        <div className="rowlist">
-          {rowslist}
+          <div className="rowlist">
+            {rowslist}
           </div>
           
-            <div className="buttonWrapper" >
+          <div className="buttonWrapper" >
 
 
             <a className="btn btn-info navbutton" onClick={this.decrementPage} href="#"><i className="fa fa-step-backward"></i> Newer</a>
