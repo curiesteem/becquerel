@@ -1,6 +1,7 @@
 
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
+var mongoosePaginate = require('mongoose-paginate');
 
 
 var Schema = mongoose.Schema;
@@ -25,6 +26,7 @@ var PostSchema = new Schema({
 });
 
 PostSchema.plugin(uniqueValidator);
+PostSchema.plugin(mongoosePaginate);
 
 //export our module to use in server.js
 module.exports = mongoose.model('Post', PostSchema);

@@ -23,12 +23,14 @@ class NavPanel extends Component {
       super( props );
        this.state = {
             "approvalQueue" : null,
+            "approvedPage" : 1
         
       }
 
       this.handleSelect = this.handleSelect.bind(this);
       this.reload = this.reload.bind(this);
       this.checkAuthorisation = this.checkAuthorisation.bind(this);
+      this.handlePageUpdate = this.handlePageUpdate.bind(this);
 
     
      
@@ -52,6 +54,16 @@ class NavPanel extends Component {
         this.setState({"levels" : levels});
 
     });
+  }
+
+  handlePageUpdate = (page) => {
+
+    
+      this.setState( { "approvedPage" : page }, () => {
+            this.loadApprovedQueue();
+        }
+        );
+      
   }
       
     handleSelect = (key) => {
@@ -92,7 +104,8 @@ class NavPanel extends Component {
     }
 
     loadApprovedQueue = () => {
-        fetch('/posts/approved', {
+        let page = 1;
+        fetch('/posts/approved/' + this.state.approvedPage, {
             headers: this.headers()
        })
         .then(results => {
@@ -202,7 +215,7 @@ class NavPanel extends Component {
         <div id="navpanel" className="navpanel">
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" onSelect={this.handleSelect}>
           <Tab eventKey={1} title="Home">
-              <HomePane approvedPosts={this.state.approvedPosts}/>
+              <HomePane approvedPosts={this.state.approvedPosts} pageUpdate={this.handlePageUpdate}/>
           </Tab>
           { this.checkAuthorisation('curator') ?
           <Tab eventKey={2} title="Propose">

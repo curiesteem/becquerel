@@ -46,17 +46,19 @@ router.get('/toapprove', validateAuth('reviewer'), function(req, res, next) {
     });
 });
 
-router.get('/approved', function(req, res, next) {
-    console.log("getting approved posts");
+router.get('/approved/:page', function(req, res, next) {
+    var thepage = req.params.page;
+    console.log("getting approved posts on page " + thepage);
 
-    Post.find({'approved' : true}, function(err, posts) {
+    Post.paginate({'approved' : true}, { page : thepage , limit:10}, function(err, posts) {
+    //Post.find({'approved' : true}, function(err, posts) {
         if (err) {
             res.send(err);
         }
         else  {
             //responds with a json object of our database comments.
-          //  console.log(posts);
-            res.json(posts);
+            console.log(posts);
+            res.json(posts.docs);
         }
 
     });

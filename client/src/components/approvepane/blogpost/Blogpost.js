@@ -166,7 +166,7 @@ class BlogPost extends Component {
                             <a className="btn btn-success" onClick={(e) => this.submit("approve", this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-up"></i> Approve</a>
                             </div>
                          <div className="optionbutton">
-                            <a className="btn btn-danger"onClick={(e) => this.submit("reject",this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-down"></i> Reject</a>
+                            <a className="btn btn-danger" onClick={(e) => this.submit("reject",this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-down"></i> Reject</a>
                             </div>
                         <div className="optionbutton">
                             <a className="btn btn-info" onClick={(e) => this.submit("close", this.props.detail._id,e)} href="#"><i className="fa fa-times"></i> Close</a>
