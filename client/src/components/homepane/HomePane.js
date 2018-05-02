@@ -76,10 +76,10 @@ class HomePane extends Component {
     
       return (
         <div className="homepane">
-        <div>
+        <div className="rowlist">
           {rowslist}
           </div>
-          <div>
+          
             <div className="buttonWrapper" >
 
 
@@ -88,7 +88,7 @@ class HomePane extends Component {
             <a className="btn btn-info navbutton" onClick={this.incrementPage} href="#"><i className="fa fa-step-forward"></i> Older</a>
           
             
-         </div>
+        
           </div>
         </div>
         

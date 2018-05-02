@@ -142,7 +142,7 @@ router.post('/' , validateAuth('curator'), function(req, res, next) {
     post.comments = req.body.submittedValues.comments;
     post.curator = req.body.submittedValues.curator;
     post.submittedtime = moment().utc();
-    console.log("curator = " + post.curator);
+    console.log("curator = " + post.curator + "has submitted post " + JSON.stringify(post));
 
    
     var url = post.url + ".json";
