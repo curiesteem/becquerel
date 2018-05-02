@@ -83,9 +83,9 @@ class HomePane extends Component {
             <div className="buttonWrapper" >
 
 
-            <a className="btn btn-info navbutton" onClick={this.decrementPage} href="#"><i className="fa fa-step-backward"></i> Previous Page</a>
+            <a className="btn btn-info navbutton" onClick={this.decrementPage} href="#"><i className="fa fa-step-backward"></i> Newer</a>
 
-            <a className="btn btn-info navbutton" onClick={this.incrementPage} href="#"><i className="fa fa-step-forward"></i> Next Page</a>
+            <a className="btn btn-info navbutton" onClick={this.incrementPage} href="#"><i className="fa fa-step-forward"></i> Older</a>
           
             
          </div>

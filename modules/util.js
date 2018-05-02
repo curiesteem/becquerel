@@ -34,8 +34,7 @@ module.exports.isAuthenticated = (req, res, next, permission) => {
                     // check the database to ensure that this user has still got permission
                     User.find({ 'user': token.user, 'curator': true }, function(err, obj) {
                         console.log(obj);
-                        if (err)
-                        {
+                        if (err) {
                             console.log(err);
                         }
                         if (obj.length > 0) {
@@ -47,7 +46,7 @@ module.exports.isAuthenticated = (req, res, next, permission) => {
                         }
                     })
 
-                } else 
+                } else
                     return res.status(401).send({ err: 'Failed to authenticate token.' });
             } else if (permission === "reviewer") {
                 if (token.reviewer === true) {
@@ -62,18 +61,32 @@ module.exports.isAuthenticated = (req, res, next, permission) => {
                     return res.status(401).send({ err: 'Failed to authenticate token.' });;
                 }
             } else if (permission === "administrator") {
-              if (token.administrator === true) {
-                  User.find({ 'user': token.user, 'administrator': true }, function(err, obj) {
-                      if (obj.length > 0) {
-                          return next();
-                      } else {
-                          return res.status(401).send({ err: 'Failed to authenticate token.' });
-                      }
-                  })
-              } else {
-                  return res.status(401).send({ err: 'Failed to authenticate token.' });;
-              }
-            // if(token.curator === true){
+                if (token.administrator === true) {
+                    User.find({ 'user': token.user, 'administrator': true }, function(err, obj) {
+                        if (obj.length > 0) {
+                            return next();
+                        } else {
+                            return res.status(401).send({ err: 'Failed to authenticate token.' });
+                        }
+                    })
+
+                } else {
+                    return res.status(401).send({ err: 'Failed to authenticate token.' });;
+                }
+                // if(token.curator === true){
+            }else if (permission === "accounter") {
+                if (token.accounter === true) {
+                    User.find({ 'user': token.user, 'accounter': true }, function(err, obj) {
+                        if (obj.length > 0) {
+                            return next();
+                        } else {
+                            return res.status(401).send({ err: 'Failed to authenticate token.' });
+                        }
+                    })
+
+                } else {
+                    return res.status(401).send({ err: 'Failed to authenticate token.' });;
+                }
             }
             // }
         }

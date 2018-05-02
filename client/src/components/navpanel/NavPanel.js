@@ -4,6 +4,7 @@ import React, { Component } from 'react';
   import ApprovePane from "../approvepane/ApprovePane";
   import AccountsPane from "../accountspane/AccountsPane";
   import AdminPane from "../adminpane/AdminPane";
+  import moment from 'moment'
 
 
 import { Tabs, Tab } from "react-bootstrap";
@@ -207,6 +208,27 @@ class NavPanel extends Component {
 
     }
 
+    generateCuratorReport = (startTime, endTime) =>
+    {
+        console.log(startTime +" - " + endTime);
+        if (startTime && endTime) {
+        fetch('/accounts/curator/' + startTime + "/" + endTime, {
+
+            method: 'post',
+      
+            headers: this.headers(),
+             //body: JSON.stringify(submittedValues) 
+           })
+            .then(results => {
+                
+                return results.json();
+            })
+            .then(data => {
+               //this.setState({"response": data.response});
+               
+            })
+        }
+    }
    
  
 
@@ -229,7 +251,7 @@ class NavPanel extends Component {
           : null} 
            { this.checkAuthorisation('accounter') ?
           <Tab eventKey={4} title="Accounts" >
-             <AccountsPane/>
+             <AccountsPane generateCuratorReport={this.generateCuratorReport}/>
           </Tab>
           : null }
            { this.checkAuthorisation('administrator') ?

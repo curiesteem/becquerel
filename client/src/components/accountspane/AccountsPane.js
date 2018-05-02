@@ -18,25 +18,26 @@ class AccountsPane extends Component {
       
     }
   
-    submit(event) {
-      console.log("generating report between " + this.state.start.format() + " and " + this.state.end.format());
+    generateCuratorReport = (event)  => {
+      //console.log("generating report between " + this.state.start.format() + " and " + this.state.end.format());
       event.preventDefault();
+      this.props.generateCuratorReport(this.state.start,this.state.end)
       
     }
  
     startChanged = (time) => {
-      this.state.start = moment(time);
+      this.setState({start : moment(time)});
       console.log("start changed " + moment(time).format());
     }
 
     endChanged = (time) => {
-      this.state.end = moment(time);
+      this.setState({end : moment(time)});
       console.log("end changed " + moment(time).format());
     }
 
   render() {
 
-   
+    console.log(this.state.start)
 
       return (
 
@@ -54,10 +55,14 @@ class AccountsPane extends Component {
           <div className="calwrapper">
           To:
             <Datetime utc={true} onChange={this.endChanged}/>
+          </div>
+
+          <div className="buttonwrap">
+              <a className="btn btn-success" onClick={this.generateCuratorReport} href="#" disabled={this.state.start == null || this.state.end==null}><i className="fa fa-cogs"></i> Generate</a>
             </div>
             
-            <a className="btn btn-success" onClick={(e) => this.submit(e)} href="#"><i className="fa fa-thumbs-o-up"></i> Submit</a>
         </div>
+        
         </div>
         
      

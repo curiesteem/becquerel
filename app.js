@@ -11,6 +11,7 @@ var index = require('./routes/index');
 var posts = require('./routes/posts');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
+var accounts = require('./routes/accounts')
 var mongoose = require('mongoose');
 
 
@@ -68,6 +69,7 @@ app.use('/', index);
 app.use('/posts', posts);
 app.use('/users', users);
 app.use('/auth', auth);
+app.use('/accounts', accounts);
 
 
 // catch 404 and forward to error handler
