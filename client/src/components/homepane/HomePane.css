@@ -4,9 +4,9 @@
     padding-right: 10px;
     position: relative;
     width: 100%;
-    height: -moz-calc(100vh - 300px);
-    height: -webkit-calc(100vh - 300px);
-    height: calc(100vh - 300px);
+    height: -moz-calc(100vh - 210px);
+    height: -webkit-calc(100vh - 210px);
+    height: calc(100vh - 210px);
     display:flex;
     flex-direction: column;
     align-items: flex-start;
