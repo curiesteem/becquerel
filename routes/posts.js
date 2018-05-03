@@ -67,10 +67,14 @@ router.get('/approved/:page', function(req, res, next) {
 router.post('/approve/:id', function(req, res, next) {
 
     var id = req.params.id;
+    var comment = req.body.comment;
+    var user = req.body.user;
     console.log("Router to approve " + id);
     const doc = {
         approved: true,
-        reviewTime : new Date()
+        reviewTime : new Date(),
+        reviewerComment : comment,
+        reviewer : user
     }
 
     Post.update({_id: id}, doc, function(err, raw) {
@@ -90,10 +94,14 @@ router.post('/approve/:id', function(req, res, next) {
 router.post('/reject/:id', function(req, res, next) {
 
     var id = req.params.id;
+    var comment = req.body.comment;
+    var user = req.body.user;
     console.log("Router to reject " + id);
     const doc = {
         rejected: true,
-        reviewTime : new Date()
+        reviewTime : new Date(),
+        reviewerComment : comment,
+        reviewer : user
     }
 
     Post.update({_id: id}, doc, function(err, raw) {
@@ -113,10 +121,14 @@ router.post('/reject/:id', function(req, res, next) {
 router.post('/close/:id', function(req, res, next) {
 
     var id = req.params.id;
+    var comment = req.body.comment;
+    var user = req.body.user;
     console.log("Router to close " + id);
     const doc = {
         closed: true,
-        reviewTime : new Date()
+        reviewTime : new Date(),
+        reviewerComment : comment,
+        reviewer : user
     }
 
     Post.update({_id: id}, doc, function(err, raw) {

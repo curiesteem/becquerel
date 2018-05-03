@@ -3,10 +3,60 @@ var moment = require('moment')
 var Json2csvParser = require('json2csv').Parser;
 
 
+module.exports.generateDetailedReport = async(start, end, user) => {
+    let s = moment(start).utc();
+    let e = moment(end).utc();
 
+    let csv = null;
+
+    // need a query to get all posts 
+    var posts = null;
+    if (user && user != 'undefined')
+    {
+        posts = await Post.find({ $and : [{ "submittedtime": { $gte: s, $lt: e } }, {"curator" : user}]})
+    }
+    else {
+        posts = await Post.find({ "submittedtime": { $gte: s, $lt: e } })
+    }
+
+    
+
+    if (!posts || posts.length == 0) {
+        console.log("invalid parameter");
+        return ("error");
+    }
+
+    for (var i = 0; i < posts.length; i++) {
+        let post = posts[i];
+        // just add a json object for each row to the results array
+        post.state = post.approved ? "Approved" : post.rejected ? "Rejected" : post.closed ? "Closed"  : "Queued";
+        // get the author - index of first @ and index of next /
+        
+        post.author = post.url.substring(post.url.indexOf("@")+1, post.url.indexOf("/", post.url.indexOf("@")))
+        post.subFormat = moment(post.submittedtime).format("YYYY-MM-DD HH:MM:SS");
+        post.revFormat = moment(post.reviewTime).format("YYYY-MM-DD HH:MM:SS");
+        //console.log(author);
+    }
+
+    const fields = [{label: 'SubmittedTime', value :'subFormat'} , {label: 'ReviewTime' , value: 'revFormat'}, {label : 'Curator', value: 'curator'},{label: 'Reviewer', value: 'reviewer'}
+                                ,{label : 'Author', value : 'author'},{label: 'URL', value: 'url'},{label: 'State' , value : 'state'},{label: 'CuratorComments', value: 'comments'},{label: 'ReviewerComment' , value : 'reviewerComment'}];
+    const json2csvParser = new Json2csvParser({ fields });
+    csv = json2csvParser.parse(posts);
+
+    console.log(csv);
+
+
+
+    return csv;
+
+}
+
+module.exports.generateReviewerReport = async(start, end) => {
+
+}
 
 // generate the basic report of AR/CS/CLOSURES/SUBMISSOINS
-module.exports.generateReport = async(start, end) => {
+module.exports.generateReport = async(start, end, user) => {
     // convert these dates to moments to start with
     let s = moment(start).utc();
     let e = moment(end).utc();
@@ -14,7 +64,15 @@ module.exports.generateReport = async(start, end) => {
     let csv = null;
 
     // need a query to get all posts 
-    var posts = await Post.find({ "submittedtime": { $gte: s, $lt: e } })
+    var posts = null;
+    if (user && user != 'undefined')
+    {
+        posts = await Post.find({ $and: [{ "submittedtime": { $gte: s, $lt: e } }, {"curator" : user}]})
+    }
+    else {
+        posts = await Post.find({ "submittedtime": { $gte: s, $lt: e } })
+    }
+    
 
     let results = [];
 

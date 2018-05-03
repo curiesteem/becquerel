@@ -34,6 +34,8 @@ class NavPanel extends Component {
       this.checkAuthorisation = this.checkAuthorisation.bind(this);
       this.handlePageUpdate = this.handlePageUpdate.bind(this);
 
+      this.authinfo = JSON.parse(localStorage.getItem('authtoken'));
+
     
      
   }
@@ -83,7 +85,7 @@ class NavPanel extends Component {
             
         }
 
-        if (key === 5){
+        if (key === 5 || key == 4){
             // admin tab selected
             
             this.loadUserDetails();
@@ -137,13 +139,16 @@ class NavPanel extends Component {
    
 
 
-    handleApprove = (_id) => {
+    handleApprove = (_id, comment) => {
+        let details = {}
+        details.comment = comment;
+        details.user = this.authinfo.user
         fetch('/posts/approve/' + _id, {
 
             method: 'post',
       
             headers: this.headers(),
-             //body: JSON.stringify(submittedValues) 
+             body: JSON.stringify(details)
            })
             .then(results => {
                 
@@ -155,14 +160,17 @@ class NavPanel extends Component {
             })
     }
     
-    handleReject = (_id) => {
+    handleReject = (_id, comment) => {
+        let details = {}
+        details.comment = comment;
+        details.user = this.authinfo.user
         console.log("handling reject for " + _id);
         fetch('/posts/reject/' + _id, {
 
             method: 'post',
       
             headers: this.headers(),
-             //body: JSON.stringify(submittedValues) 
+            body: JSON.stringify(details)
            })
             .then(results => {
                 
@@ -174,14 +182,17 @@ class NavPanel extends Component {
             })
     }
 
-    handleClose = (_id) => {
+    handleClose = (_id, comment) => {
+        let details = {}
+        details.comment = comment;
+        details.user = this.authinfo.user
         console.log("handling close for " + _id);
         fetch('/posts/close/' + _id, {
 
             method: 'post',
       
             headers: this.headers(),
-             //body: JSON.stringify(submittedValues) 
+            body: JSON.stringify(details)
            })
             .then(results => {
                 
@@ -209,11 +220,11 @@ class NavPanel extends Component {
 
     }
 
-    generateCuratorReport = (startTime, endTime) =>
+    generateCuratorReport = (startTime, endTime, user) =>
     {
         console.log(startTime +" - " + endTime);
         if (startTime && endTime) {
-        fetch('/accounts/curator/' + startTime + "/" + endTime, {
+        fetch('/accounts/curator/' + startTime + "/" + endTime + "/" + user, {
 
             method: 'post',
       
@@ -228,6 +239,58 @@ class NavPanel extends Component {
                 console.log(data);
                 // data is a blob, download it
                 let filename = "CuratorReport-" + moment(startTime).utc().format("YYYY-MM-DD HH:mm") + " - "+ moment(endTime).utc().format("YYYY-MM-DD HH:mm")+".csv";
+                FileSaver.saveAs(data,filename);
+
+               
+            })
+        }
+    }
+
+    generateDetailedCuratorReport = (startTime, endTime, user) =>
+    {
+        console.log(startTime +" - " + endTime);
+        if (startTime && endTime) {
+        fetch('/accounts/curatordetailed/' + startTime + "/" + endTime + "/" + user, {
+
+            method: 'post',
+      
+            headers: this.headers(),
+             //body: JSON.stringify(submittedValues) 
+           })
+            .then(results => {
+                console.log("results = " + JSON.stringify(results));
+                return results.blob();
+            })
+            .then(data => {
+                console.log(data);
+                // data is a blob, download it
+                let filename = "CuratorDetailedReport-" + moment(startTime).utc().format("YYYY-MM-DD HH:mm") + " - "+ moment(endTime).utc().format("YYYY-MM-DD HH:mm")+".csv";
+                FileSaver.saveAs(data,filename);
+
+               
+            })
+        }
+    }
+
+    generateReviewerReport = (startTime, endTime) =>
+    {
+        console.log(startTime +" - " + endTime);
+        if (startTime && endTime) {
+        fetch('/accounts/reviewer/' + startTime + "/" + endTime, {
+
+            method: 'post',
+      
+            headers: this.headers(),
+             //body: JSON.stringify(submittedValues) 
+           })
+            .then(results => {
+                console.log("results = " + JSON.stringify(results));
+                return results.blob();
+            })
+            .then(data => {
+                console.log(data);
+                // data is a blob, download it
+                let filename = "ReviewerReport-" + moment(startTime).utc().format("YYYY-MM-DD HH:mm") + " - "+ moment(endTime).utc().format("YYYY-MM-DD HH:mm")+".csv";
                 FileSaver.saveAs(data,filename);
 
                
@@ -256,7 +319,8 @@ class NavPanel extends Component {
           : null} 
            { this.checkAuthorisation('accounter') ?
           <Tab eventKey={4} title="Accounts" >
-             <AccountsPane generateCuratorReport={this.generateCuratorReport}/>
+             <AccountsPane generateCuratorReport={this.generateCuratorReport} generateDetailedCuratorReport={this.generateDetailedCuratorReport} 
+                                    generateReviewerReport={this.generateReviewerReport} allusers={this.state.allusers}/>
           </Tab>
           : null }
            { this.checkAuthorisation('administrator') ?

@@ -22,6 +22,7 @@ var PostSchema = new Schema({
     body : String,
     submitterComment:  String,
     reviewerComment: String,
+    reviewer : String,
 
 });
 

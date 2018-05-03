@@ -64,17 +64,17 @@ class BlogPost extends Component {
         {
            
            
-            this.props.approveHandler(id);
+            this.props.approveHandler(id, this.state.revcomment);
         }
         if (type === "reject")
         {
           
-            this.props.rejectHandler(id);
+            this.props.rejectHandler(id, this.state.revcomment);
         }
         if (type === "close")
         {
            
-            this.props.closeHandler(id);
+            this.props.closeHandler(id, this.state.revcomment);
         }
         if (type === "review")
         {
@@ -153,13 +153,13 @@ class BlogPost extends Component {
                     </div>
 
                     <div className="body-row optionbuttons">
-                        <div className="submitterComments">
+                        {/* <div className="submitterComments">
                             Comments for Submitter
                           <textarea id="subcomments" rows="2" cols="150" onChange={this.handleSubCommentChange}/>
-                        </div>
+                        </div> */}
 
                         <div className="reviewerComments">
-                            Comments for Other Reviewers
+                            Reviewer Comments
                           <textarea id="reviewcomments" rows="2" cols="150"onChange={this.handleRevCommentChange} />
                         </div>
                         <div className="optionbutton">

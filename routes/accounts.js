@@ -23,7 +23,7 @@ var validateAuth = function(perm)
     {
         console.log(JSON.parse(req.token));
 
-        // return next();
+       
  
          var ret = util.isAuthenticated(req, res, next, perm);
         
@@ -31,23 +31,41 @@ var validateAuth = function(perm)
 }
 
 
-router.post('/curator/:start/:end', validateAuth('accounter'), async function(req, res, next) {
+router.post('/curator/:start/:end/:user', validateAuth('accounter'), async function(req, res, next) {
     var start = Number(req.params.start);
     var end = Number(req.params.end);
+    var user = req.params.user; // could be null
     console.log("getting curator report between " + moment(start).utc().format() + " and " + moment(end).utc().format());
-    let csv =  await accountshelper.generateReport(start, end);
-    //console.log ("csv = " + csv)
-   
-
-    // res.setHeader('Content-disposition', 'attachment; filename=testing.csv');
-    // res.writeHead(200, {
-    //     'Content-Type': 'text/csv'
-    // });
+    let csv =  await accountshelper.generateReport(start, end, user);
+    
 
     res.status(200).send(csv);
-    // res.setHeader('Content-disposition', 'attachment; filename=' + filename+ '.csv');
-    // res.set('Content-Type', 'text/csv');
-    // res.status(200).send(csv);
+    
+    
+});
+
+router.post('/curatordetailed/:start/:end/:user', validateAuth('accounter'), async function(req, res, next) {
+    var start = Number(req.params.start);
+    var end = Number(req.params.end);
+    var user = req.params.user; // could be null
+    console.log("getting curator detailedreport between " + moment(start).utc().format() + " and " + moment(end).utc().format());
+    let csv =  await accountshelper.generateDetailedReport(start, end, user);
+    
+
+    res.status(200).send(csv);
+    
+    
+});
+
+router.post('/reviewer/:start/:end/', validateAuth('accounter'), async function(req, res, next) {
+    var start = Number(req.params.start);
+    var end = Number(req.params.end);
+    var user = req.params.user; // could be null
+    console.log("getting curator report between " + moment(start).utc().format() + " and " + moment(end).utc().format());
+    let csv =  await accountshelper.generateReviewerReport(start, end);
+   
+    res.status(200).send(csv);
+   
     
 });
 

@@ -1,6 +1,8 @@
 .accountsmain {
    
     margin-top : 10px;
+    display: flex;
+    flex-direction: column;
    
 }
 
@@ -17,6 +19,14 @@
 .calwrapper
 {
     /* max-width: 200px; */
+    margin-top: 20px;
+    margin-left:10px;
+    text-align: left;
+}
+.dropdownwrapper
+{
+    /* max-width: 200px; */
+    min-width: 250px;
     margin-top: 20px;
     margin-left:10px;
     text-align: left;
@@ -236,9 +246,13 @@
     font-size: 1.2em;
     margin-top: 37px;
   }
+  .buttonswrapper {
+    display: flex;
+    flex-direction: row;
+  }
 
   .buttonwrap {
-    max-width: 50px;
+    /* max-width: 50px; */
     max-height: 50px;
     margin-left: 20px;
     margin-top : 40px;
