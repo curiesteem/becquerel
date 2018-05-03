@@ -6,6 +6,7 @@ var businessLogic = require('../api/businessLogic')
 var rp = require('request-promise-native');
 var moment = require('moment');
 var util = require('../modules/util');
+var accountshelper = require('../modules/accountshelper')
 
 
 
@@ -30,13 +31,23 @@ var validateAuth = function(perm)
 }
 
 
-router.post('/curator/:start/:end', validateAuth('accounter'), function(req, res, next) {
+router.post('/curator/:start/:end', validateAuth('accounter'), async function(req, res, next) {
     var start = Number(req.params.start);
     var end = Number(req.params.end);
     console.log("getting curator report between " + moment(start).utc().format() + " and " + moment(end).utc().format());
+    let csv =  await accountshelper.generateReport(start, end);
+    //console.log ("csv = " + csv)
+   
 
-    
+    // res.setHeader('Content-disposition', 'attachment; filename=testing.csv');
+    // res.writeHead(200, {
+    //     'Content-Type': 'text/csv'
+    // });
 
+    res.status(200).send(csv);
+    // res.setHeader('Content-disposition', 'attachment; filename=' + filename+ '.csv');
+    // res.set('Content-Type', 'text/csv');
+    // res.status(200).send(csv);
     
 });
 

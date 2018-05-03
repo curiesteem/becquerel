@@ -5,6 +5,7 @@ import React, { Component } from 'react';
   import AccountsPane from "../accountspane/AccountsPane";
   import AdminPane from "../adminpane/AdminPane";
   import moment from 'moment'
+  import FileSaver from 'file-saver';
 
 
 import { Tabs, Tab } from "react-bootstrap";
@@ -220,11 +221,15 @@ class NavPanel extends Component {
              //body: JSON.stringify(submittedValues) 
            })
             .then(results => {
-                
-                return results.json();
+                console.log("results = " + JSON.stringify(results));
+                return results.blob();
             })
             .then(data => {
-               //this.setState({"response": data.response});
+                console.log(data);
+                // data is a blob, download it
+                let filename = "CuratorReport-" + moment(startTime).utc().format("YYYY-MM-DD HH:mm") + " - "+ moment(endTime).utc().format("YYYY-MM-DD HH:mm")+".csv";
+                FileSaver.saveAs(data,filename);
+
                
             })
         }
