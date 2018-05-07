@@ -29,12 +29,12 @@ module.exports.generateDetailedReport = async(start, end, user) => {
     for (var i = 0; i < posts.length; i++) {
         let post = posts[i];
         // just add a json object for each row to the results array
-        post.state = post.approved ? "Approved" : post.rejected ? "Rejected" : post.closed ? "Closed"  : "Queued";
+        post.state = post.approved ? "1" : post.rejected ? "0" : post.closed ? "x"  : "c";
         // get the author - index of first @ and index of next /
         
         post.author = post.url.substring(post.url.indexOf("@")+1, post.url.indexOf("/", post.url.indexOf("@")))
-        post.subFormat = moment(post.submittedtime).format("YYYY-MM-DD HH:MM:SS");
-        post.revFormat = moment(post.reviewTime).format("YYYY-MM-DD HH:MM:SS");
+        post.subFormat = moment(post.submittedtime).format("YYYY-MM-DD HH:MM:ss");
+        post.revFormat = moment(post.reviewTime).format("YYYY-MM-DD HH:MM:ss");
         //console.log(author);
     }
 
@@ -89,8 +89,8 @@ module.exports.generateReviewerReport = async(start, end, user) => {
         // get the author - index of first @ and index of next /
         
        // post.author = post.url.substring(post.url.indexOf("@")+1, post.url.indexOf("/", post.url.indexOf("@")))
-        post.subFormat = moment(post.submittedtime).format("YYYY-MM-DD HH:MM:SS");
-        post.revFormat = moment(post.reviewTime).format("YYYY-MM-DD HH:MM:SS");
+        post.subFormat = moment(post.submittedtime).format("YYYY-MM-DD HH:MM:ss");
+        post.revFormat = moment(post.reviewTime).format("YYYY-MM-DD HH:MM:ss");
         //console.log(author);
     }
 

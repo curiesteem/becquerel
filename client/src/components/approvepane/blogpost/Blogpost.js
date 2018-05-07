@@ -137,7 +137,7 @@ class BlogPost extends Component {
                     return (
                         
                         <div key={row.timestamp}>
-                           "{row.comment}"  - <i>{row.commenter}</i> at {moment(row.timestamp).utc().format("DD-MMM-YYYY HH:MM:SS UTC")} <br/>
+                           "{row.comment}"  - <i>{row.commenter}</i> at {moment(row.timestamp).utc().format("DD-MMM-YYYY HH:MM:ss UTC")} <br/>
                         </div>
                             
                         )  
