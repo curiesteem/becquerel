@@ -21,8 +21,14 @@ var PostSchema = new Schema({
     posttime : Date,
     body : String,
     submitterComment:  String,
-    reviewerComment: String,
     reviewer : String,
+    commentHistory : [
+        {
+            timestamp : {type : Date},
+            comment : {type : String},
+            commenter : {type : String}
+        }
+    ]
 
 });
 

@@ -45,15 +45,16 @@ class BlogPost extends Component {
 
       submit = (type,id, e) => {
          
-        confirmAlert({
-          title: 'Confirm to ' + type + ' this submission',                        // Title dialog
-          message: 'Are you sure you want to ' + type + ' this submission.',               // Message dialog
+        // confirmAlert({
+        //   title: 'Confirm to ' + type + ' this submission',                        // Title dialog
+        //   message: 'Are you sure you want to ' + type + ' this submission.',               // Message dialog
           
-          confirmLabel: 'Confirm',                           // Text button confirm
-          cancelLabel: 'Cancel',                             // Text button cancel
-          onConfirm: () => this.doSubmit(type,id,e),    // Action after Confirm
-         // onCancel: () => alert('Action after Cancel'),      // Action after Cancel - nothing
-        })
+        //   confirmLabel: 'Confirm',                           // Text button confirm
+        //   cancelLabel: 'Cancel',                             // Text button cancel
+        //   onConfirm: () => this.doSubmit(type,id,e),    // Action after Confirm
+        //  // onCancel: () => alert('Action after Cancel'),      // Action after Cancel - nothing
+        // })
+        this.doSubmit(type,id,e)
       };
    
 
@@ -76,11 +77,19 @@ class BlogPost extends Component {
            
             this.props.closeHandler(id, this.state.revcomment);
         }
-        if (type === "review")
+        if (type === "comment")
         {
            
-            //this.props.closeHandler(id);
+            this.props.commentHandler(id, this.state.revcomment);
+            this.setState({
+                revcomment: ""
+              });
+            this.refs.reviewcomments.value = ""
+            return;
         }
+
+       
+
         this.setState({"panelClass" : 'panel fadeOut'});
         setTimeout(() => {
             if (this.props.reload)
@@ -116,6 +125,29 @@ class BlogPost extends Component {
                 {thebody}
             </Popover>
         );
+
+        // build comments if needed
+        let comments = null;
+        if (this.props.detail.commentHistory && this.props.detail.commentHistory.length > 0)
+        { 
+
+            comments = this.props.detail.commentHistory.map(function(row) 
+                {
+                    
+                    return (
+                        
+                        <div key={row.timestamp}>
+                           "{row.comment}"  - <i>{row.commenter}</i> at {moment(row.timestamp).utc().format("DD-MMM-YYYY HH:MM:SS UTC")} <br/>
+                        </div>
+                            
+                        )  
+                                
+
+                }, this);
+
+
+           
+        }
         
 
         return (
@@ -151,7 +183,9 @@ class BlogPost extends Component {
                     <div className="body-row postedstats ">
                         Posted on Steemit {postHours > 0 ? postHours + " hours and ": null} {postMins} minutes ago | Submitted for approval {propHours > 0 ? propHours + " hours and ": null} {propMins} minutes ago
                     </div>
-
+                    <div className="body-row reviewComments ">
+                        {comments}
+                    </div>
                     <div className="body-row optionbuttons">
                         {/* <div className="submitterComments">
                             Comments for Submitter
@@ -160,13 +194,16 @@ class BlogPost extends Component {
 
                         <div className="reviewerComments">
                             Reviewer Comments
-                          <textarea id="reviewcomments" rows="2" cols="150"onChange={this.handleRevCommentChange} />
+                          <textarea id="reviewcomments" ref="reviewcomments" rows="2" cols="150" onChange={this.handleRevCommentChange} />
                         </div>
                         <div className="optionbutton">
                             <a className="btn btn-success" onClick={(e) => this.submit("approve", this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-up"></i> Approve</a>
                             </div>
                          <div className="optionbutton">
                             <a className="btn btn-danger" onClick={(e) => this.submit("reject",this.props.detail._id, e)} href="#"><i className="fa fa-thumbs-o-down"></i> Reject</a>
+                            </div>
+                            <div className="optionbutton">
+                            <a className="btn btn-warning" onClick={(e) => this.submit("comment",this.props.detail._id, e)} href="#"><i className="fa fa-comments"></i> Comment</a>
                             </div>
                         <div className="optionbutton">
                             <a className="btn btn-info" onClick={(e) => this.submit("close", this.props.detail._id,e)} href="#"><i className="fa fa-times"></i> Close</a>

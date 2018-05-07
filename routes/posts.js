@@ -2,6 +2,7 @@ var Steem =require('steem');
 var express = require('express');
 var router = express.Router();
 var Post = require('../model/posts');
+var Comment = require('../model/comment');
 var businessLogic = require('../api/businessLogic')
 var rp = require('request-promise-native');
 var moment = require('moment');
@@ -72,7 +73,7 @@ router.post('/approve/:id', function(req, res, next) {
     console.log("Router to approve " + id);
     const doc = {
         approved: true,
-        reviewTime : new Date(),
+        reviewTime : moment().utc(),
         reviewerComment : comment,
         reviewer : user
     }
@@ -99,7 +100,7 @@ router.post('/reject/:id', function(req, res, next) {
     console.log("Router to reject " + id);
     const doc = {
         rejected: true,
-        reviewTime : new Date(),
+        reviewTime : moment().utc(),
         reviewerComment : comment,
         reviewer : user
     }
@@ -118,6 +119,58 @@ router.post('/reject/:id', function(req, res, next) {
   
 });
 
+router.post('/comment/:id', function(req, res, next) {
+
+    var id = req.params.id;
+    var c = req.body.comment;
+    var user = req.body.user;
+    console.log("Router to comment " + id);
+
+    const comment = { "$push" :    
+        { "commentHistory" : {
+        commenter : user,
+        comment : c,
+        timestamp : moment.utc(),
+       
+        }}
+       
+    }
+
+    Post.update({_id: id}, comment, function(err, raw) {
+
+        console.log("raw = " + raw);
+        if (err) {
+          res.send(err);
+        }
+        else {
+           
+            res.json({ response: 'Post was commented ' + id });
+        }
+      });
+  
+    
+    // var c = new Comment();
+    // c.post_id = id;
+    // c.commenter = user;
+    // c.comment = comment;
+    // c.timestamp = moment().utc();
+
+
+    // c.save(function(err, raw) {
+
+    //     if (err) {
+    //         console.log(err);
+    //       res.send(err);
+    //     }
+    //     else {
+    //         console.log("raw = " + raw);
+        
+    //         res.json({ response: 'Added Comment ' + id });
+    //     }
+    //   });
+  
+});
+
 router.post('/close/:id', function(req, res, next) {
 
     var id = req.params.id;
@@ -126,7 +179,7 @@ router.post('/close/:id', function(req, res, next) {
     console.log("Router to close " + id);
     const doc = {
         closed: true,
-        reviewTime : new Date(),
+        reviewTime : moment().utc(),
         reviewerComment : comment,
         reviewer : user
     }

@@ -30,7 +30,9 @@ class ApprovePane extends Component {
         
           return (
             
-              <BlogPost key={row._id} detail={row} closeHandler={this.props.closeHandler} rejectHandler={this.props.rejectHandler} approveHandler={this.props.approveHandler} reload={this.props.reload}/>
+              <BlogPost key={row._id} detail={row} closeHandler={this.props.closeHandler} 
+                  rejectHandler={this.props.rejectHandler} approveHandler={this.props.approveHandler} 
+                  commentHandler={this.props.commentHandler} reload={this.props.reload}/>
             
 
                    

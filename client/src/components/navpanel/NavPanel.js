@@ -182,6 +182,29 @@ class NavPanel extends Component {
             })
     }
 
+    handleComment = (_id, comment) => {
+        let details = {}
+        details.comment = comment;
+        details.user = this.authinfo.user
+        console.log("handling comment for " + _id + " + comment = " + comment);
+        fetch('/posts/comment/' + _id, {
+
+            method: 'post',
+      
+            headers: this.headers(),
+            body: JSON.stringify(details)
+           })
+            .then(results => {
+                
+                return results.json();
+            })
+            .then(data => {
+               //this.setState({"response": data.response});
+               this.loadReviewerQueue();
+            })
+    }
+
+
     handleClose = (_id, comment) => {
         let details = {}
         details.comment = comment;
@@ -314,7 +337,10 @@ class NavPanel extends Component {
           : null }
            { this.checkAuthorisation('reviewer') ?
           <Tab eventKey={3} title="Review" >
-             <ApprovePane {...this.props} approvalQueue={this.state.approvalQueue} closeHandler={this.handleClose} rejectHandler={this.handleReject} approveHandler={this.handleApprove} reload={this.reload}/>
+             <ApprovePane {...this.props} approvalQueue={this.state.approvalQueue} closeHandler={this.handleClose} 
+                                        rejectHandler={this.handleReject} approveHandler={this.handleApprove} 
+                                        commentHandler={this.handleComment}
+                                        reload={this.reload}/>
           </Tab>
           : null} 
            { this.checkAuthorisation('accounter') ?
