@@ -42,6 +42,14 @@ class ApprovedPost extends Component {
         var propMins = sinceProposal - (propDays * (60*24))
         var propHours =  Math.floor(propMins / 60);
         propMins = propMins - propHours*60;
+
+        // calculate review time
+        var reviewTime = moment(this.props.detail.reviewTime).utc();
+        var sinceReview = moment.utc().diff(reviewTime, 'minute');
+        var revDays = Math.floor(sinceReview / (60*24));
+        var revMins = sinceReview - (revDays * (60*24))
+        var revHours =  Math.floor(revMins / 60);
+        revMins = revMins - revHours*60;
        
        
        
@@ -75,7 +83,8 @@ class ApprovedPost extends Component {
              -  Posted {postDays > 0 ? `${postDays} days,` : null} {postHours > 0 ? `${postHours} hours and ` : null} {postMins} minutes ago.
             </div>
             <div className="bottomrow">
-                Proposed by @{this.props.detail.curator} {propDays > 0 ? `${propDays} days,` : null} {propHours > 0 ? `${propHours} hours and ` : null} {propMins} minutes ago.
+                Proposed by @{this.props.detail.curator} {propDays > 0 ? `${propDays} days,` : null} {propHours > 0 ? `${propHours} hours and ` : null} {propMins} minutes ago. 
+                Reviewed {revDays > 0 ? `${revDays} days,` : null} {revHours > 0 ? `${revHours} hours and ` : null} {revMins} minutes ago.
             </div>
             </div>
             

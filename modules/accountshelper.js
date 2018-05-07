@@ -51,7 +51,65 @@ module.exports.generateDetailedReport = async(start, end, user) => {
 
 }
 
-module.exports.generateReviewerReport = async(start, end) => {
+module.exports.generateReviewerReport = async(start, end, user) => {
+    let s = moment(start).utc();
+    let e = moment(end).utc();
+
+    let csv = null;
+
+    // need a query to get all posts 
+
+   
+
+    var posts = null;
+    if (user && user != 'undefined')
+    {
+        posts = await Post.find({ $and : [{ "reviewTime": { $gte: s, $lt: e } }, {"reviewer" : user}]}).sort({"reviewTime": -1})
+    }
+    else {
+        posts = await Post.find({ "reviewTime": { $gte: s, $lt: e } }).sort({"reviewTime": -1})
+    }
+
+    
+
+    if (!posts || posts.length == 0) {
+        console.log("invalid parameter");
+        return ("error");
+    }
+
+    for (var i = 0; i < posts.length; i++) {
+       
+        let post = posts[i];
+
+        console.log(post.reviewer);
+        if (post.reviewer  == null || post.reviewer == 'undefined')
+            continue;
+        // just add a json object for each row to the results array
+        post.state = post.approved ? "Approved" : post.rejected ? "Rejected" : post.closed ? "Closed"  : "Queued";
+        // get the author - index of first @ and index of next /
+        
+       // post.author = post.url.substring(post.url.indexOf("@")+1, post.url.indexOf("/", post.url.indexOf("@")))
+        post.subFormat = moment(post.submittedtime).format("YYYY-MM-DD HH:MM:SS");
+        post.revFormat = moment(post.reviewTime).format("YYYY-MM-DD HH:MM:SS");
+        //console.log(author);
+    }
+
+    const fields = [{label: 'ReviewTime' , value: 'revFormat'}, 
+                        {label: 'Reviewer', value: 'reviewer'},
+                        {label: 'URL', value: 'url'},
+                        {label: 'State' , value : 'state'},
+                        {label: 'ReviewerComment' , value : 'reviewerComment'}];
+    const json2csvParser = new Json2csvParser({ fields });
+    csv = json2csvParser.parse(posts);
+
+    console.log(csv);
+
+
+
+    return csv;
+
+
+    
 
 }
 

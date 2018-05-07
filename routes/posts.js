@@ -50,7 +50,7 @@ router.get('/approved/:page', function(req, res, next) {
     var thepage = req.params.page;
     console.log("getting approved posts on page " + thepage);
 
-    Post.paginate({'approved' : true}, { page : thepage , limit:10}, function(err, posts) {
+    Post.paginate({'approved' : true}, { page : thepage , limit:10, sort: {"reviewTime" : 'desc'}}, function(err, posts) {
     //Post.find({'approved' : true}, function(err, posts) {
         if (err) {
             res.send(err);
