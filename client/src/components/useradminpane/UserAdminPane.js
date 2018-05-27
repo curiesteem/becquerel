@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ReportsDiv from '../reports/ReportsDiv'
-import './AdminPane.css';
-import UserManagementDiv from '../usermanagementdiv/UserManagementDiv';
+import './UserAdminPane.css';
+import UserManagementDiv from '../usermanagementdiv/UserManagementDiv'
 import { Tabs, Tab } from "react-bootstrap";
 
-class AdminPane extends Component {
+
+class UserAdminPane extends Component {
 
 
     
@@ -23,22 +24,18 @@ class AdminPane extends Component {
 
         <div className="userAdminPaneOuter">
 
-        <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" onSelect={this.handleSelect}>
+           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
           <Tab eventKey={1} title="Reports">
             <ReportsDiv {...this.props}/>
           </Tab>
           <Tab eventKey={2} title="User Management">
             <UserManagementDiv {...this.props}/>
           </Tab>
-          <Tab eventKey={3} title="System Management">
-          <br/>
-              <p> Adjustments to the sub limit etc to go here</p>
-          </Tab>
-       </Tabs>
-       
+          </Tabs>
+          
 
-    
-     </div>
+       
+        </div>
         
      
       );
@@ -50,4 +47,4 @@ class AdminPane extends Component {
   
 }
 
-export default AdminPane;
+export default UserAdminPane;

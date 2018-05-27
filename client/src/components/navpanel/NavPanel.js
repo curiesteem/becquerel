@@ -2,7 +2,7 @@ import React, { Component } from 'react';
   import HomePane from "../homepane/HomePane";
   import ProposePane from "../proposepane/ProposePane";
   import ApprovePane from "../approvepane/ApprovePane";
-  import AccountsPane from "../accountspane/AccountsPane";
+  import UserAdminPane from "../useradminpane/UserAdminPane";
   import AdminPane from "../adminpane/AdminPane";
   import moment from 'moment'
   import FileSaver from 'file-saver';
@@ -344,14 +344,22 @@ class NavPanel extends Component {
           </Tab>
           : null} 
            { this.checkAuthorisation('accounter') ?
-          <Tab eventKey={4} title="Accounts" >
-             <AccountsPane generateCuratorReport={this.generateCuratorReport} generateDetailedCuratorReport={this.generateDetailedCuratorReport} 
-                                    generateReviewerReport={this.generateReviewerReport} allusers={this.state.allusers}/>
+          <Tab eventKey={4} title="User Admin" >
+             <UserAdminPane showcuratorreport={true} generateCuratorReport={this.generateCuratorReport} 
+                                saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails}
+                                    generateDetailedCuratorReport={this.generateDetailedCuratorReport} 
+                                    generateReviewerReport={this.generateReviewerReport} allusers={this.state.allusers} levels={this.state.levels}/>
           </Tab>
           : null }
            { this.checkAuthorisation('administrator') ?
           <Tab eventKey={5} title="Admin"  >
-              <AdminPane allusers={this.state.allusers} saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails} auth={this.props.auth} levels={this.state.levels}/>
+              <AdminPane allusers={this.state.allusers} saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails} 
+              showcuratorreport={true} showdetailedreport={true} showreviewerreport={true} 
+              generateCuratorReport={this.generateCuratorReport} 
+              generateDetailedCuratorReport={this.generateDetailedCuratorReport} 
+              generateReviewerReport={this.generateReviewerReport}
+              auth={this.props.auth} levels={this.state.levels}
+              allowRoleChange={true} allowDelete={true}/>
           </Tab>
           :null }
         </Tabs>
