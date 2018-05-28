@@ -108,6 +108,100 @@ class ReportsDiv extends Component {
         this.setState({end : sunday.add(7, 'days')});
         
       }
+      else if (type == 3)
+      {
+        // this month, from 15:00 on the last day of last month until now
+        // get what you think is the last day of last month
+
+        // if we are on the last day of the month, we could be in this month or last month
+        let time = "15:00Z";
+        let today = moment().utc();
+        let firstOfMonth = null;
+        let lastOfMonth = null;
+        if (today.isSame(moment().utc().endOf('month')))
+        {
+          console.log("we are on the last day of the month")
+          // if we are after 15:00 utc then first day of month is today
+          if (moment().utc().isAfter(moment('15:00Z', 'HH:mmZ'), 'hour'))
+          {
+            firstOfMonth = moment(moment().utc().format("YYYY-MM-DD") + 'T' + time);
+            // the last day of the month is 15:00 at the end of next month
+           let lastDayTemp = moment().add(1, 'days').endOf('month')
+           lastOfMonth = moment(lastDayTemp.format('YYYY-MM-DD') + 'T' + time);
+
+          }
+          else
+          {
+            // we are before 15:00, so today is the last day of the month
+            let firstOfMonthTemp = moment().utc().subtract(1, 'days').startOf('month').subtract(1, 'days');
+            firstOfMonth = moment(firstOfMonthTemp.format("YYYY-MM-DD") + 'T' + time);
+            lastOfMonth = moment(moment().format('YYYY-MM-DD') + 'T' + time);
+          }
+          
+        }
+        else {
+          // we are not on the last day of the month, so that's easier
+          let firstOfMonthTemp = moment().utc().startOf('month').subtract(1, 'days');
+          firstOfMonth = moment(firstOfMonthTemp.format('YYYY-MM-DD')+ 'T' + time);
+
+          let lastOfMonthTemp = moment().utc().endOf('month');
+          lastOfMonth = moment(lastOfMonthTemp.format('YYYY-MM-DD') + 'T' + time);
+
+        }
+
+        this.setState({start : firstOfMonth})
+        this.setState({end : lastOfMonth});
+
+      }
+      else if (type == 4)
+      {
+        // last month, from 15:00 on the last day of last month until now
+        // get what you think is the last day of last month
+
+       // this month, from 15:00 on the last day of last month until now
+        // get what you think is the last day of last month
+
+        // if we are on the last day of the month, we could be in this month or last month
+        let time = "15:00Z";
+        let today = moment().utc();
+        let firstOfMonth = null;
+        let lastOfMonth = null;
+        if (today.isSame(moment().utc().endOf('month')))
+        {
+          console.log("we are on the last day of the month")
+          if (moment().utc().isAfter(moment('15:00Z', 'HH:mmZ'), 'hour'))
+          {
+            console.log("we are after 15:00 on the last of the month")
+            // last month actuall ends today
+            lastOfMonth = moment(moment().utc().format("YYYY-MM-DD") + 'T' + time);
+           // last month starts 
+           let firstDayTemp = moment().substract(35, 'days').endOf('month');
+           firstOfMonth = moment(firstDayTemp.format('YYYY-MM-DD') + 'T' + time);
+
+          }
+          else
+          {
+            // we are before 15:00, so last month ended a whole month ago
+            let endOfMonthTemp = moment().utc().subtract(35, 'days').endOf('month');
+            let firstOfMonthTemp = moment().utc().subtract(35, 'days').startOf('month').subtract(1, 'days');
+            firstOfMonth = moment(firstOfMonthTemp.format("YYYY-MM-DD") + 'T' + time);
+            lastOfMonth = moment(endOfMonthTemp.format('YYYY-MM-DD') + 'T' + time);
+          }
+          
+        }
+        else {
+          // we are not on the last day of the month, so that's easier
+          let firstOfMonthTemp = moment().utc().startOf('month').subtract(1, 'days').startOf('month').subtract(1, 'days');
+          firstOfMonth = moment(firstOfMonthTemp.format('YYYY-MM-DD')+ 'T' + time);
+
+          let lastOfMonthTemp = moment().utc().startOf('month').subtract(1,'days');
+          lastOfMonth = moment(lastOfMonthTemp.format('YYYY-MM-DD') + 'T' + time);
+
+        }
+
+        this.setState({start : firstOfMonth})
+        this.setState({end : lastOfMonth});
+      }
     }
 
   render() {
