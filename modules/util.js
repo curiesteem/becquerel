@@ -43,7 +43,7 @@ module.exports.isAuthenticated = (req, res, next, permission) => {
             }
             if (permission.includes("reviewer")) {
                 if (token.reviewer === true) {
-                    let res =  awaitUser.find({ 'user': token.user, 'reviewer': true });
+                    let res =  await User.find({ 'user': token.user, 'reviewer': true });
                     if (res.length > 0) {
                         return next();
                     }
