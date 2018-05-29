@@ -33,8 +33,8 @@ module.exports.generateDetailedReport = async(start, end, user) => {
         // get the author - index of first @ and index of next /
         
         post.author = post.url.substring(post.url.indexOf("@")+1, post.url.indexOf("/", post.url.indexOf("@")))
-        post.subFormat = moment(post.submittedtime).format("YYYY-MM-DD HH:MM:ss");
-        post.revFormat = moment(post.reviewTime).format("YYYY-MM-DD HH:MM:ss");
+        post.subFormat = moment(post.submittedtime).format("DD-MMM-YYYY HH:MM:ss");
+        post.revFormat = moment(post.reviewTime).format("DD-MMM-YYYY HH:MM:ss");
         // combine the comment history
         post.reviewerComment = "";
         for (var j = 0; j < post.commentHistory.length; j++)
@@ -277,7 +277,6 @@ module.exports.generateReport = async(start, end, user) => {
 
                 stat.closed += 1;
             } else {
-                d
                 stat.queued += 1;
             }
             stat.submitted += 1;
