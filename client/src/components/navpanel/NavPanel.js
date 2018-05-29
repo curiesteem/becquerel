@@ -348,6 +348,7 @@ class NavPanel extends Component {
              <UserAdminPane showcuratorreport={true} generateCuratorReport={this.generateCuratorReport} 
                                 saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails}
                                     generateDetailedCuratorReport={this.generateDetailedCuratorReport} 
+                                    auth={this.props.auth}
                                     generateReviewerReport={this.generateReviewerReport} allusers={this.state.allusers} levels={this.state.levels}/>
           </Tab>
           : null }
