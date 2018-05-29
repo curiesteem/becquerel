@@ -31,7 +31,7 @@ var validateAuth = function(perm)
 }
 
 
-router.get('/toapprove', validateAuth('reviewer'), function(req, res, next) {
+router.get('/toapprove', validateAuth(['reviewer']), function(req, res, next) {
     console.log("getting posts to approve");
 
     Post.find({ $and : [{'approved' : false}, {'rejected' : false} , {'closed' : false}]}, function(err, posts) {
@@ -198,7 +198,7 @@ router.post('/close/:id', function(req, res, next) {
   
 });
 
-router.post('/' , validateAuth('curator'), function(req, res, next) {
+router.post('/' , validateAuth(['curator']), function(req, res, next) {
 
     console.log("in post" + JSON.stringify(req.body.submittedValues));
     var post = new Post();

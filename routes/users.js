@@ -25,7 +25,7 @@ var validateAuth = function(perm) {
 }
 
 
-router.get('/allusers', validateAuth('administrator'), function(req, res, next) {
+router.get('/allusers', validateAuth(['administrator', 'accounter']), function(req, res, next) {
     console.log("getting all users");
 
 
@@ -63,7 +63,7 @@ router.get('/levels', function(req, res, next) {
     });
 });
 
-router.post('/update', validateAuth('administrator'), function(req, res, next) {
+router.post('/update', validateAuth(['administrator','accounter']), function(req, res, next) {
     console.log("in post")
     var user = req.body;
     console.log("Router to save user " + JSON.stringify(user));
@@ -92,7 +92,7 @@ router.post('/update', validateAuth('administrator'), function(req, res, next) {
 
 });
 
-router.post('/delete', function(req, res, next) {
+router.post('/delete',  validateAuth(['administrator']),function(req, res, next) {
     console.log("in post - " + req.body.user)
     var username = req.body.user;
     var id = req.body._id;

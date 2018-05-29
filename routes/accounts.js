@@ -31,7 +31,7 @@ var validateAuth = function(perm)
 }
 
 
-router.post('/curator/:start/:end/:user', validateAuth('accounter'), async function(req, res, next) {
+router.post('/curator/:start/:end/:user', validateAuth(['accounter','administrator']), async function(req, res, next) {
     var start = Number(req.params.start);
     var end = Number(req.params.end);
     var user = req.params.user; // could be null
@@ -44,7 +44,7 @@ router.post('/curator/:start/:end/:user', validateAuth('accounter'), async funct
     
 });
 
-router.post('/curatordetailed/:start/:end/:user', validateAuth('accounter'), async function(req, res, next) {
+router.post('/curatordetailed/:start/:end/:user', validateAuth(['administrator']), async function(req, res, next) {
     var start = Number(req.params.start);
     var end = Number(req.params.end);
     var user = req.params.user; // could be null
@@ -57,7 +57,7 @@ router.post('/curatordetailed/:start/:end/:user', validateAuth('accounter'), asy
     
 });
 
-router.post('/reviewer/:start/:end/', validateAuth('accounter'), async function(req, res, next) {
+router.post('/reviewer/:start/:end/', validateAuth(['administrator']), async function(req, res, next) {
     var start = Number(req.params.start);
     var end = Number(req.params.end);
     var user = req.params.user; // could be null
