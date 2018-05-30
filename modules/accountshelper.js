@@ -290,8 +290,8 @@ module.exports.generateReport = async(start, end, user) => {
         let curator = results[i];
         let ar = (parseFloat(curator.approved) / (parseFloat(curator.approved) + parseFloat(curator.rejected))).toFixed(2);
         let cs = ((ar * ar) * parseFloat(curator.approved)).toFixed(2);
-        curator.cs = cs;
-        curator.ar = ar;
+        curator.cs = isNaN(cs) ? 0 : cs;
+        curator.ar = isNaN(ar) ? 1 : ar;
         console.log("report for curator " + JSON.stringify(curator))
     }
 

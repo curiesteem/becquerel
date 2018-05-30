@@ -98,6 +98,7 @@ class UserManagementDiv extends Component {
       foo.user = "newUserName";
       foo.newuser = true;
       foo.curator = true; 
+      foo.level=3;
       this.setState({"selecteduser" : foo});
 
     }
