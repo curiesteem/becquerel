@@ -39,10 +39,14 @@ exports.checkSubmission = async function(submittedValues, postDetails)
             console.log("post is less that required " + minsPerUser);
             return {"err" : "Post is less than the required " + minsPerUser + " minutes old."};
     }
-    else if(await hasUserReachedLimit(user, limits))
+    else if(await hasUserReached7DayLimit(user, limits))
     {
         return {"err" : "You have reached your posting limit of " + limits.limit + " in the last 7 days."};
     }
+    else if (await hasUserReachedSoftLimit(user)) {
+        return {"err" : "You have reached your soft posting limit of " + userInfo.dailySoftLimit + " in the last 24 hours."};
+    }
+
     else {
 
         return {"response" : "success"};
@@ -51,7 +55,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
 
 
 
-hasUserReachedLimit = async (user, limits) =>
+hasUserReached7DayLimit = async (user, limits) =>
 {
     // get posts for the user in the last 7 days
     let oneWeekAgo = moment().utc().subtract(7, "days");
@@ -63,6 +67,24 @@ hasUserReachedLimit = async (user, limits) =>
         return true;
     }
 
+   
+
+
     return false;
 }
+
+hasUserReachedSoftLimit = async (user, limits) =>
+{
+    // get posts for the user in the last 7 days
+    let oneDayAgo = moment().utc().subtract(1, "days");
+    let posts = await Posts.find( { $and: [ {"curator" : user.user}, {"submittedtime" : {$gt: oneDayAgo.utc().toDate()}} ]})
+   // console.log(JSON.stringify(posts))
+    if (posts.length >= user.dailySoftLimit)
+    {
+        // trying to submit more than they should in the last day
+        return true;
+    }
+    return false;
+}
+ 
 
