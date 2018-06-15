@@ -31,6 +31,10 @@
     margin-bottom: 10px;
 }
 
+.softLimitOuter {
+    max-width: 150px;
+    margin-bottom: 10px;
+}
 .list-group{
     background-color: white;
 }
@@ -78,7 +82,7 @@
 }
 
 
-.response 
+.response
 {
   
   
@@ -104,12 +108,12 @@
 }
 .responseErr.show{
   opacity: 0;
-  animation: fadein 4s ease-in-out 0s 1;  
+  animation: fadein 8s ease-in-out 0s 1;  
 }
 
 .response.show{
   opacity: 0;
-  animation: fadein 4s ease-in-out 0s 1;  
+  animation: fadein 8s ease-in-out 0s 1;  
 }
 
 @keyframes fadein {
@@ -117,8 +121,11 @@
     opacity: 0;
   }
 
-  72% {
+  20% {
     opacity: 1;
+  }
+  80% {
+      opacity: 1;
   }
 
 }

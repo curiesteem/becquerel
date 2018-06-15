@@ -72,6 +72,15 @@ class UserManagementDiv extends Component {
       this.setState({"selecteduser" : foo});
 
     }
+
+    handlesoftlimitchange = (event) =>
+    {
+      const limit = event.target.value;
+      const foo = Object.assign({}, this.state.selecteduser);
+      foo['dailySoftLimit'] = limit;
+      this.setState({"selecteduser" : foo});
+
+    }
   
     getValidationState = () =>{
       const length = this.state.selecteduser.user.length;
@@ -268,6 +277,20 @@ class UserManagementDiv extends Component {
               </div>
               <Checkbox inline name="enabled" onChange={this.checkChanged} checked={ this.state.selecteduser.enabled}>Enabled</Checkbox>
             <div className="buttonwrapper">
+            {this.props.allowRoleChange ? (
+              <div className="softLimitOuter">
+                <InputGroup>
+                <InputGroup.Addon>Soft Limit</InputGroup.Addon>
+              <FormControl
+                type="text"
+                value={this.state.selecteduser.dailySoftLimit}
+                placeholder="Enter text"
+                onChange={this.handlesoftlimitchange}
+              />
+              <FormControl.Feedback />
+              </InputGroup>
+              </div>
+             ) : '' }
 
             <a className="btn btn-success" onClick={() => this.saveUser()} href="#"><i className="fa fa-save"></i> Save User</a>
             </div>

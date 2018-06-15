@@ -109,9 +109,10 @@ class ProposePane extends Component {
           }
           setTimeout(() => {
             this.setState({"responseClasses" : '', "response": null, "err": null});
-            this.formapi.resetAll();
+            // clear the form
+            //this.formapi.resetAll();
             
-        }, 4000);
+        }, 10000);
         })
       // }
       // else {
@@ -137,7 +138,7 @@ class ProposePane extends Component {
 
       return (
       <div className="proposepane">
-        <div className={this.state.response ? ['response', this.state.responseClasses].join(' ') : ['responseErr', this.state.responseClasses].join(' ') }>
+        <div className={this.state.response ? ['responseProp', this.state.responseClasses].join(' ') : ['responseErrProp', this.state.responseClasses].join(' ') }>
           {this.state.response ? this.state.response : this.state.err}.
         </div>
           

@@ -41,46 +41,49 @@ textarea {
   margin-bottom: 15px; 
 }
 
-.response 
+.responseProp
 {
   
   
   background-color: #439aff;
   color: white;
-  
+  font-size: 16px !important;
   opacity: 0;
 
 
 }
 
 
-.responseErr
+.responseErrProp
 {
   
   
   background-color: red;
   color: white;
-  
+  font-size: 16px !important;
   opacity: 0;
 
 
 }
-.responseErr.show{
+.responseErrProp.show{
   opacity: 0;
-  animation: fadein 4s ease-in-out 0s 1;  
+  animation: fadein 10s ease-in 0s 1;  
 }
 
-.response.show{
+.responseProp.show{
   opacity: 0;
-  animation: fadein 4s ease-in-out 0s 1;  
+  animation: fadeinprop 10s ease-in 0s 1;  
 }
 
-@keyframes fadein {
+@keyframes fadeinprop {
   0%, 100% {
     opacity: 0;
   }
 
-  72% {
+  20% {
+    opacity: 1;
+  }
+  80% {
     opacity: 1;
   }
 
