@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import  { ListGroup, ListGroupItem, FormGroup , Checkbox, FormControl, Button, ControlLabel, InputGroup} from 'react-bootstrap';
+import  { ListGroup, ListGroupItem, FormGroup , Checkbox, FormControl, ControlLabel, InputGroup} from 'react-bootstrap';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Select from 'react-select';
@@ -84,7 +84,7 @@ class UserManagementDiv extends Component {
   
     getValidationState = () =>{
       const length = this.state.selecteduser.user.length;
-      if (length == 0) return 'error';
+      if (length === 0) return 'error';
       var found = false;
       if (this.props.allusers)
       {

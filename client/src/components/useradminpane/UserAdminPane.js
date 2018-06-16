@@ -9,11 +9,7 @@ class UserAdminPane extends Component {
 
 
     
-  constructor( props ) {
-      super( props );
-       
-      
-    }
+  
   
    
 

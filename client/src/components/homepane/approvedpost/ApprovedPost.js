@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './ApprovedPost.css';
-import { Popover } from 'react-bootstrap';
+//import { Popover } from 'react-bootstrap';
 import moment from 'moment';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -9,7 +9,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'
 
 // var Markdown = require('react-showdown');
 var Converter = require('react-showdown').Converter;
-const removeMd = require('remove-markdown');
+//const removeMd = require('remove-markdown');
 
 
 
@@ -64,7 +64,7 @@ class ApprovedPost extends Component {
         var converter = new Converter({ 'parseImgDimensions': true});
         //converter.completeHTMLDocument = true;
        
-        var thebody = converter.convert(this.props.detail.body);
+        //var thebody = converter.convert(this.props.detail.body);
       
         //var noMd =  removeMd(this.props.detail.body).substring(0,200)  + "...";
        

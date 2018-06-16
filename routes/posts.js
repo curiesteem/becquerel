@@ -51,6 +51,8 @@ router.get('/approved/:page', function(req, res, next) {
     var thepage = req.params.page;
     console.log("getting approved posts on page " + thepage);
 
+    //TO-DO need to limit this to exclude review details etc
+
     Post.paginate({'approved' : true}, { page : thepage , limit:10, sort: {"reviewTime" : 'desc'}}, function(err, posts) {
     //Post.find({'approved' : true}, function(err, posts) {
         if (err) {
@@ -58,6 +60,15 @@ router.get('/approved/:page', function(req, res, next) {
         }
         else  {
             //responds with a json object of our database comments.
+            // clear out sensitive info
+            for (var i = 0; i < posts.docs.length; i++)
+            {
+                posts.docs[i].comment = '';
+                posts.docs[i].comments = '';
+                posts.docs[i].commentHistory = [];
+                posts.docs[i].reviewer = '';
+
+            }
             console.log(posts);
             res.json(posts.docs);
         }

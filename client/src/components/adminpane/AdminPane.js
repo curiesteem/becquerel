@@ -8,12 +8,7 @@ class AdminPane extends Component {
 
 
     
-  constructor( props ) {
-      super( props );
-       
-      
-    }
-  
+ 
    
 
   render() {

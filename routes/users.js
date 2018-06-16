@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../model/user');
+var Posts = require('../model/posts')
 var CuratorLevels = require('../model/curatorlevels');
 var rp = require('request-promise-native');
 var moment = require('moment');
@@ -39,6 +40,68 @@ router.get('/allusers', validateAuth(['administrator', 'accounter']), function(r
             //responds with a json object of our database comments.
             console.log(users);
             res.json(users);
+        }
+
+    });
+});
+
+router.get('/userstats/:user', validateAuth(['curator']), function(req, res, next) {
+    var user = req.params.user;
+
+    console.log("getting  stats for user " + user);
+
+    let sundayTemp = moment().utc().startOf('week');
+    // if this sundaytemp is today and we are still before 1500 UTC, take 7 days off
+    if (sundayTemp.isSame(moment().utc(), 'day'))
+    {
+        console.log ("its sunday");
+    
+        if (moment().utc().isBefore(moment('15:00Z', 'HH:mmZ'), 'hour')){
+            sundayTemp = sundayTemp.subtract(7, 'days');
+        } 
+    }
+    let time = "15:00Z"
+    let date = sundayTemp.format("YYYY-MM-DD");
+    let sunday = moment(date + 'T' + time);
+
+    Posts.find({ $and : [{ "submittedtime": { $gte: sunday } }, {"curator" : user}]}, function(err, posts) {
+      
+
+        if (err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            //responds with a json object of our database comments.
+            // build a json with the stats for the user
+            // eg
+            // { approved : 5, rejected : 2, queued : 1, closed : 1, cs : 3, ar : 70}
+            let app = 0;
+            let rejected = 0;
+            let queued = 0;
+            let closed = 0;
+            for (var i = 0; i < posts.length; i++)
+            {
+                let post = posts[i];
+                if (post.approved)
+                    app++;
+                else if (post.rejected)
+                    rejected++;
+                else if (post.closed)
+                    closed++;
+                else 
+                    queued++;
+                
+                
+            }
+
+            let ar = (parseFloat(app) / (parseFloat(app) + parseFloat(rejected))).toFixed(4);
+            let cs = ((ar * ar) * parseFloat(app)).toFixed(2);
+            cs = isNaN(cs) ? 0 : cs;
+            ar = isNaN(ar) ? 1 : ar;
+
+            let response = {"approved" : app, "rejected" : rejected, "queued" : queued, "closed" : closed, "cs" : cs, "ar" : (ar*100)}
+
+            res.json(response);
         }
 
     });

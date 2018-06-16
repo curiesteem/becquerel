@@ -61,7 +61,7 @@ hasUserReached7DayLimit = async (user, limits) =>
     let oneWeekAgo = moment().utc().subtract(7, "days");
     let posts = await Posts.find( { $and: [ {"curator" : user.user}, {"submittedtime" : {$gt: oneWeekAgo.utc().toDate()}} ]})
    // console.log(JSON.stringify(posts))
-    if (posts.length > limits.limit)
+    if (posts.length >= limits.limit)
     {
         // trying to submit more than they should in the last 7 days
         return true;
@@ -79,7 +79,7 @@ hasUserReachedSoftLimit = async (user, limits) =>
     let oneDayAgo = moment().utc().subtract(1, "days");
     let posts = await Posts.find( { $and: [ {"curator" : user.user}, {"submittedtime" : {$gt: oneDayAgo.utc().toDate()}} ]})
    // console.log(JSON.stringify(posts))
-    if (posts.length > user.dailySoftLimit)
+    if (posts.length >= user.dailySoftLimit)
     {
         console.log(posts)
         // trying to submit more than they should in the last day

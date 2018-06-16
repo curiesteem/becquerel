@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ApprovedPost from './approvedpost/ApprovedPost'
-import { PanelGroup, Panel } from 'react-bootstrap'
 
 import './HomePane.css';
 
@@ -23,7 +22,7 @@ class HomePane extends Component {
     incrementPage = (e) => {
       e.preventDefault();
       console.log("incrementing page")
-      if (this.props && this.props.approvedPosts && this.props.approvedPosts.length == 10) {
+      if (this.props && this.props.approvedPosts && this.props.approvedPosts.length === 10) {
         console.log("have 10");
        this.currentPage= this.currentPage +1;
        
