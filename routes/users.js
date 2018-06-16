@@ -30,7 +30,7 @@ router.get('/allusers', validateAuth(['administrator', 'accounter']), function(r
     console.log("getting all users");
 
 
-    User.find({}, function(err, users) {
+    User.find({}).sort({"user" : 'asc'}).exec(function(err, users) {
       
 
         if (err) {
@@ -64,7 +64,7 @@ router.get('/userstats/:user', validateAuth(['curator']), function(req, res, nex
     let date = sundayTemp.format("YYYY-MM-DD");
     let sunday = moment(date + 'T' + time);
 
-    Posts.find({ $and : [{ "submittedtime": { $gte: sunday } }, {"curator" : user}]}, function(err, posts) {
+    Posts.find({ $and : [{ "submittedtime": { $gte: sunday.utc() } }, {"curator" : user}]}, function(err, posts) {
       
 
         if (err) {
