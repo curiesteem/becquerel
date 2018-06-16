@@ -101,18 +101,23 @@ class ProposePane extends Component {
           if (data.response)
           {
             this.setState({"response": data.response, "err" : null });
+            setTimeout(() => {
+              this.setState({"responseClasses" : '', "response": null, "err": null});
+              this.formapi.resetAll();
+              
+          }, 10000);
           
           }
           else if (data.err)
           {
             this.setState({"err": data.err, "response" : null});
+            setTimeout(() => {
+              this.setState({"responseClasses" : '', "response": null, "err": null});
+              
+              
+          }, 10000);
           }
-          setTimeout(() => {
-            this.setState({"responseClasses" : '', "response": null, "err": null});
-            // clear the form
-            //this.formapi.resetAll();
-            
-        }, 10000);
+         
         })
       // }
       // else {
