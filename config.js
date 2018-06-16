@@ -5,10 +5,8 @@ let config = {
         redirect_uri: process.env.SC_REDIR_URL ? process.env.SC_REDIR_URL : 'http://localhost:3001/auth'
     },
     session: {
-        //secret: 'lkjasdfkjwnqerakdusfhalsdkjfhafd'
         secret : process.env.SESSION_SECRET
     },
-    // jwtsecret: 'sdfopuiwepolhadsfkjasdfoiusdferdf',
     db_url : process.env.DB_URL ? process.env.DB_URL : "localhost",
     db_name : process.env.DB_NAME,
     db_user : process.env.DB_USER,
