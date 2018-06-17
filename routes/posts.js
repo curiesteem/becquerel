@@ -82,6 +82,9 @@ router.post('/approve/:id', function(req, res, next) {
     var comment = req.body.comment;
     var user = req.body.user;
     console.log("Router to approve " + id);
+
+    // check that the user approving isnt the submitter
+
     const doc = {
         approved: true,
         reviewTime : moment().utc(),
@@ -254,7 +257,7 @@ router.post('/' , validateAuth(['curator']), function(req, res, next) {
                         }
                     }
                     else {
-                        res.json({ response: 'Post was succesfully submitted for approval' });
+                        res.json({ response: 'Post was succesfully submitted for review' });
                     }
                 });
             }

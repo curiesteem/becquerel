@@ -4,7 +4,7 @@ import './ProposePane.css';
 import { Form, Text, TextArea } from 'react-form';
 import Auth from '../../auth';
 import Recaptcha from 'react-recaptcha';
-
+import moment from 'moment'
 
 class ProposePane extends Component {
 
@@ -20,7 +20,8 @@ class ProposePane extends Component {
       super( props );
        this.state = {
        
-        "captchaverified" : false
+        "captchaverified" : false,
+        "submitdisabled" : false
         
       }
 
@@ -78,8 +79,13 @@ class ProposePane extends Component {
       // })
     };
     
+  
+
   submitValues = (submittedValues) =>
   {
+    // if you have a timer to hide stuff, cancel it
+    
+    
     this.setState({"responseClasses" : ''});
     submittedValues.submittedValues.curator = this.authinfo.user;
     // console.log("submitted values = " + JSON.stringify(submittedValues));
@@ -101,37 +107,34 @@ class ProposePane extends Component {
           if (data.response)
           {
             this.setState({"response": data.response, "err" : null });
+            this.formapi.resetAll();
             setTimeout(() => {
               this.setState({"responseClasses" : '', "response": null, "err": null});
-              this.formapi.resetAll();
               
           }, 10000);
-          
+           
           }
           else if (data.err)
           {
+
             this.setState({"err": data.err, "response" : null});
             setTimeout(() => {
               this.setState({"responseClasses" : '', "response": null, "err": null});
-              
+              this.setState({"submitdisabled" : false});
               
           }, 10000);
+            
+          this.setState({"submitdisabled" : true});
+            
           }
+          
+         
+         
+      
+        
          
         })
-      // }
-      // else {
-      //   this.setState({"responseClasses" : 'show'});
-      //   //console.log("captcha not completed");
-      //   this.setState({"err" : "Captcha Not Completed", "response": null});
-      //   setTimeout(() => {
-      //     this.setState({"responseClasses" : '', "response": null, "err": null});
-        
-          
-      // }, 4000);
-      //}
-     // this.recaptchaInstance.reset();
-     // this.setState({"captchaverified" : false});
+      
   }
   
   
@@ -170,7 +173,11 @@ class ProposePane extends Component {
                
               />
               </div> */}
-              <button type="submit">Submit</button>
+              {this.state.submitdisabled ?
+                <button type="submit" disabled={this.state.submitdisabled}>Please Wait...</button>
+                :
+                <button type="submit" disabled={this.state.submitdisabled}>Submit</button>
+              }
             </div>
             
           </form>

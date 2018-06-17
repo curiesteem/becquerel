@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import LoadingScreen from 'react-loading-screen';
 
 class Callback extends Component {
 
@@ -35,12 +36,24 @@ componentDidMount() {
  
   render() {
 
-
+   
 return (
 
 
   <div className="container">
-    <h4>Loading...</h4>
+   <LoadingScreen
+    loading={true}
+    bgColor='#ffffff'
+    spinnerColor='#9ee5f8'
+    textColor='#676767'
+    //logoSrc='/logo.png'
+    text='Authorising....'
+  > 
+    // ...
+    // here loadable content
+    // for example, async data
+    //<div>Loadable content</div>
+  </LoadingScreen>
   </div>
 )};
 }
