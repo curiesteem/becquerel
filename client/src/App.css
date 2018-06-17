@@ -6,7 +6,7 @@
     position: absolute;
     width: 100%;
     /* background-color: #fff; */
-    overflow-y:hidden;
+    overflow-y:auto;
     text-align: center;
     font-family: 'Source Sans Pro', sans-serif;
     background-image: url("/bg.png");
