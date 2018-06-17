@@ -30,18 +30,20 @@ class AppWrapper extends Component {
     let authinfo = JSON.parse(localStorage.getItem('authtoken'));
     if (authinfo) {
       let user = authinfo.user;
-      this.setState({"userstats" : user});
-          fetch('/users/userstats/' + user, {
-              headers: this.headers()
-        })
-          .then(results => {
-              return results.json();
+      if (user) {
+        this.setState({"userstats" : user});
+            fetch('/users/userstats/' + user, {
+                headers: this.headers()
           })
-          .then(stats => {
-              
-              this.setState({"userstats" : stats});
+            .then(results => {
+                return results.json();
+            })
+            .then(stats => {
+                
+                this.setState({"userstats" : stats});
 
-          });
+            });
+          }
         }
    
   }

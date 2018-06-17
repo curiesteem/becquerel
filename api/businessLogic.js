@@ -12,6 +12,11 @@ var Posts = require("../model/posts")
 exports.checkSubmission = async function(submittedValues, postDetails)
 {
     console.log("Checking submissoin");
+    let user = await User.findOne({"user" : submittedValues.curator });
+    if (!user.enabled)
+    {
+        return   {"err" : "Your account is disabled"}; 
+    }
     if (postDetails.post === 'No post found')
     {
         return   {"err" : "This URL does not exist, please double check your post URL and try again."};
@@ -29,7 +34,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
 
     console.log("calling getpostminutesforuser for " + submittedValues.curator);
 
-    let user = await User.findOne({"user" : submittedValues.curator });
+   
     console.log("getting post minutes for user " + JSON.stringify(user));
     let limits = await CuratorLevels.findOne({"level" : user.level});
     let minsPerUser = limits.minutes;
