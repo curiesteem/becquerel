@@ -37,7 +37,6 @@ app.use(bearerToken());
 // app.set('view engine', 'jade');
 
 // Priority serve any static files.
-app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -61,7 +60,7 @@ mongoose.connect(dburl, {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, './client/build')));
 
 
@@ -93,7 +92,7 @@ app.use(function(err, req, res, next) {
 
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+  response.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
 
 module.exports = app;
