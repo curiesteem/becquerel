@@ -90,7 +90,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-console.log("resolve test = " + path.resolve(__dirname, '/client/build', 'index.html'));
+console.log("resolve test = " + path.resolve(__dirname, 'client/build', 'index.html'));
 
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function(request, response) {
