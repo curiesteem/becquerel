@@ -16,11 +16,11 @@ export default class Auth {
       // get our server to call steemconnect which redirects to a callback
    // this.auth0.authorize();
    console.log("authorising");
-    fetch('/auth', { method: 'POST'})
+    fetch('/authorize', { method: 'POST'})
     .then(response => {
         // HTTP 301 response
       //  console.log("Response from login is : " + response);
-     //   console.log("redirecting client to /auth");
+     //   console.log("redirecting client to /authorize");
         window.location.href = response.url; // this will redirect us to the callback url (/auth)
     })
     .catch(function(err) {
@@ -58,7 +58,7 @@ export default class Auth {
         Authorization: `Bearer ${parsedQueryString.access_token}`
       };
 
-      fetch('/auth', {
+      fetch('/authorize', {
         headers : hdrs,
         method: 'post',
       })
