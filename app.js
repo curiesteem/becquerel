@@ -62,7 +62,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // Priority serve any static files.
-app.use(express.static(path.resolve(__dirname, '/client/build')));
+app.use(express.static(path.resolve(__dirname, 'client/build')));
 
 
 app.use('/', index);
@@ -90,10 +90,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+console.log("resolve test = " + path.resolve(__dirname, '/client/build', 'index.html'));
 
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '/client/build', 'index.html'));
+  response.sendFile(path.resolve(__dirname, 'client/build', 'index.html'));
 });
 
 module.exports = app;
