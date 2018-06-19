@@ -62,7 +62,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-app.use('/', index);
+// app.use('/', index);
 app.use('/posts', posts);
 app.use('/users', users);
 app.use('/authorize', auth);
