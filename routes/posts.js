@@ -49,7 +49,7 @@ router.get('/toapprove', validateAuth(['reviewer']), function(req, res, next) {
 
 router.get('/approved/:page', function(req, res, next) {
     var thepage = req.params.page;
-    console.log("getting approved posts on page " + thepage);
+   // console.log("getting approved posts on page " + thepage);
 
     //TO-DO need to limit this to exclude review details etc
 
@@ -69,7 +69,7 @@ router.get('/approved/:page', function(req, res, next) {
                 posts.docs[i].reviewer = '';
 
             }
-            console.log(posts);
+            //console.log(posts);
             res.json(posts.docs);
         }
 
