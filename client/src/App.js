@@ -47,7 +47,7 @@ class App extends Component {
         <Route path='/test' render={() => { return <h1>test</h1>}}/>
 
         {/* This is the route that gets called once we get a callback from steemconnect */}
-        <Route path="/auth" render={(props) => {
+        <Route path="/authorize" render={(props) => {
           this.handleAuthentication(props);
           return <Callback auth={auth} {...props} />
         }}/>
