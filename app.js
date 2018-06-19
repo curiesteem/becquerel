@@ -68,7 +68,7 @@ app.use(express.static(path.join(__dirname, './client/build')));
 app.use('/', index);
 app.use('/posts', posts);
 app.use('/users', users);
-app.use('/auth', auth);
+app.use('/authorize', auth);
 app.use('/accounts', accounts);
 
 
