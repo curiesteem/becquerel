@@ -24,13 +24,13 @@ var config = require('./config')
 
 var app = express();
 
-// app.use(session({
-//   secret: config.session.secret,
-//   saveUninitialized: true,
-//   resave: false
-// }));
+app.use(session({
+  secret: config.session.secret,
+  saveUninitialized: true,
+  resave: false
+}));
 
-// app.use(bearerToken());
+app.use(bearerToken());
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -40,21 +40,21 @@ var app = express();
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-// app.use(logger('dev'));
+app.use(logger('dev'));
 
-// var dburl = 'mongodb://localhost:27017/curie'
+var dburl = 'mongodb://localhost:27017/curie'
 
-// if (config.db_user)
-// {
-//   dburl = 'mongodb://' + config.db_user + ':' + config.db_pwd + '@'  + config.db_url + '/' + config.db_name
-// }
+if (config.db_user)
+{
+  dburl = 'mongodb://' + config.db_user + ':' + config.db_pwd + '@'  + config.db_url + '/' + config.db_name
+}
 
-// console.log("connecting to db " + dburl); 
-// mongoose.set('debug', true);
-// mongoose.connect(dburl, {
-//   useMongoClient: true,
-//   /* other options */
-// });
+console.log("connecting to db " + dburl); 
+mongoose.set('debug', true);
+mongoose.connect(dburl, {
+  useMongoClient: true,
+  /* other options */
+});
 
 
 // app.use(bodyParser.json());
