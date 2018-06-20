@@ -277,7 +277,7 @@ class UserManagementDiv extends Component {
               </div>
               <Checkbox inline name="enabled" onChange={this.checkChanged} checked={ this.state.selecteduser.enabled}>Enabled</Checkbox>
             <div className="buttonwrapper">
-            {this.props.allowRoleChange ? (
+            
               <div className="softLimitOuter">
                 <InputGroup>
                 <InputGroup.Addon>Soft Limit</InputGroup.Addon>
@@ -290,7 +290,7 @@ class UserManagementDiv extends Component {
               <FormControl.Feedback />
               </InputGroup>
               </div>
-             ) : '' }
+            
 
             <a className="btn btn-success" onClick={() => this.saveUser()} href="#"><i className="fa fa-save"></i> Save User</a>
             </div>

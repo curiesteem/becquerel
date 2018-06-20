@@ -41,15 +41,18 @@ exports.checkSubmission = async function(submittedValues, postDetails)
     
     if (moment.utc().diff(created,'minute') < minsPerUser)
     {
+            let possibleTime = created.add(minsPerUser, "minutes")
+            let at = possibleTime.format("HH:mm:ss");
+            let secondsToSubmit = possibleTime.diff(moment.utc(), "seconds");
             console.log("post is less that required " + minsPerUser);
-            return {"err" : "Post is less than the required " + minsPerUser + " minutes old."};
+            return {"err" : "Post is less than the required " + minsPerUser + " minutes old. Submittable at " + at + ", in " + secondsToSubmit + " seconds."};
     }
     else if(await hasUserReached7DayLimit(user, limits))
     {
-        return {"err" : "You have reached your posting limit of " + limits.limit + " in the last 7 days."};
+        return {"err" : "You have reached your submission limit of " + limits.limit + " in the last 7 days."};
     }
     else if (await hasUserReachedSoftLimit(user)) {
-        return {"err" : "You have reached your soft posting limit of " + user.dailySoftLimit + " in the last 24 hours."};
+        return {"err" : "You have reached your soft submission limit of " + user.dailySoftLimit + " in the last 24 hours."};
     }
 
     else {
