@@ -20,8 +20,8 @@ class UserToolbar extends Component {
       this.login = this.login.bind(this);
       this.logout = this.logout.bind(this);
       this.authinfo = JSON.parse(localStorage.getItem('authtoken'));
-      this.props.getUserStats();
-      this.props.getCurieStats();
+      // this.props.getUserStats();
+      // this.props.getCurieStats();
     }
 
     

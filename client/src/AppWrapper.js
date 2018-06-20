@@ -8,6 +8,8 @@ import './App.css';
 
 class AppWrapper extends Component {
 
+  
+
   headers = () => ({
     'Content-Type': 'application/json',
    // Accept: 'application/json',
@@ -21,8 +23,26 @@ class AppWrapper extends Component {
     this.state = {
       "userstats" : null,
     }
+
+   
    
   }
+
+  componentDidMount = () => {
+    var intervalId = setInterval(this.timer, 300000);
+    // store intervalId in the state so it can be accessed later:
+    this.setState({intervalId: intervalId});
+    this.timer();
+  }
+
+  componentWillUnmount = () => {
+      clearInterval(this.state.intervalId);
+}
+
+timer = () => {
+  this.getCurieStats();
+  this.getUserStats();
+}
 
   getCurieStats = () => {
     fetch('/utils/vp', {
