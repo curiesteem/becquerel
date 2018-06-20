@@ -137,7 +137,7 @@ class BlogPost extends Component {
                     return (
                         
                         <div key={row.timestamp}>
-                           "{row.comment}"  - <i>{row.commenter}</i> at {moment(row.timestamp).utc().format("DD-MMM-YYYY HH:MM:ss UTC")} <br/>
+                           "{row.comment}"  - <i>{row.commenter}</i> at {moment(row.timestamp).utc().format("DD-MMM-YYYY HH:mm:ss UTC")} <br/>
                         </div>
                             
                         )  
@@ -174,7 +174,10 @@ class BlogPost extends Component {
 		>
                    <i className="fa fa-eye" aria-hidden="true"></i>
                    </OverlayTrigger>
-                   {noMd}  <a href={this.props.detail.url} target="_new" ><i className="fa fa-external-link-square" aria-hidden="true"></i></a>
+                   
+                       <a href={this.props.detail.url} target="_new" >{this.props.detail.url} <span>&nbsp;</span><i className="fa fa-external-link-square" aria-hidden="true"></i></a>
+                    <br/>
+                   {noMd}  
                    
                     </div>
                     <div className="body-row commentsWrapper ">
