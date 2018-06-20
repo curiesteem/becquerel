@@ -26,12 +26,12 @@ class CurieStats extends Component {
     let stats = curiestats ? 
         (
         
-        <div>Curie Current VP = {curiestats.vp}%</div>
+        <div>VP = {curiestats.vp}%</div>
     ) : '' ;
 
       return (
       <Nav>
-          <NavItem eventKey={4} >
+          <NavItem eventKey={4}  href="#" >
             {stats}
             </NavItem>
         </Nav>
