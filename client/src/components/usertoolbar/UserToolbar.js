@@ -4,6 +4,7 @@ import './UserToolbar.css';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import Auth from '../../auth'
 import UserStats from './UserStats'
+import CurieStats from './CurieStats'
 
 class UserToolbar extends Component {
 
@@ -20,6 +21,7 @@ class UserToolbar extends Component {
       this.logout = this.logout.bind(this);
       this.authinfo = JSON.parse(localStorage.getItem('authtoken'));
       this.props.getUserStats();
+      this.props.getCurieStats();
     }
 
     
@@ -55,6 +57,7 @@ class UserToolbar extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
             <UserStats {...this.props}/>
+            <CurieStats {...this.props}/>
           <Nav pullRight>
           { this.props.auth.isAuthenticated() ?
             <NavItem eventKey={1} onClick={this.logout} href="">

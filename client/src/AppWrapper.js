@@ -24,6 +24,18 @@ class AppWrapper extends Component {
    
   }
 
+  getCurieStats = () => {
+    fetch('/utils/vp', {
+      headers: this.headers()
+    }).then(results => {
+      return results.json();
+    })
+    .then(stats => {
+        
+        this.setState({"curiestats" : stats});
+
+    });
+  }
   
       
   getUserStats = () => {
@@ -66,7 +78,7 @@ class AppWrapper extends Component {
             {location.state.username}
             {location.state.expiresin} */}
          
-            <UserToolBar {...this.props} getUserStats={this.getUserStats} userstats={this.state.userstats}/>
+            <UserToolBar {...this.props} getUserStats={this.getUserStats} userstats={this.state.userstats} getCurieStats={this.getCurieStats} curiestats={this.state.curiestats}/>
               
             {/* <img src="/curietext.png" className="curieText"/> */}
 

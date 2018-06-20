@@ -2,6 +2,14 @@ var jwt = require('jsonwebtoken');
 var config = require('../config');
 var User = require('../model/user');
 
+module.exports.getCurieVp = async () => {
+    let result = await steem.api.getAccountsAsync(["curie"]); 
+    var secondsago = (new Date - new Date(result[0].last_vote_time + "Z")) / 1000;
+    var vpow = result[0].voting_power + (10000 * secondsago / 432000);
+    vpow = Math.min(vpow / 100, 100).toFixed(2);
+    return vpow;
+}
+
 module.exports.urlString = () => {
     let string = ''
     let allowedChars = "abcdefghijklmnopqrstuvwxyz0123456789";

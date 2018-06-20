@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var bearerToken = require('express-bearer-token');
 
-var index = require('./routes/index');
+var utils = require('./routes/utils');
 var posts = require('./routes/posts');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
@@ -62,7 +62,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-// app.use('/', index);
+app.use('/utils', utils);
 app.use('/posts', posts);
 app.use('/users', users);
 app.use('/authorize', auth);

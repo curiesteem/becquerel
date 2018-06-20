@@ -4,7 +4,7 @@ import './UserToolbar.css';
 import { Navbar, NavItem,Nav } from 'react-bootstrap';
 
 
-class UserStats extends Component {
+class CurieStats extends Component {
 
 
     
@@ -19,20 +19,19 @@ class UserStats extends Component {
 
   render() {
 
-    let userstats = this.props.userstats;
+    let curiestats = this.props.curiestats;
 
     //console.log("userstats = " + JSON.stringify(userstats));
     //userstats = {"approved":5,"rejected":1,"queued":0,"closed":0,"cs":"3.44","ar":83}
-    let stats = userstats ? 
+    let stats = curiestats ? 
         (
         
-        <div>This Week - App:{userstats.approved}, Rej:{userstats.rejected}, Closed:{userstats.closed}, Queued:{userstats.queued}, CS:{userstats.cs}, AR:{userstats.ar}%</div>
+        <div>Curie Current VP = {curiestats.vp}%</div>
     ) : '' ;
 
       return (
       <Nav>
-        <NavItem eventKey={3}  href="">
-          {/* <NavItem eventKey={3} onClick={this.showstats} href=""> */}
+          <NavItem eventKey={4} >
             {stats}
             </NavItem>
         </Nav>
@@ -47,4 +46,4 @@ class UserStats extends Component {
   
 }
 
-export default UserStats;
+export default CurieStats;
