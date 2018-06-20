@@ -31,7 +31,7 @@ class UserStats extends Component {
 
       return (
       <Nav>
-        <NavItem eventKey={3}  href="">
+        <NavItem eventKey={3}  href="#">
           {/* <NavItem eventKey={3} onClick={this.showstats} href=""> */}
             {stats}
             </NavItem>
