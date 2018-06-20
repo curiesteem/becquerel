@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
-
+var util = require('../modules/util')
 /* GET home page. */
-router.get('/vp', function(req, res, next) {
-    let vp = {"vp" : "95.6"}
+router.get('/vp', async function(req, res, next) {
+    let power = await util.getCurieVp();
+    let vp = {"vp" : power}
     res.json (vp);
 });
 

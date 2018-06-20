@@ -1,6 +1,7 @@
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 var User = require('../model/user');
+var steem = require('steem');
 
 module.exports.getCurieVp = async () => {
     let result = await steem.api.getAccountsAsync(["curie"]); 
