@@ -45,7 +45,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
             let at = possibleTime.format("HH:mm:ss");
             let secondsToSubmit = possibleTime.diff(moment.utc(), "seconds");
             console.log("post is less that required " + minsPerUser);
-            return {"err" : "Post is less than the required " + minsPerUser + " minutes old. Submittable at " + at + ", in " + secondsToSubmit + " seconds."};
+            return {"err" : "Post is less than the required " + minsPerUser + " minutes old. Submittable at " + at + " UTC , in " + secondsToSubmit + " seconds."};
     }
     else if(await hasUserReached7DayLimit(user, limits))
     {
