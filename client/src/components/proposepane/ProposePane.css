@@ -1,9 +1,15 @@
 .proposepane
-{
-    padding: 20px;
-    position: absolute;
-    width: calc(100vw - 100px);  
-  
+  {
+      padding: 10px;
+  }
+@media only screen and (min-width: 600px) {
+  .proposepane
+  {
+      padding: 20px;
+      position: absolute;
+      width: calc(100vw - 100px);  
+
+  }
 }
 
 text 

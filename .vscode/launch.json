@@ -22,8 +22,8 @@
             "program": "${workspaceFolder}/bin/www",
             "env": {
                 "JWT_SECRET": "sdfopuiwepolhadsfkjasdfoiusdferdf",
-                "SESSION_SECRET": "lkjasdfkjwnqerakdusfhalsdkjfhafd"
-
+                "SESSION_SECRET": "lkjasdfkjwnqerakdusfhalsdkjfhafd",
+                "CLIENT_ID": "steemboard.app"
             },
         }
     ]
