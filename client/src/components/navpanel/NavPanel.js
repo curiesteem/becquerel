@@ -36,6 +36,10 @@ class NavPanel extends Component {
 
       this.authinfo = JSON.parse(localStorage.getItem('authtoken'));
 
+
+
+      
+
     
      
   }
@@ -44,6 +48,16 @@ class NavPanel extends Component {
   {
     this.loadApprovedQueue();
     this.loadGlobals();
+    if (localStorage.getItem("selectedtab"))
+    {
+        console.log(localStorage.getItem("selectedtab"))
+         this.setState({"activeKey" : parseInt(localStorage.getItem("selectedtab"))})
+    }
+    
+    
+        
+    
+
   }
 
   loadGlobals = () => {
@@ -71,6 +85,9 @@ class NavPanel extends Component {
   }
       
     handleSelect = (key) => {
+       
+        this.setState({activeKey: key});
+        localStorage.setItem("selectedtab", key)
         if (key === 1){
             // approve tab selected
             
@@ -326,7 +343,7 @@ class NavPanel extends Component {
   render() {
     const jsx = (
         <div id="navpanel" className="navpanel">
-          <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" onSelect={this.handleSelect}>
+          <Tabs id="uncontrolled-tab-example" onSelect={this.handleSelect} activeKey={this.state.activeKey}>
           <Tab eventKey={1} title="Home">
               <HomePane approvedPosts={this.state.approvedPosts} pageUpdate={this.handlePageUpdate}/>
           </Tab>

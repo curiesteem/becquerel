@@ -32,7 +32,7 @@ class App extends Component {
   }
       
     
-  
+ 
  
 
   render() {
@@ -44,7 +44,13 @@ class App extends Component {
         <div>
         <Route exact path='/' render={(props) => <AppWrapper auth={auth} {...props} />}/>
 
-        <Route path='/test' render={() => { return <h1>test</h1>}}/>
+        {/* <Route exact path='/review' render={(props) => {
+          return <Redirect to={{
+            pathname: '/',
+            state: { stateName: this.state.anyState}
+          }} />;
+            }}/> */}
+            
 
         {/* This is the route that gets called once we get a callback from steemconnect */}
         <Route path="/auth" render={(props) => {

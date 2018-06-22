@@ -3,6 +3,7 @@ import ReportsDiv from '../reports/ReportsDiv'
 import './AdminPane.css';
 import UserManagementDiv from '../usermanagementdiv/UserManagementDiv';
 import { Tabs, Tab } from "react-bootstrap";
+import SysAdminPane from './sysadminpane/SysAdminPane';
 
 class AdminPane extends Component {
 
@@ -27,7 +28,7 @@ class AdminPane extends Component {
           </Tab>
           <Tab eventKey={3} title="System Management">
           <br/>
-              <p> Adjustments to the sub limit etc to go here</p>
+              <SysAdminPane/>
           </Tab>
        </Tabs>
        

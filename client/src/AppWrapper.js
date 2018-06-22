@@ -103,7 +103,7 @@ timer = () => {
             {/* <img src="/curietext.png" className="curieText"/> */}
 
               
-            <NavPanel {...this.props}/>
+            <NavPanel {...this.props} review={this.props.review}/>
         
           </div>
         
