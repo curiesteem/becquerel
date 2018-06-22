@@ -66,6 +66,7 @@ class BlogPost extends Component {
            
            
             this.props.approveHandler(id, this.state.revcomment);
+             this.props.commentHandler(id, this.state.revcomment);
         }
         if (type === "reject")
         {

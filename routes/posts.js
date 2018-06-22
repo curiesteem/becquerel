@@ -76,10 +76,10 @@ router.get('/approved/:page', function(req, res, next) {
     });
 });
 
-router.post('/approve/:id', function(req, res, next) {
+router.post('/approve/:id', async function(req, res, next) {
 
     var id = req.params.id;
-    var comment = req.body.comment;
+    var c = req.body.comment;
     var user = req.body.user;
     console.log("Router to approve " + id);
 
@@ -88,8 +88,22 @@ router.post('/approve/:id', function(req, res, next) {
     const doc = {
         approved: true,
         reviewTime : moment().utc(),
-        reviewerComment : comment,
+        reviewerComment : c,
         reviewer : user
+    }
+
+    if (c) {
+        const comment = { "$push" :    
+            { "commentHistory" : {
+            commenter : user,
+            comment : c,
+            timestamp : moment.utc(),
+        
+            }}
+        
+        }
+
+        await Post.update({_id: id}, comment);
     }
 
     Post.update({_id: id}, doc, function(err, raw) {
@@ -106,17 +120,32 @@ router.post('/approve/:id', function(req, res, next) {
   
 });
 
-router.post('/reject/:id', function(req, res, next) {
+router.post('/reject/:id', async function(req, res, next) {
 
     var id = req.params.id;
-    var comment = req.body.comment;
+    var c = req.body.comment;
     var user = req.body.user;
     console.log("Router to reject " + id);
     const doc = {
         rejected: true,
         reviewTime : moment().utc(),
-        reviewerComment : comment,
+        reviewerComment : c,
         reviewer : user
+    }
+
+
+    if (c) {
+        const comment = { "$push" :    
+            { "commentHistory" : {
+            commenter : user,
+            comment : c,
+            timestamp : moment.utc(),
+        
+            }}
+        
+        }
+
+        await Post.update({_id: id}, comment);
     }
 
     Post.update({_id: id}, doc, function(err, raw) {
@@ -152,7 +181,7 @@ router.post('/comment/:id', function(req, res, next) {
 
     Post.update({_id: id}, comment, function(err, raw) {
 
-        console.log("raw = " + raw);
+       // console.log("raw = " + raw);
         if (err) {
           res.send(err);
         }
@@ -163,39 +192,34 @@ router.post('/comment/:id', function(req, res, next) {
       });
   
     
-    // var c = new Comment();
-    // c.post_id = id;
-    // c.commenter = user;
-    // c.comment = comment;
-    // c.timestamp = moment().utc();
-
-
-    // c.save(function(err, raw) {
-
-    //     if (err) {
-    //         console.log(err);
-    //       res.send(err);
-    //     }
-    //     else {
-    //         console.log("raw = " + raw);
-        
-    //         res.json({ response: 'Added Comment ' + id });
-    //     }
-    //   });
-  
 });
 
-router.post('/close/:id', function(req, res, next) {
+router.post('/close/:id', async function(req, res, next) {
 
     var id = req.params.id;
-    var comment = req.body.comment;
+    var c = req.body.comment;
     var user = req.body.user;
     console.log("Router to close " + id);
     const doc = {
         closed: true,
         reviewTime : moment().utc(),
-        reviewerComment : comment,
-        reviewer : user
+        reviewerComment : c,
+        reviewer : user,
+        
+    }
+
+    if (c) {
+        const comment = { "$push" :    
+            { "commentHistory" : {
+            commenter : user,
+            comment : c,
+            timestamp : moment.utc(),
+        
+            }}
+        
+        }
+
+        await Post.update({_id: id}, comment);
     }
 
     Post.update({_id: id}, doc, function(err, raw) {
