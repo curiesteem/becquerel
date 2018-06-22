@@ -51,7 +51,8 @@ class NavPanel extends Component {
     if (localStorage.getItem("selectedtab"))
     {
         console.log(localStorage.getItem("selectedtab"))
-         this.setState({"activeKey" : parseInt(localStorage.getItem("selectedtab"))})
+        this.setState({"activeKey" : parseInt(localStorage.getItem("selectedtab"))})
+        this.handleSelect(parseInt(localStorage.getItem("selectedtab")))
     }
     
     
