@@ -21,7 +21,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
     {
         return   {"err" : "This URL does not exist, please double check your post URL and try again."};
     }
-    console.log(postDetails.post.created);
+    console.log("user enabled ok");
     //2018-01-16T18:07:18
     let created = moment.utc(postDetails.post.created);
     // check to see if post is created in the last 24 hours
@@ -32,15 +32,15 @@ exports.checkSubmission = async function(submittedValues, postDetails)
         return   {"err" : "Post is more than 24 hours old."};
     }
 
-    console.log("calling getpostminutesforuser for " + submittedValues.curator);
+    console.log('checking to see if it is already submitted')
 
     // check to see if the post is already submitted prior to anything else
-    let res = await Posts.findOne({"url" : "https://steemit.com" + postDetails.post.url});
+    let res = await Posts.find({$and : [{"url" : "https://steemit.com" + postDetails.post.url}, {"posttime" : {$gt: yesterday.utc().toDate()}}]});
     //console.log("Check for existing url = " + res);
 
-    if (res)
+    if (res & res.length > 0)
     {
-        return {"err" : "Post has already been submitted"};
+        return {"err" : "Post has already been submitted."};
     }
    
     console.log("getting post minutes for user " + JSON.stringify(user));
