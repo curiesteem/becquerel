@@ -34,6 +34,14 @@ exports.checkSubmission = async function(submittedValues, postDetails)
 
     console.log("calling getpostminutesforuser for " + submittedValues.curator);
 
+    // check to see if the post is already submitted prior to anything else
+    let res = await Posts.findOne({"url" : "https://steemit.com" + postDetails.post.url});
+    //console.log("Check for existing url = " + res);
+
+    if (res)
+    {
+        return {"err" : "Post has already been submitted"};
+    }
    
     console.log("getting post minutes for user " + JSON.stringify(user));
     let limits = await CuratorLevels.findOne({"level" : user.level});
