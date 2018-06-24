@@ -1,4 +1,5 @@
 let config = {
+    production: process.env.PRODUCTION,
     port: 3000,
     auth: {
         client_id: process.env.CLIENT_ID,

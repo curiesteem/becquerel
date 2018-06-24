@@ -13,7 +13,7 @@ var users = require('./routes/users');
 var auth = require('./routes/auth');
 var accounts = require('./routes/accounts')
 var mongoose = require('mongoose');
-
+var enforce = require('express-sslify');
 
 
 var config = require('./config')
@@ -31,15 +31,11 @@ app.use(session({
 }));
 
 app.use(bearerToken());
+if (config.production) {
+  console.log("Enforcing https");
+  app.use(enforce.HTTPS({ trustProtoHeader: true }))
+}
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
-
-// Priority serve any static files.
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 
 var dburl = 'mongodb://localhost:27017/curie'
