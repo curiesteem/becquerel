@@ -119,7 +119,7 @@ class BlogPost extends Component {
        
         var thebody = converter.convert(this.props.detail.body);
       
-        var noMd =  removeMd(this.props.detail.body).substring(0,200)  + "...";
+        // var noMd =  removeMd(this.props.detail.body).substring(0,200)  + "...";
        
         const popoverHoverFocus = (
             <Popover id="popover-trigger-click-root-close" viewport="navpanel" title={this.props.detail.posttitle} >
@@ -178,7 +178,7 @@ class BlogPost extends Component {
                    
                        <a href={this.props.detail.url} target="_new" >{this.props.detail.url} <span>&nbsp;</span><i className="fa fa-external-link-square" aria-hidden="true"></i></a>
                     <br/>
-                   {noMd}  
+                   {/* {noMd}   */}
                    
                     </div>
                     <div className="body-row commentsWrapper ">
