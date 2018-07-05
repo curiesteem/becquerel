@@ -42,6 +42,9 @@ class ApprovePane extends Component {
       }, this);
 
     }
+    else {
+      return <div className="noitemsdiv">No Items in Queue</div>
+    }
     
       return (
       <div className="approvepane">
