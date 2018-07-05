@@ -26,7 +26,7 @@ class CurieStats extends Component {
     let stats = curiestats ? 
         (
         
-        <div>Curie Current VP = {curiestats.vp}%</div>
+        <div>Curie Current VP = {curiestats.vp}% | Queue Size = {curiestats.queuesize}</div> 
     ) : '' ;
 
       return (

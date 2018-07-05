@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 var util = require('../modules/util')
 /* GET home page. */
-router.get('/vp', async function(req, res, next) {
+router.get('/curiestats', async function(req, res, next) {
     let power = await util.getCurieVp();
-    let vp = {"vp" : power}
-    res.json (vp);
+    let queuesize = await util.getQueueSize();
+    let stats = {"vp" : power, "queuesize" : queuesize}
+    res.json (stats);
 });
 
 module.exports = router;

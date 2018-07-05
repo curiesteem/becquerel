@@ -2,6 +2,7 @@ var jwt = require('jsonwebtoken');
 var config = require('../config');
 var User = require('../model/user');
 var steem = require('steem');
+var Post = require('../model/posts');
 
 module.exports.getCurieVp = async () => {
     let result = await steem.api.getAccountsAsync(["curie"]); 
@@ -9,6 +10,12 @@ module.exports.getCurieVp = async () => {
     var vpow = result[0].voting_power + (10000 * secondsago / 432000);
     vpow = Math.min(vpow / 100, 100).toFixed(2);
     return vpow;
+}
+
+module.exports.getQueueSize = async () => {
+    let queue = await Post.find({ $and : [{"closed" : false}, {"rejected" : false} , {"approved": false}]});
+    return queue.length;
+
 }
 
 module.exports.urlString = () => {

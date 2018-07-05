@@ -3,6 +3,8 @@ var User = require("../model/user");
 var CuratorLevels = require("../model/curatorlevels");
 var Posts = require("../model/posts")
 
+var softLimitZeroUtc = true;
+
 /******************** */
 // this checks
 // - if the post has already been submitted
@@ -38,7 +40,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
     let res = await Posts.find({$and : [{"url" : "https://steemit.com" + postDetails.post.url}, {"posttime" : {$gt: yesterday.utc().toDate()}}]});
     //console.log("Check for existing url = " + res);
 
-    if (res & res.length > 0)
+    if (res && res.length > 0)
     {
         return {"err" : "Post has already been submitted."};
     }
@@ -60,7 +62,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
         return {"err" : "You have reached your submission limit of " + limits.limit + " in the last 7 days."};
     }
     else if (await hasUserReachedSoftLimit(user)) {
-        return {"err" : "You have reached your soft submission limit of " + user.dailySoftLimit + " in the last 24 hours."};
+        return {"err" : "You have reached your soft submission limit of " + user.dailySoftLimit + " since 00:00 UTC."};
     }
 
     else {
@@ -91,17 +93,28 @@ hasUserReached7DayLimit = async (user, limits) =>
 
 hasUserReachedSoftLimit = async (user, limits) =>
 {
-    // get posts for the user in the last 7 days
-    let oneDayAgo = moment().utc().subtract(1, "days");
-    let posts = await Posts.find( { $and: [ {"curator" : user.user}, {"submittedtime" : {$gt: oneDayAgo.utc().toDate()}} ]})
-   // console.log(JSON.stringify(posts))
-    if (posts.length >= user.dailySoftLimit)
-    {
-        console.log(posts)
-        // trying to submit more than they should in the last day
-        return true;
+    let start = null;
+
+    if (softLimitZeroUtc) {
+        // the soft limit should be calculated based on 00:00 utc
+        start = moment().utc().startOf("day");
+
     }
-    return false;
+    else {
+    // get posts for the user in the last 7 days
+         start = moment().utc().subtract(1, "days");
+       
+    }
+
+    let posts = await Posts.find( { $and: [ {"curator" : user.user}, {"submittedtime" : {$gt: start.utc().toDate()}} ]})
+    // console.log(JSON.stringify(posts))
+        if (posts.length >= user.dailySoftLimit)
+        {
+            console.log(posts)
+            // trying to submit more than they should in the last day
+            return true;
+        }
+        return false;
 }
  
 
