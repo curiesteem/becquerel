@@ -38,7 +38,7 @@ exports.checkSubmission = async function(submittedValues, postDetails)
     let res = await Posts.find({$and : [{"url" : "https://steemit.com" + postDetails.post.url}, {"posttime" : {$gt: yesterday.utc().toDate()}}]});
     //console.log("Check for existing url = " + res);
 
-    if (res & res.length > 0)
+    if (res && res.length > 0)
     {
         return {"err" : "Post has already been submitted."};
     }
