@@ -45,7 +45,7 @@ timer = () => {
 }
 
   getCurieStats = () => {
-    fetch('/utils/vp', {
+    fetch('/utils/curiestats', {
       headers: this.headers()
     }).then(results => {
       return results.json();
