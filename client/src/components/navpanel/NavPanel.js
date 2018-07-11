@@ -47,7 +47,7 @@ class NavPanel extends Component {
   componentDidMount()
   {
     this.loadApprovedQueue();
-    this.loadGlobals();
+    this.loadLevels();
     if (localStorage.getItem("selectedtab"))
     {
         console.log(localStorage.getItem("selectedtab"))
@@ -61,7 +61,7 @@ class NavPanel extends Component {
 
   }
 
-  loadGlobals = () => {
+  loadLevels = () => {
     fetch('/users/levels', {
         headers: this.headers()
     })
@@ -372,7 +372,7 @@ class NavPanel extends Component {
           : null }
            { this.checkAuthorisation('administrator') ?
           <Tab eventKey={5} title="Admin"  >
-              <AdminPane allusers={this.state.allusers} saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails} 
+              <AdminPane allusers={this.state.allusers} saveUserHandler={this.saveUser} loadUserDetails={this.loadUserDetails}   loadLevels={this.loadLevels}
               showcuratorreport={true} showdetailedreport={true} showreviewerreport={true} 
               generateCuratorReport={this.generateCuratorReport} 
               generateDetailedCuratorReport={this.generateDetailedCuratorReport} 

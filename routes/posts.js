@@ -7,7 +7,9 @@ var businessLogic = require('../api/businessLogic')
 var rp = require('request-promise-native');
 var moment = require('moment');
 var util = require('../modules/util');
+var logger = require('../modules/logger');
 
+var log = logger.routerLogger;
 
 
 Steem.api.setOptions({ url: 'https://api.steemit.com' });
@@ -48,7 +50,9 @@ router.get('/toapprove', validateAuth(['reviewer']), function(req, res, next) {
 });
 
 router.get('/approved/:page', function(req, res, next) {
+   
     var thepage = req.params.page;
+    log.debug("getting approved posts on page " + thepage);
    // console.log("getting approved posts on page " + thepage);
 
     //TO-DO need to limit this to exclude review details etc

@@ -27,7 +27,7 @@ var validateAuth = function(perm) {
 
 
 router.get('/allusers', validateAuth(['administrator', 'accounter']), function(req, res, next) {
-    console.log("getting all users");
+   // console.log("getting all users");
 
 
     User.find({}).sort({"user" : 'asc'}).exec(function(err, users) {
@@ -38,7 +38,7 @@ router.get('/allusers', validateAuth(['administrator', 'accounter']), function(r
             res.send(err);
         } else {
             //responds with a json object of our database comments.
-            console.log(users);
+            //console.log(users);
             res.json(users);
         }
 
@@ -126,6 +126,30 @@ router.get('/levels', function(req, res, next) {
     });
 });
 
+router.post('/level', validateAuth(['administrator']), function(req, res, next) {
+    // console.log("getting all user levels");
+    var level = req.body;
+    console.log("Router to save level " + JSON.stringify(level));
+
+     var id = level._id;
+    if (level.newlevel) {
+        id = new mongoose.mongo.ObjectID();
+        delete level.newlevel;
+    }
+    delete level._id;
+
+    CuratorLevels.update({ _id: id }, level, { upsert: true, setDefaultsOnInsert: true }, function(err) {
+        if (err) {
+            console.log(err);
+            res.json({ err: 'Unable to save level :' + err.message });
+        } else {
+            res.json({ response: 'Level ' + level.description + ' saved' });
+        }
+
+    });
+
+ });
+
 router.post('/update', validateAuth(['administrator','accounter']), function(req, res, next) {
     console.log("in post")
     var user = req.body;
@@ -154,6 +178,30 @@ router.post('/update', validateAuth(['administrator','accounter']), function(req
 
 
 });
+
+router.post('/level/delete',  validateAuth(['administrator']),function(req, res, next) {
+   
+    var description = req.body.description;
+    var id = req.body._id;
+    console.log("Router to delete level " + description + " : " + id);
+    CuratorLevels.findByIdAndRemove({ _id: new mongoose.mongo.ObjectID(id) }, function(err) {
+        if (err) {
+            console.log("ERROR " + JSON.stringify(err));
+
+            console.log(err.message);
+            res.send({ err: 'Unable to delete level :' + err.message });
+
+        } else {
+            console.log("level " + description + " deleted")
+            res.json({ response: 'Level ' + description + ' deleted' });
+        }
+
+    }
+
+
+    )
+});
+
 
 router.post('/delete',  validateAuth(['administrator']),function(req, res, next) {
     console.log("in post - " + req.body.user)

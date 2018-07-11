@@ -28,7 +28,7 @@ class AdminPane extends Component {
           </Tab>
           <Tab eventKey={3} title="System Management">
           <br/>
-              <SysAdminPane/>
+              <SysAdminPane  {...this.props}/>
           </Tab>
        </Tabs>
        
