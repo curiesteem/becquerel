@@ -21,7 +21,7 @@ var validateAuth = function(perm)
 {
     return function(req,res,next)
     {
-        console.log(JSON.parse(req.token));
+        //console.log(JSON.parse(req.token));
 
        
  
