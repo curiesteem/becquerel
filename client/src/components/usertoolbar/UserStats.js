@@ -62,7 +62,7 @@ class UserStats extends Component {
         stats = userstats ? 
             (
             
-            <div key='2' className="statsdiv">{userstats && userstats.level ? userstats.level.description + ": " + userstats.level.minutes + " minutes, " + userstats.level.limit + " per week, " + userstats.softlimit + " per day."   : ''}</div>
+            <div key='2' className="statsdiv">{userstats && userstats.level ? userstats.level.description + ": " + userstats.level.minutes + " mins, " + (userstats.level.limit === 999 ? "∞" : userstats.level.limit) + " per week, " + userstats.softlimit + " per day."   : ''}</div>
         ) : '' ;
       }
       else if (this.state.displayPage === 3) {
