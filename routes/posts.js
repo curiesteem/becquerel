@@ -83,6 +83,38 @@ router.get('/approved/:page', function(req, res, next) {
     });
 });
 
+router.get('/curator/:page', function(req, res, next) {
+   
+    var thepage = req.params.page;
+    let authuser = req.token != "null" && req.token ?  JSON.parse(req.token).user : "No User";
+    log.debug("route=posts,username=" + authuser + ",endpoint=approved/:"+thepage);
+   // console.log("getting approved posts on page " + thepage);
+
+    //TO-DO need to limit this to exclude review details etc
+
+    Post.paginate({'curator' : authuser}, { page : thepage , limit:10, sort: {"submittedtime" : 'desc'}}, function(err, posts) {
+    //Post.find({'approved' : true}, function(err, posts) {
+        if (err) {
+            res.send(err);
+        }
+        else  {
+            //responds with a json object of our database comments.
+            // clear out sensitive info
+            for (var i = 0; i < posts.docs.length; i++)
+            {
+                posts.docs[i].comment = '';
+                posts.docs[i].comments = '';
+                posts.docs[i].commentHistory = [];
+                posts.docs[i].reviewer = '';
+
+            }
+            //console.log(posts);
+            res.json(posts.docs);
+        }
+
+    });
+});
+
 router.post('/approve/:id', async function(req, res, next) {
 
 

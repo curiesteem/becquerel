@@ -57,6 +57,19 @@ router.post('/curatordetailed/:start/:end/:user', validateAuth(['administrator']
     
 });
 
+router.post('/curatordetailedpersonal/:start/:end', validateAuth(['curator']), async function(req, res, next) {
+    var start = Number(req.params.start);
+    var end = Number(req.params.end);
+    var user = JSON.parse(req.token).user;
+    console.log("getting curator personal detailedreport between " + moment(start).utc().format() + " and " + moment(end).utc().format());
+    let csv =  await accountshelper.generateDetailedPersonalReport(start, end, user);
+    
+
+    res.status(200).send(csv);
+    
+    
+});
+
 router.post('/reviewer/:start/:end/', validateAuth(['administrator']), async function(req, res, next) {
     var start = Number(req.params.start);
     var end = Number(req.params.end);

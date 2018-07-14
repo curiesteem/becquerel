@@ -50,6 +50,56 @@ module.exports.generateDetailedReport = async(start, end, user) => {
     const json2csvParser = new Json2csvParser({ fields });
     csv = json2csvParser.parse(posts);
 
+    //console.log(csv);
+
+
+
+    return csv;
+
+}
+
+module.exports.generateDetailedPersonalReport = async(start, end, user) => {
+    let s = moment(start).utc();
+    let e = moment(end).utc();
+
+    let csv = null;
+
+    // need a query to get all posts 
+    var posts = null;
+    if (user && user != 'undefined')
+    {
+        posts = await Post.find({ $and : [{ "submittedtime": { $gte: s, $lt: e } }, {"curator" : user}]})
+    }
+    else {
+       return;
+    }
+
+    
+
+    if (!posts || posts.length == 0) {
+        console.log("invalid parameter");
+        return ("error");
+    }
+
+    for (var i = 0; i < posts.length; i++) {
+        let post = posts[i];
+        // just add a json object for each row to the results array
+        post.state = post.approved ? "Approved" : post.rejected ? "Rejected" : post.closed ? "Closed"  :  "Queued";
+        // get the author - index of first @ and index of next /
+        
+        post.author = post.url.substring(post.url.indexOf("@")+1, post.url.indexOf("/", post.url.indexOf("@")))
+        post.subFormat = moment(post.submittedtime).format("DD-MMM-YYYY HH:MM:ss UTC");
+        // post.revFormat = moment(post.reviewTime).format("DD-MMM-YYYY HH:MM:ss");
+        // combine the comment history
+        //console.log(author);
+    }
+
+    const fields = [{label: 'SubmittedTime', value :'subFormat'} 
+                                ,{label : 'Author', value : 'author'},{label: 'URL', value: 'url'},{label: 'State' , value : 'state'},
+                                {label: 'CuratorComments', value: 'comments'}];
+    const json2csvParser = new Json2csvParser({ fields });
+    csv = json2csvParser.parse(posts);
+
     console.log(csv);
 
 
