@@ -21,9 +21,12 @@ text-align : left;
   display: block;
   height:100%;
 }
-tableWrapper
+
+.tableWrapper
 {
   -webkit-overflow-scrolling: touch !important;
+  overflow-y: scroll; /* has to be scroll, not auto */
+  
 }
 
 .table-responsive {

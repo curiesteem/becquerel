@@ -107,7 +107,7 @@ render() {
             {rowslist}
             </tbody>
           </Table>
-          </div>
+         
           <div className="curatorbuttonWrapper" >
 
 
@@ -117,6 +117,7 @@ render() {
 
 
 
+            </div>
             </div>
           </Tab>
           <Tab eventKey={2} title="Reporting">
