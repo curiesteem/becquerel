@@ -19,6 +19,7 @@
   overflow-y: auto;
 text-align : left;
   display: block;
+  height:100%;
 }
 
 .curatorbuttonWrapper
