@@ -94,6 +94,7 @@ render() {
         <div className="curatorrowlist">
         <Tabs defaultActiveKey={1} id="curatortabs">
           <Tab eventKey={1} title="Your Submissions">
+          <div className="tableWrapper">
             <Table className="tablething" striped bordered condensed hover>
             <thead>
               <tr>
@@ -106,6 +107,7 @@ render() {
             {rowslist}
             </tbody>
           </Table>
+          </div>
           <div className="curatorbuttonWrapper" >
 
 

@@ -21,13 +21,19 @@ text-align : left;
   display: block;
   height:100%;
 }
+tableWrapper
+{
+  -webkit-overflow-scrolling: touch !important;
+}
 
 .table-responsive {
   -webkit-overflow-scrolling: touch !important;
+  overflow-y: scroll;
 }
 .tablething {
   height : 100%;
   -webkit-overflow-scrolling: touch !important;
+  overflow-y: scroll;
 }
 .curatorbuttonWrapper
 {
