@@ -112,7 +112,7 @@ render() {
                   Header: "URL",
                   accessor: "url",
                   className: "left",
-                  Cell: props => <a href={props.value}>{props.value}</a>
+                  Cell: props => <a href={props.value} target='_new'>{props.value}</a>
                 },
                 {
                   Header: "Status",
