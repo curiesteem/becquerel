@@ -22,6 +22,9 @@ text-align : left;
   height:100%;
 }
 
+.tablething {
+  height : 100%;
+}
 .curatorbuttonWrapper
 {
   display: flex;
