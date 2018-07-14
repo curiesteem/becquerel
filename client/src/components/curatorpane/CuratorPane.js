@@ -99,27 +99,31 @@ render() {
           <Tab eventKey={1} title="Your Submissions">
           {/* <div className="tableWrapper"> */}
             
-          <ReactTable
+          <ReactTable 
           data={this.props.curatorPosts}
           columns={[
               {
                   Header: "Submitted",
                   accessor: "submittedtime",
-                  maxWidth: 175
+                  maxWidth: 175,
+                  className: "left"
                 },
                 {
                   Header: "URL",
                   accessor: "url",
+                  className: "left",
                   Cell: props => <a href={props.value}>{props.value}</a>
                 },
                 {
                   Header: "Status",
                   accessor: "status",
+                  className: "left",
                   maxWidth: 75
                 },
                 {
                   Header: "Comment",
-                  accessor: "submitterComment"
+                  accessor: "submitterComment",
+                  className: "left"
                 }
 
                 
