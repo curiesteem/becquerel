@@ -94,10 +94,10 @@ render() {
   
     return (
       <div className="curatorPane">
-        <div className="curatorrowlist">
+        {/* <div className="curatorrowlist"> */}
         <Tabs defaultActiveKey={1} id="curatortabs">
           <Tab eventKey={1} title="Your Submissions">
-          <div className="tableWrapper">
+          {/* <div className="tableWrapper"> */}
             
           <ReactTable
           data={this.props.curatorPosts}
@@ -142,7 +142,7 @@ render() {
 
 
             </div>
-            </div>
+            {/* </div> */}
           </Tab>
           <Tab eventKey={2} title="Reporting">
             <ReportsDiv {...this.props}/>
@@ -152,7 +152,7 @@ render() {
         
         
          
-        </div>
+        {/* </div> */}
         
        
       </div>
