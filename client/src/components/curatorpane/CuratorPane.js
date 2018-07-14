@@ -3,6 +3,9 @@ import ReportsDiv from '../reports/ReportsDiv'
 import './CuratorPane.css';
 import {Table, Tabs, Tab} from 'react-bootstrap'
 import moment from 'moment'
+import ReactTable from 'react-table'
+import "react-table/react-table.css";
+import Link from 'react-router'
 
 
 
@@ -58,36 +61,36 @@ render() {
 
  
   var rowslist = null;
-  if (this.props && this.props.curatorPosts){
-    rowslist = this.props.curatorPosts.map(function(row) 
-    {
+  // if (this.props && this.props.curatorPosts){
+  //   rowslist = this.props.curatorPosts.map(function(row) 
+  //   {
       
-        // get the status
-        let status = "Queued"
-        if (row.approved)
-          status = "Approved"
-        if (row.rejected)
-          status = "Rejected"
-        if (row.closed)
-          status = "Closed"
+  //       // get the status
+  //       let status = "Queued"
+  //       if (row.approved)
+  //         status = "Approved"
+  //       if (row.rejected)
+  //         status = "Rejected"
+  //       if (row.closed)
+  //         status = "Closed"
 
-        return (
+  //       return (
           
-          <tr key={row._id}>
-            <td>{moment(row.submittedtime).format('LLL') } UTC</td>
-            <td><a href={row.url} target="_new" >{row.url}</a></td>
-            <td>{status}</td>
+  //         <tr key={row._id}>
+  //           <td>{moment(row.submittedtime).format('LLL') } UTC</td>
+  //           <td><a href={row.url} target="_new" >{row.url}</a></td>
+  //           <td>{status}</td>
             
-        </tr>
+  //       </tr>
         
            
                  
-            )  
+  //           )  
                   
 
-    }, this);
+  //   }, this);
 
-  }
+  // }
   
     return (
       <div className="curatorPane">
@@ -95,20 +98,41 @@ render() {
         <Tabs defaultActiveKey={1} id="curatortabs">
           <Tab eventKey={1} title="Your Submissions">
           <div className="tableWrapper">
-            <Table className="tablething" striped bordered condensed hover>
-            <thead>
-              <tr>
-                <th>Submitted</th>
-                <th>Url</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-            {rowslist}
-            </tbody>
-          </Table>
+            
+          <ReactTable
+          data={this.props.curatorPosts}
+          columns={[
+              {
+                  Header: "Submitted",
+                  accessor: "submittedtime",
+                  maxWidth: 175
+                },
+                {
+                  Header: "URL",
+                  accessor: "url",
+                  Cell: props => <a href={props.value}>{props.value}</a>
+                },
+                {
+                  Header: "Status",
+                  accessor: "status",
+                  maxWidth: 75
+                },
+                {
+                  Header: "Comment",
+                  accessor: "submitterComment"
+                }
+
+                
+              ]
+            }
+          defaultPageSize={10}
+          showPagination={false}
+          className="-striped -highlight"
+        />
+
+          
          
-          <div className="curatorbuttonWrapper" >
+            <div className="curatorbuttonWrapper" >
 
 
             <a className="btn btn-info curatornavbutton" onClick={this.decrementPage} href="#"><i className="fa fa-step-backward"></i> Newer</a>

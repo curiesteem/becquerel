@@ -98,18 +98,29 @@ router.get('/curator/:page', function(req, res, next) {
             res.send(err);
         }
         else  {
-            //responds with a json object of our database comments.
-            // clear out sensitive info
+
+            var toSend = [];
+
             for (var i = 0; i < posts.docs.length; i++)
             {
-                posts.docs[i].comment = '';
-                posts.docs[i].comments = '';
-                posts.docs[i].commentHistory = [];
-                posts.docs[i].reviewer = '';
+                var item = {}
+                item.submittedtime = moment(posts.docs[i].submittedtime).format('LLL') + " UTC";
+                item.url = posts.docs[i].url
+                item.submitterComment = posts.docs[i].comments;
+                item.status = "Queued"
+                if (posts.docs[i].approved)
+                    item.status = "Approved"
+                if (posts.docs[i].rejected)
+                item.status = "Rejected"
+                if (posts.docs[i].closed)
+                itemstatus = "Closed"
+
+               toSend.push(item)
 
             }
             //console.log(posts);
-            res.json(posts.docs);
+            res.json(toSend);
+           
         }
 
     });
