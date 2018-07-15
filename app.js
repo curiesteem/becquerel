@@ -17,6 +17,7 @@ var enforce = require('express-sslify');
 mongoose.Promise = require('bluebird');
 
 var config = require('./config')
+var cron = require('./modules/cron')
 
 
 

@@ -118,7 +118,7 @@ render() {
                   Header: "Status",
                   accessor: "status",
                   className: "left",
-                  maxWidth: 75
+                  maxWidth: 120
                 },
                 {
                   Header: "Comment",

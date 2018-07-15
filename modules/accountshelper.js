@@ -35,6 +35,7 @@ module.exports.generateDetailedReport = async(start, end, user) => {
         post.author = post.url.substring(post.url.indexOf("@")+1, post.url.indexOf("/", post.url.indexOf("@")))
         post.subFormat = moment(post.submittedtime).format("DD-MMM-YYYY HH:MM:ss");
         post.revFormat = moment(post.reviewTime).format("DD-MMM-YYYY HH:MM:ss");
+        post.percentFormat = post.votePercentage ? post.votePercentage/100 : "N/A"
         // combine the comment history
         post.reviewerComment = "";
         for (var j = 0; j < post.commentHistory.length; j++)
@@ -45,7 +46,7 @@ module.exports.generateDetailedReport = async(start, end, user) => {
     }
 
     const fields = [{label: 'SubmittedTime', value :'subFormat'} , {label: 'ReviewTime' , value: 'revFormat'}, {label : 'Curator', value: 'curator'},{label: 'Reviewer', value: 'reviewer'}
-                                ,{label : 'Author', value : 'author'},{label: 'URL', value: 'url'},{label: 'State' , value : 'state'},
+                                ,{label : 'Author', value : 'author'},{label: 'URL', value: 'url'},{label: 'State' , value : 'state'}, {label : 'Percentage', value : 'percentFormat'},
                                 {label: 'CuratorComments', value: 'comments'},{label: 'ReviewerComment' , value : 'reviewerComment'}];
     const json2csvParser = new Json2csvParser({ fields });
     csv = json2csvParser.parse(posts);
@@ -89,13 +90,14 @@ module.exports.generateDetailedPersonalReport = async(start, end, user) => {
         
         post.author = post.url.substring(post.url.indexOf("@")+1, post.url.indexOf("/", post.url.indexOf("@")))
         post.subFormat = moment(post.submittedtime).format("DD-MMM-YYYY HH:MM:ss UTC");
+        post.percentFormat = post.votePercentage ? post.votePercentage/100  : "N/A"
         // post.revFormat = moment(post.reviewTime).format("DD-MMM-YYYY HH:MM:ss");
         // combine the comment history
         //console.log(author);
     }
 
     const fields = [{label: 'SubmittedTime', value :'subFormat'} 
-                                ,{label : 'Author', value : 'author'},{label: 'URL', value: 'url'},{label: 'State' , value : 'state'},
+                                ,{label : 'Author', value : 'author'},{label: 'URL', value: 'url'},{label: 'State' , value : 'state'},{label : 'Percentage', value : 'percentFormat'},
                                 {label: 'CuratorComments', value: 'comments'}];
     const json2csvParser = new Json2csvParser({ fields });
     csv = json2csvParser.parse(posts);

@@ -108,8 +108,11 @@ router.get('/curator/:page', function(req, res, next) {
                 item.url = posts.docs[i].url
                 item.submitterComment = posts.docs[i].comments;
                 item.status = "Queued"
-                if (posts.docs[i].approved)
+                if (posts.docs[i].approved) {
                     item.status = "Approved"
+                    if (posts.docs[i].votePercentage)
+                        item.status += " (" + posts.docs[i].votePercentage/100 + "%)"
+                }
                 if (posts.docs[i].rejected)
                 item.status = "Rejected"
                 if (posts.docs[i].closed)
@@ -328,6 +331,7 @@ router.post('/' , validateAuth(['curator']), function(req, res, next) {
                 post.postuser = data.post.author;
                 post.posttime = data.post.created;
                 post.body = data.post.body;
+                post.permlink = data.post.permlink;
                 post.save(function(err) {
                     if (err) {
                         console.log("ERROR " + JSON.stringify(err));
