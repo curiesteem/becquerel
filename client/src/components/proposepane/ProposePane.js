@@ -138,11 +138,61 @@ class ProposePane extends Component {
   }
   
   
+    
+    validateUrl = () =>{
+
+      
+      console.log("checking url " + JSON.stringify(this.state.url));
+      console.log (JSON.stringify({"url" : this.state.url}))
+      this.setState({"responseClasses" : ''});
+      fetch('/posts/validatesubmitted', {
+
+        method: 'post',
+
+        headers: this.headers(),
+        body: JSON.stringify({"url" : this.state.url})
+      })
+        .then(results => {
+           // console.log("results = " + JSON.stringify(results));
+            return results.json();
+        })
+        .then(data => {
+          this.setState({"responseClasses" : 'show'});
+          console.log(data);
+          if (data.response)
+          {
+            this.setState({"response": data.response, "err" : null });
+            setTimeout(() => {
+              this.setState({"responseClasses" : '', "response": null, "err": null});
+              
+          }, 10000);
+           
+          }
+          else if (data.err)
+            {
+              this.setState({"err": data.err, "response" : null});
+            setTimeout(() => {
+              this.setState({"responseClasses" : '', "response": null, "err": null});
+              
+              
+          }, 10000);
+            }
+        })
+      
+      
+    }
+
+    handleURLChange = (e) => {
+      console.log(e);
+     this.setState({url: e});
+   }
+  
+   
  
 
   render() {
 
-   
+    
 
       return (
       <div className="proposepane">
@@ -154,10 +204,18 @@ class ProposePane extends Component {
           getApi={this.setApi}>
         { formApi => (
           <form onSubmit={formApi.submitForm} id="form1" >
-           <div className="flexDiv">
-            <label htmlFor="url">URL</label>
-            <Text field="url" id="url" />
-            </div>
+          <div className="flexDiv">
+           <div className="urldiv">
+            <label htmlFor="url" className="urlLabel">URL</label>
+            <Text field="url" id="url" value={this.state.url} onChange={this.handleURLChange} className="urlBar"/>
+            
+            <a className="btn btn-small btn-info urlButton" href="#" onClick={this.validateUrl}>
+              <i className="fa fa-question-circle"></i></a>
+
+              </div>
+              </div>
+              
+            
             <div className="flexDiv">
             <label htmlFor="comments">Comments</label>
               <TextArea field="comments" id="comments" />
@@ -173,6 +231,8 @@ class ProposePane extends Component {
                
               />
               </div> */}
+              
+            
               {this.state.submitdisabled ?
                 <button type="submit" disabled={this.state.submitdisabled}>Please Wait...</button>
                 :

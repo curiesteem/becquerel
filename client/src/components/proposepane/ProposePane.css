@@ -41,8 +41,43 @@ textarea {
   display :flex;
   flex-direction: column;
   padding-bottom: 10px;
+  padding-top: 5px;
+
 }
 
+
+.urldiv {
+  display :flex;
+  flex-direction: row;
+  
+}
+
+.urlBar 
+{
+  
+  flex : 1;
+  
+}
+
+.urlLabel 
+{
+  max-width: 40px;
+  flex : 1;
+  
+}
+
+.urlButton 
+{
+  max-width: 40px;
+  flex : 1;
+  margin-left: 10px;
+  
+}
+
+.smallbutton 
+{
+  max-width: 50px;
+}
 .recaptcha
 {
   margin-bottom: 15px; 

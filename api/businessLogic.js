@@ -71,7 +71,18 @@ exports.checkSubmission = async function(submittedValues, postDetails)
     }
 }
 
+exports.isSubmitted = async (url) =>
+{
+    let yesterday  = moment().utc().subtract(3, "days");
+    let res = await Posts.find({$and : [{"url" : url}, {"posttime" : {$gt: yesterday.utc().toDate()}}]});
+    //console.log("Check for existing url = " + res);
 
+    if (res && res.length > 0)
+    {
+        return true;
+    }
+    return false;
+}
 
 hasUserReached7DayLimit = async (user, limits) =>
 {

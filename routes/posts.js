@@ -295,6 +295,18 @@ router.post('/close/:id', async function(req, res, next) {
   
 });
 
+router.post('/validatesubmitted', validateAuth(['curator']), async function(req, res, next) {
+    var url = req.body.url;
+    var resp = await businessLogic.isSubmitted(url);
+    if (resp)
+    {
+        res.json({ err: 'Post has already been submitted' });
+    }
+    else {
+        res.json({ response: 'Post is not in queue' });
+    }
+});
+
 router.post('/' , validateAuth(['curator']), function(req, res, next) {
 
     //console.log("in post" + JSON.stringify(req.body.submittedValues));
